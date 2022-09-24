@@ -9,6 +9,7 @@
 #include <time.h> 
 #include <vector>
 
+
 //using namespace std;
 
 //файл с входными данными
@@ -50,19 +51,37 @@ void Get_Array(const std::string_view Input_FName, std::vector<int>& array, int&
 		array.push_back(test_numb);
 	}//while
 
+	fin.close();
+
 }//Get_Array()
 
 //функция сортировки пузырьком
 void Bubble_Sort(std::vector<int>& array) {
+	for (size_t i = 0; i+1 < array.size(); i++) {
+		for (size_t j = 0; j+1 < array.size() - i; j++) {
+			if (array[j+1] < array[j]) {
+				std::swap(array[j], array[j+1]);
+			}//if
+		}//for j
+	}//for i
 
-
-}
+}//Bubble_Sort()
 
 //функция печати массива в файл
 void Print_Array(const std::string_view Output_FName, std::vector<int>& array) {
 
+	int i = 0;
 
-}
+	std::ofstream output(Output_FName.data());
+	for (i = 0; i < array.size() - 2; i++) {
+		output << array[i];
+	}//for i
+
+	output << array[i] << std::endl;
+
+	output.close();
+
+}//Print_Array()
 
 
 int main() {
