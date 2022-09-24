@@ -78,6 +78,7 @@ int main() {
 	std::ifstream testStream(testFile.data());
 	if (!testIFStream(testStream)) {
 		std::cout << "ERROR: Could not open file " << testFile << " or it is empty" << std::endl;
+		system("pause");
 		return 0;
 	}
 	std::string line;
@@ -126,5 +127,6 @@ int main() {
 		count++;
 	}
 
+	system("pause");
 	return 0;
 }
