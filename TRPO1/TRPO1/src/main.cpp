@@ -10,6 +10,7 @@
 #include <vector>
 
 
+
 //using namespace std;
 
 //файл с входными данными
@@ -74,6 +75,7 @@ void Print_Array(const std::string_view Output_FName, std::vector<int>& array) {
 
 	std::ofstream output(Output_FName.data());
 	if (array.size() == 0) {
+		output.close();
 		return;
 	}
 
@@ -81,6 +83,7 @@ void Print_Array(const std::string_view Output_FName, std::vector<int>& array) {
 		output << array.at(i) << ' ';
 	}
 	output << array.at(i) << std::endl;
+	output.close();
 	return;
 
 }//Print_Array()

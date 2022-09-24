@@ -29,7 +29,7 @@ bool getVector(const std::string& data, std::vector<int>& vec) {
 
 	int num = 0;
 
-	while (!((tempStream >> num).eof())) {
+	while (tempStream >> num) {
 		vec.push_back(num);
 		if (tempStream.fail()) {
 			return false;
@@ -38,18 +38,18 @@ bool getVector(const std::string& data, std::vector<int>& vec) {
 	return true;
 }
 
-bool testIFStream(std::ifstream& stream) {
-	return !stream && !(stream.peek() == EOF);
+bool badFstream(std::ifstream& stream) {
+	return !stream || stream.peek() == EOF;
 }
 
 void writeTest(const std::string_view file, const std::vector<int>& vec) {
 	std::ofstream output(file.data());
-	output << vec << std::endl;
+	output << vec;
 }
 
 bool getVectorFromFile(const std::string_view file, std::vector<int>& vec, int& errCode) {
 	std::ifstream input(file.data());
-	if (!testIFStream(input)) {
+	if (badFstream(input)) {
 		errCode = 0;
 		return false;
 	}
@@ -74,20 +74,21 @@ int main() {
 
 	std::vector<int> vec;
 	std::vector<int> sorted;
-	
+
 	std::ifstream testStream(testFile.data());
-	if (!testIFStream(testStream)) {
+	if (badFstream(testStream)) {
 		std::cout << "ERROR: Could not open file " << testFile << " or it is empty" << std::endl;
+		system("pause");
 		return 0;
 	}
 	std::string line;
-	int count = 1;
+	int count = 0;
 
 	while (!testStream.eof()) {
 		std::getline(testStream, line);
-
+		count++;
 		int errCode = -1;
-		if (getVector(line, vec)) {
+		if (!getVector(line, vec)) {
 			std::cout << "ERROR: failed to get a test vector " 
 				<< count << ": incorrect character detected." << std::endl;
 			continue;
@@ -95,7 +96,7 @@ int main() {
 
 		writeTest(inFile, vec);
 		system(exeName.data());
-
+		Sleep(100);
 		if (!getVectorFromFile(outFile, sorted, errCode)) {
 			std::cout << "ERROR: ";
 			switch (errCode) {
@@ -117,14 +118,14 @@ int main() {
 
 		std::cout << "Test " << count << ": ";
 		if (testPassed) {
-			std::cout << "PASSED" << std::endl;
+			std::cout << "PASSED:\n\t expected array: " << vec << "\n\t got array:" << sorted << std::endl;
 		}
 		else {
-			std::cout << "FAILED: \n espected array: " << vec << "\n got array:" << sorted << std::endl;
+			std::cout << "FAILED: \n\t expected array: " << vec << "\n\t got array:" << sorted << std::endl;
 		}
 
-		count++;
 	}
 
+	system("pause");
 	return 0;
 }
