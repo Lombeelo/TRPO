@@ -73,13 +73,15 @@ void Print_Array(const std::string_view Output_FName, std::vector<int>& array) {
 	int i = 0;
 
 	std::ofstream output(Output_FName.data());
-	for (i = 0; i < array.size() - 2; i++) {
-		output << array[i];
-	}//for i
+	if (array.size() == 0) {
+		return;
+	}
 
-	output << array[i] << std::endl;
-
-	output.close();
+	for (i = 0; i < array.size() - 1; i++) {
+		output << array.at(i) << ' ';
+	}
+	output << array.at(i) << std::endl;
+	return;
 
 }//Print_Array()
 
