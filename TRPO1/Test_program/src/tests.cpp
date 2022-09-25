@@ -1,17 +1,11 @@
 #include <iostream>
 #include <fstream>
-#include <cmath>
-#include <math.h>
-#include <ctime>
-#include <Windows.h>
-
-#include <stdio.h> 
-#include <time.h> 
 #include <vector>
 #include <string>
 #include <algorithm>
 #include <string_view>
 #include <sstream>
+#include <Windows.h>
 
 std::ostream& operator<<(std::ostream& stream, const std::vector<int>& vec) {
 	if (vec.size() == 0) {
@@ -29,12 +23,13 @@ bool getVector(const std::string& data, std::vector<int>& vec) {
 
 	int num = 0;
 
-	while (tempStream >> num) {
-		vec.push_back(num);
+	do {
+		tempStream >> num;
 		if (tempStream.fail()) {
 			return false;
 		}
-	}
+		vec.push_back(num);
+	} while (tempStream);
 	return true;
 }
 

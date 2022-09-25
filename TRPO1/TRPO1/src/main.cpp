@@ -1,15 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include <cmath>
-#include <math.h>
-#include <ctime>
-#include <Windows.h>
-
-#include <stdio.h> 
-#include <time.h> 
 #include <vector>
-
-
+#include <string>
+#include <string_view>
+#include <algorithm>
+#include <sstream>
 
 //using namespace std;
 
