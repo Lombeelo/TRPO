@@ -1,9 +1,0 @@
-{
-  "solution": {
-    "path": "TRPO1\\TRPO1.sln",
-    "projects": [
-      "TRPO1\\TRPO1.vcxproj",
-      "Test_program\\Test_program.vcxproj"
-    ]
-  }
-}
