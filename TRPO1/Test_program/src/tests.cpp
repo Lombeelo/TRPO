@@ -90,7 +90,7 @@ int main() {
 		count++;
 		int errCode = -1;
 		if (!getVector(line, vec)) {
-			std::cout << "ERROR: failed to get a test vector " 
+			std::cout << "ERROR: failed to get a test vector "
 				<< count << ": incorrect character detected." << std::endl;
 			continue;
 		}
@@ -121,11 +121,11 @@ int main() {
 		std::cout << "Test " << count << ": ";
 		if (testPassed) {
 			std::cout << "PASSED:\n\t expected array: " << vec << "\n\t got array: " << sorted << std::endl;
-			std::cout << std::endl;
+			std::cout << "\n";
 		}
 		else {
 			std::cout << "FAILED: \n\t expected array: " << vec << "\n\t got array: " << sorted << std::endl;
-			std::cout << std::endl;
+			std::cout << "\n";
 		}
 
 		//line.clear();
