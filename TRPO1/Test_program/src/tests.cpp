@@ -23,13 +23,12 @@ bool getVector(const std::string& data, std::vector<int>& vec) {
 
     int num = 0;
 
-    do {
-        tempStream >> num;
-        if (tempStream.fail()) {
-            return false;
-        }
+    while (tempStream >> num) {
         vec.push_back(num);
-    } while (tempStream);
+    }
+    if (tempStream.fail() && !tempStream.eof()) {
+        return false;
+    }
     return true;
 }
 
