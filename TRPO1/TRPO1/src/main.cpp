@@ -6,13 +6,22 @@
 #include <algorithm>
 #include <sstream>
 
-//using namespace std;
-
 //файл с входными данными
 const std::string Input_FName("Input_File.txt");	//файл с массивом для сортировки
 
 //файл с выходными данными
 const std::string Output_FName("Output_File.txt");
+
+std::ostream& operator<<(std::ostream& stream, const std::vector<int>& vec) {
+    if (vec.size() == 0) {
+        return stream;
+    }
+
+    for (size_t i = 0; i < vec.size() - 1; i++) {
+        stream << vec.at(i) << ' ';
+    }
+    return (stream << vec.at(vec.size() - 1));
+}
 
 //функция считывания массива из файла
 void Get_Array(const std::string_view Input_FName, std::vector<int>& array, int& Err_Code) {
@@ -50,13 +59,16 @@ void Get_Array(const std::string_view Input_FName, std::vector<int>& array, int&
 
 //функция сортировки пузырьком
 void Bubble_Sort(std::vector<int>& array) {
+    std::cout << "До сортировки: \n" << array << std::endl;
     for (size_t i = 0; i + 1 < array.size(); i++) {
         for (size_t j = 0; j + 1 < array.size() - i; j++) {
             if (array[j + 1] < array[j]) {
                 std::swap(array[j], array[j + 1]);
+                std::cout << array << std::endl;
             }//if
         }//for j
     }//for i
+    std::cout << "После сортировки: \n" << array << std::endl;
 }//Bubble_Sort()
 
 //функция печати массива в файл
@@ -69,10 +81,7 @@ void Print_Array(const std::string_view Output_FName, std::vector<int>& array) {
         return;
     }
 
-    for (i = 0; i < array.size() - 1; i++) {
-        output << array.at(i) << ' ';
-    }
-    output << array.at(i) << std::endl;
+    output << array << std::endl;
     output.close();
     return;
 }//Print_Array()
