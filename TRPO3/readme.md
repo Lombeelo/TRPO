@@ -13,7 +13,7 @@ To start front + back use Visual Studio or command
 dotnet run
 ```
 
-to start only back end use
+to start only front end use
 
 ```cmd
 cd ClientApp/
