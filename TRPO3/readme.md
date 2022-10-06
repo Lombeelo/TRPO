@@ -19,3 +19,12 @@ to start only front end use
 cd ClientApp/
 npm start
 ```
+
+## !!! Required files to run ClientApp
+
+1. (Important) setupProxy.js (with "http-proxy-middleware" dependency)
+1. aspnetcore-https.js
+1. aspnetcore-react.js
+1. .env & .env.development
+
+Those three are used to set up proxy bridge between react and backend api
