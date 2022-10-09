@@ -1,6 +1,5 @@
-public enum LessonType
+public sealed class LessonType
 {
-    Lecture,
-    Seminar,
-    Laboratory
+    public int Id { get; set; }
+    public string Name { get; set; }
 }

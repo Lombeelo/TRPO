@@ -14,10 +14,11 @@ public sealed class AppDbContext : DbContext
         modelBuilder
             .Entity<Professor>()
             .HasMany(p => p.Subjects)
-            .WithOne();
+            .WithMany(p => p.Professors);
         modelBuilder
             .Entity<ScheduleEntry>()
-            .Property(p => p.Type)
-            .HasConversion<string>();
+            .HasOne(p => p.Subject)
+            .WithMany()
+            .HasForeignKey(p => p.SubjectId);
     }
 }

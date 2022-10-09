@@ -16,7 +16,7 @@ public class ScheduleController : ControllerBase
     [HttpGet]
     public IEnumerable<Professor> Get()
     {
-        return new List<Professor> {new Professor
+        return new List<Professor> { new Professor
         {
             Id = 1,
             FullName = "hui huich"
