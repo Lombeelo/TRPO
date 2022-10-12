@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using TRPO3.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-string DbPath = $"{Directory.GetCurrentDirectory()}/TestingDb.sqlite";
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite("Data Source={DbPath}"));
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite("Data Source = TestingDb.sqlite"));
 builder.Services.AddScoped<IScheduleTable, ScheduleTable>();
 
 var app = builder.Build();

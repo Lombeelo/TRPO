@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TRPO3.Data;
+using TRPO3.Models;
 
 namespace TRPO3.Controllers;
 
@@ -7,24 +10,14 @@ namespace TRPO3.Controllers;
 public class ScheduleController : ControllerBase
 {
     private readonly IScheduleTable _table;
-
     public ScheduleController(IScheduleTable table)
     {
         _table = table;
     }
 
     [HttpGet]
-    public IEnumerable<Professor> Get()
+    public ScheduleEntry Get()
     {
-        return new List<Professor> { new Professor
-        {
-            Id = 1,
-            FullName = "hui huich"
-        },
-        new Professor
-        {
-            Id = 2,
-            FullName = "Eblan eblanich"
-        }};
+        return _table.GetContext().Schedule.FirstOrDefault();
     }
 }

@@ -1,3 +1,4 @@
+namespace TRPO3.Models;
 public sealed class ScheduleEntry
 {
     public int Id { get; set; }
@@ -7,6 +8,6 @@ public sealed class ScheduleEntry
     public int SubjectId { get; set; }
     public Subject Subject { get; set; }
     public LessonType Type { get; set; }
-    public ICollection<int> Groups { get; set; } = new List<int>();
-    public ICollection<Professor> Professor { get; set; } = new List<Professor>();
+    public ICollection<Group> Groups { get; set; } = new List<Group>();
+    public ICollection<Professor> Professors { get; set; } = new List<Professor>();
 }

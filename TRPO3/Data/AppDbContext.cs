@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-
+using TRPO3.Models;
+namespace TRPO3.Data;
 public sealed class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
@@ -20,5 +21,13 @@ public sealed class AppDbContext : DbContext
             .HasOne(p => p.Subject)
             .WithMany()
             .HasForeignKey(p => p.SubjectId);
+        modelBuilder
+            .Entity<ScheduleEntry>()
+            .HasMany(p => p.Groups)
+            .WithMany(p => p.ScheduleEntries);
+        modelBuilder
+            .Entity<ScheduleEntry>()
+            .HasMany(p => p.Professors)
+            .WithMany(p => p.ScheduleEntries);
     }
 }

@@ -1,3 +1,4 @@
+namespace TRPO3.Models;
 public sealed class Subject
 {
     public int Id { get; set; }
