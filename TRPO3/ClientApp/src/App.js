@@ -1,27 +1,40 @@
 import React, {useState} from "react";
-import "./filters.css"
+import "./App.css";
+import Main from "./Main";
+import Links from "./components/links";
 
-function Group () {
-    const [myGroup, setMyGroup] = useState("Номер группы")
+import Choose from "./components/choose";
 
-    const handleChange = (event) => {
-        setMyGroup(event.target.value)
+import "./components/button.css"
+
+import {useNavigate, BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import StudentPage from "./StudentPage";
+import TeacherPage from "./TeacherPage";
+import Schedule from "./Schedule";
+
+
+function App() {
+  const [visibility, setVisibility] = useState(false)
+
+    function Show()
+    {
+        setVisibility(!visibility);
     }
 
-    return (
-        <div className = "App">
 
-            <form>
-                <select className = "group" value={myGroup} onChange={handleChange}>
-                    <label>Номер группы </label>
-                    <option value="М3О-307Б-20">М3О-307Б-20</option>
-                    <option value="М3О-309Б-20">М3О-309Б-20</option>
-                    <option value="М3О-310Б-20">М3О-310Б-20</option>
-                </select>
-
-            </form>
-        </div>
-    );
+  return (
+      <div className = "App"
+      >
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Main/>}/>
+          <Route exact path="/StudentPage" element={<StudentPage/>}/>
+          <Route exact path="/TeacherPage" element={<TeacherPage/>}/>
+          <Route exact path="/Schedule" element ={<Schedule/>}/>
+        </Routes>
+      </BrowserRouter>
+      </div>
+  );
 }
 
-export default Group;
+export default App;
