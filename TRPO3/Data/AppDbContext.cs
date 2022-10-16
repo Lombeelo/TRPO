@@ -12,6 +12,7 @@ public sealed class AppDbContext : DbContext
     public DbSet<ScheduleEntry> Schedule { get; set; }
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<Professor> Professors { get; set; }
+    public DbSet<Group> Groups { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder

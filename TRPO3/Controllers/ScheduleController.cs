@@ -19,19 +19,23 @@ public class ScheduleController : ControllerBase
         _mapper = mapper;
     }
 
+    // Example request
+    // https://localhost:7197/api/schedule
     [HttpGet]
-    public ActionResult<ScheduleEntryReadDto> Get()
+    public ActionResult<IEnumerable<ScheduleEntryReadDto>> GetSchedule()
     {
-        var item = _table.GetContext()
-            .Schedule
-            .Include(p => p.Groups)
-            .Include(p => p.Professors)
-            .Include(p => p.Subject)
-            .Include(p => p.Type)
-            .OrderBy(p => p.Id)
-            .FirstOrDefault();
-        return Ok(new ScheduleEntryReadDto());
+        var items = _table.GetAllEntries();
+        return Ok(_mapper.Map<IEnumerable<ScheduleEntryReadDto>>(items));
+    }
 
+    // Example request
+    // https://localhost:7197/api/schedule/GetScheduleBetweenDates?beginDate=dd-mm-yyyy&endDate=dd-mm-yyyy
+    [HttpGet, Route("GetScheduleBetweenDates")]
+    public ActionResult<IEnumerable<ScheduleEntryReadDto>> GetScheduleBetweenDates(DateTime beginDate, DateTime endDate)
+    {
+        Console.WriteLine($"-----> Got to GetScheduleBetweenDates method, args are {beginDate} and {endDate}");
+        var items = _table.GetEntriesInDates(beginDate, endDate);
+        return Ok(_mapper.Map<IEnumerable<ScheduleEntryReadDto>>(items));
     }
 }
 
