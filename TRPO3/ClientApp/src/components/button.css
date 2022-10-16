@@ -55,7 +55,7 @@
     border-bottom-left-radius:10px;
     border-bottom-right-radius:10px;
 
-    border:2px solid rgba(10.031780898571014, 218.87500405311584, 68.50787669420242, 1);
+    border:2px solid rgba(0, 0, 255, 1);
     color:rgba(255, 255, 255, 1);
 
     font-family:Manrope;
@@ -79,7 +79,7 @@
     border-bottom-left-radius:10px;
     border-bottom-right-radius:10px;
 
-    border:2px solid rgba(10.031780898571014, 0, 68.50787669420242, 1);
+    border:2px solid rgba(255, 0, 0, 1);
 
     color:rgba(255, 255, 255, 1);
     font-family:Manrope;
@@ -90,6 +90,51 @@
 
 
 }
+
+.Form {
+    width: 800px;
+    height: 100px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.6000000238418579);
+    left: 560px;
+    top: 333px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 2px solid rgba(10.031780898571014, 218.87500405311584, 68.50787669420242, 1);
+    color:rgba(255, 255, 255, 1);
+    font-family:Manrope;
+    text-align:center;
+    font-size:48px;
+    letter-spacing:0;
+    cursor: pointer;
+
+}
+
+.Schedule {
+    width:360px;
+    height:100px;
+    position:absolute;
+    left: 780px;
+    top: 650px;
+
+    background-color:rgba(0, 0, 0, 0.6000000238418579);
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+
+    border:2px solid rgba(0, 240, 120, 1);
+
+    color:rgba(255, 255, 255, 1);
+    font-family:Manrope;
+    text-align:center;
+    font-size:45px;
+    letter-spacing:0;
+    cursor: pointer;
+}
+
 
 
 

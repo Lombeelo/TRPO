@@ -1,0 +1,190 @@
+.teacher {
+    overflow:hidden;
+    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+    width:366.8000183105469px;
+    height:81px;
+    position:absolute;
+
+    background-color:rgba(0, 0, 0, 0.44999998807907104);
+    left:0px;
+    top:0px;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+
+    border:1px solid rgba(0, 0, 0, 1);
+
+    color:rgba(255, 255, 255, 1);
+    width:298.0767517089844px;
+    height:55.90140914916992px;
+    position:absolute;
+    left:34.7999267578125px;
+    top:13px;
+    font-family:Manrope;
+    text-align:left;
+    font-size:36px;
+    letter-spacing:0;
+}
+
+.group {
+    overflow:hidden;
+    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+    width:366.8000183105469px;
+    height:81px;
+    position:absolute;
+
+    background-color:rgba(0, 0, 0, 0.44999998807907104);
+    left:0px;
+    top:0px;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+
+    border:1px solid rgba(0, 0, 0, 1);
+
+    color:rgba(255, 255, 255, 1);
+    width:298.0767517089844px;
+    height:55.90140914916992px;
+    position:absolute;
+    left:34.7999267578125px;
+    top:13px;
+    font-family:Manrope;
+    text-align:left;
+    font-size:36px;
+    letter-spacing:0;
+}
+
+.lesson {
+    overflow:hidden;
+
+    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+    width:366.8000183105469px;
+    height:81px;
+    position:absolute;
+
+    background-color:rgba(0, 0, 0, 0.44999998807907104);
+    width:366.8000183105469px;
+    height:81px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+
+    border:1px solid rgba(0, 0, 0, 1);
+
+    color:rgba(255, 255, 255, 1);
+    width:168.91014099121094px;
+    height:55.90140914916992px;
+    position:absolute;
+    left:99.1942138671875px;
+    top:13px;
+    font-family:Manrope;
+    text-align:left;
+    font-size:36px;
+    letter-spacing:0;
+
+}
+
+.type {
+    overflow:hidden;
+
+    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+    width:366.8000183105469px;
+    height:81px;
+    position:absolute;
+
+    background-color:rgba(0, 0, 0, 0.44999998807907104);
+    width:366.8000183105469px;
+    height:81px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+
+    border:1px solid rgba(0, 0, 0, 1);
+
+    color:rgba(255, 255, 255, 1);
+    width:168.91014099121094px;
+    height:55.90140914916992px;
+    position:absolute;
+    left:99.1942138671875px;
+    top:13px;
+    font-family:Manrope;
+    text-align:left;
+    font-size:36px;
+    letter-spacing:0;
+
+}
+
+.weekday {
+
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 366.8000183105469px;
+    height: 81px;
+    position: absolute;
+
+    background-color: rgba(0, 0, 0, 0.44999998807907104);
+    width: 366.8000183105469px;
+    height: 81px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    border: 1px solid rgba(0, 0, 0, 1);
+
+    color: rgba(255, 255, 255, 1);
+    width: 168.91014099121094px;
+    height: 55.90140914916992px;
+    position: absolute;
+    left: 99.1942138671875px;
+    top: 13px;
+    font-family: Manrope;
+    text-align: left;
+    font-size: 36px;
+    letter-spacing: 0;
+}
+
+.date {
+    overflow:hidden;
+
+    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+    width:366.8000183105469px;
+    height:81px;
+    position:absolute;
+
+    background-color:rgba(0, 0, 0, 0.44999998807907104);
+    width:366.8000183105469px;
+    height:81px;
+    position:absolute;
+    left:0px;
+    top:0px;
+    border-top-left-radius:10px;
+    border-top-right-radius:10px;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+
+    border:1px solid rgba(0, 0, 0, 1);
+
+    color:rgba(255, 255, 255, 1);
+    width:168.91014099121094px;
+    height:55.90140914916992px;
+    position:absolute;
+    left:99.1942138671875px;
+    top:13px;
+    font-family:Manrope;
+    text-align:left;
+    font-size:36px;
+    letter-spacing:0;
+}

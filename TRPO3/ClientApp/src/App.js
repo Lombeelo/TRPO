@@ -1,11 +1,16 @@
 import React, {useState} from "react";
-import Start from "./components/start";
-import Exit from "./components/exit";
-import Student from "./components/student";
-import Teacher from "./components/teacher";
+import "./App.css";
+import Main from "./Main";
+import Links from "./components/links";
+
+import Choose from "./components/choose";
+
 import "./components/button.css"
 
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {useNavigate, BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import StudentPage from "./StudentPage";
+import TeacherPage from "./TeacherPage";
+import Schedule from "./Schedule";
 
 
 function App() {
@@ -16,38 +21,18 @@ function App() {
         setVisibility(!visibility);
     }
 
+
   return (
       <div className = "App"
-      style = {{backgroundColor: '#FFFFFF',
-      width: '1920px',
-      height: '1080px'
-      }}>
-
-    {
-        visibility ?<Student / >:null
-    }
-
-    {
-        visibility ?<Teacher />:null
-
-    }
-
-    {
-        visibility ?
-
-            <button className = "Exit" onClick = {Show}> Назад </button>
-    : null
-    }
-
-    {
-        visibility? null:
-        <div>
-            <button className = "Start" onClick = {Show}> Открыть расписание </button>
-            <Exit/>
-        </div>
-    }
-
-
+      >
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Main/>}/>
+          <Route exact path="/StudentPage" element={<StudentPage/>}/>
+          <Route exact path="/TeacherPage" element={<TeacherPage/>}/>
+          <Route exact path="/Schedule" element ={<Schedule/>}/>
+        </Routes>
+      </BrowserRouter>
       </div>
   );
 }
