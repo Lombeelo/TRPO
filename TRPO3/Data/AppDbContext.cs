@@ -7,7 +7,7 @@ public sealed class AppDbContext : DbContext
     {
         // Return if database exists
         if (!Database.EnsureCreated()) return;
-        //SeedData();
+        SeedData();
     }
     public DbSet<ScheduleEntry> Schedule { get; set; }
     public DbSet<Subject> Subjects { get; set; }

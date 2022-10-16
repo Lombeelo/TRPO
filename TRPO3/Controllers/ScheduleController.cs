@@ -24,12 +24,13 @@ public class ScheduleController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<ScheduleEntryReadDto>> GetSchedule()
     {
+        Console.WriteLine("-----> Got to GetSchedule method");
         var items = _table.GetAllEntries();
         return Ok(_mapper.Map<IEnumerable<ScheduleEntryReadDto>>(items));
     }
 
     // Example request
-    // https://localhost:7197/api/schedule/GetScheduleBetweenDates?beginDate=dd-mm-yyyy&endDate=dd-mm-yyyy
+    // https://localhost:7197/api/schedule/GetScheduleBetweenDates?beginDate=MM-dd-yyyy&endDate=MM-dd-yyyy
     [HttpGet, Route("GetScheduleBetweenDates")]
     public ActionResult<IEnumerable<ScheduleEntryReadDto>> GetScheduleBetweenDates(DateTime beginDate, DateTime endDate)
     {
