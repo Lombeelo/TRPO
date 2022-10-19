@@ -37,31 +37,35 @@ public sealed class AppDbContext : DbContext
     void SeedData()
     {
         // Seeding data
-        var gr = new Group { Id = 304 };
+        var gr = new Group
+        {
+            Id = 1,
+            Name = "М3О-309Б-20"
+        };
         var prof = new Professor
         {
             Id = 1,
-            FullName = "Loh ebaniy"
+            FullName = "Ратников М.О."
         };
         var prof2 = new Professor
         {
             Id = 2,
-            FullName = "Poluloh ebaniy"
+            FullName = "Чугаев"
         };
         var subj = new Subject
         {
             Id = 1,
-            Name = "Physics"
+            Name = "Теория графов"
         };
         var subj2 = new Subject
         {
             Id = 2,
-            Name = "Math"
+            Name = "САПР"
         };
         var ltype = new LessonType
         {
             Id = 1,
-            Name = "Lecture"
+            Name = "Лекция"
         };
         prof.Subjects.Add(subj);
         prof2.Subjects.Add(subj);
