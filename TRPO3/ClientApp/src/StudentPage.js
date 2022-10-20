@@ -33,7 +33,7 @@ function StudentPage() {
         <h1 className = "who"> Выберите номер группы </h1>
         <form>
 
-        <select className = "Start" value={myGroup} onChange={handleChange}>
+        <select className = "Select" value={myGroup} onChange={handleChange}>
             {groups.map(groups =>
                 <option key = {groups.id} value = {groups.group}>{groups.group}</option>)}
             </select>

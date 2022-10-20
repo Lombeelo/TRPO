@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import "./App.css";
 import ScheduleCard from "./components/Schedule/schedule_card";
 
-import Group from "./components/Schedule/schedule_filters/group";
 import Lesson from "./components/Schedule/schedule_filters/subject";
 import Type from "./components/Schedule/schedule_filters/type";
 import Week_Day from "./components/Schedule/schedule_filters/week_day";
