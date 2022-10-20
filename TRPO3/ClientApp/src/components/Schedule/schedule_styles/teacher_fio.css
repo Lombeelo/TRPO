@@ -1,0 +1,14 @@
+.teacher_fio {
+    color:rgba(0, 0, 0, 1);
+    width:200%;
+    height:41px;
+    position:relative;
+    left: -25%;
+    top: 10%;
+    font-family:Manrope;
+    text-align:center;
+    vertical-align: middle;
+    font-size:30px;
+    font-style: italic;
+    letter-spacing:1px;
+}

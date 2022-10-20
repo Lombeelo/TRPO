@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import "./filters.css"
 
-function Type () {
-    const [type, setType] = useState("Тип предмета")
+function Type (props) {
+    const [type, setType] = useState("default")
 
     const handleChange = (event) => {
         setType(event.target.value)
@@ -10,15 +10,11 @@ function Type () {
 
     return (
         <div>
-
             <form>
                 <select className = "type" value={type} onChange={handleChange}>
-                    <label>Тип предмета </label>
-                    <option value="Лекция">Лекция</option>
-                    <option value="ПЗ">ПЗ</option>
-                    <option value="ЛР">ЛР</option>
+                    {props.pair_types.map(pair_types =>
+                        <option key = {pair_types.id} value = {pair_types.pair_type}>{pair_types.pair_type}</option>)}
                 </select>
-
             </form>
         </div>
     );

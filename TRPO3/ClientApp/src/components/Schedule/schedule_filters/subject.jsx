@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import "./filters.css"
 
-function Lesson () {
-    const [lesson, setLesson] = useState("Предмет")
+function Subject (props) {
+    const [lesson, setLesson] = useState("default")
 
     const handleChange = (event) => {
         setLesson(event.target.value)
@@ -13,10 +13,8 @@ function Lesson () {
 
             <form>
                 <select className = "lesson" value={lesson} onChange={handleChange}>
-                    <label>Номер группы </label>
-                    <option value="ТРПО">ТРПО</option>
-                    <option value="Экология">Экология</option>
-                    <option value="ТАУ">ТАУ</option>
+                    {props.subjects.map(subjects =>
+                        <option key = {subjects.id} value = {subjects.subject_name}>{subjects.subject_name}</option>)}
                 </select>
 
             </form>
@@ -24,4 +22,4 @@ function Lesson () {
     );
 }
 
-export default Lesson;
+export default Subject;

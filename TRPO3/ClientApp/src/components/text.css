@@ -1,13 +1,33 @@
 .who {
-    width:384px;
+    width:700px;
     height:140px;
     position:absolute;
-    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
+    left: 610px;
+    top: 0px;
+    box-shadow:0px 0px 0px rgba(0, 0, 0, 0.25);
     color:rgba(0, 0, 0, 1);
-    left:0px;
-    top:0px;
     font-family:Manrope;
-    text-align:left;
-    font-size:96px;
+    text-align:center;
+    font-size:72px;
     letter-spacing:0;
+
+    display: inline-block;
 }
+.who1 {
+    width:900px;
+    height:140px;
+    position:absolute;
+    left: 610px;
+    top: 200px;
+    box-shadow:0px 0px 0px rgba(0, 0, 0, 0.25);
+    color:rgba(0, 0, 0, 1);
+    font-family:Manrope;
+    text-align:center;
+    font-size:72px;
+    letter-spacing:0;
+
+    display: inline-block;
+}
+
+.default {color: red;}
+

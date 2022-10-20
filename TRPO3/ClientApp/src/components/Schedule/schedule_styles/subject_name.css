@@ -1,0 +1,12 @@
+
+.lesson_name {
+    color:rgba(0, 0, 0, 1);
+    width:891px;
+    position:relative;
+    left: 25%;
+    top: -5%;
+    font-family:Manrope;
+    text-align:center;
+    font-size:45px;
+    letter-spacing:0;
+}

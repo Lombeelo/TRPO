@@ -1,0 +1,11 @@
+.lesson_type {
+    color:rgba(0, 0, 0, 1);
+    position:relative;
+    left: 80%;
+    top: -25%;
+    font-family:Manrope;
+    text-align:center;
+    vertical-align: middle;
+    font-size:40px;
+    letter-spacing:0;
+}

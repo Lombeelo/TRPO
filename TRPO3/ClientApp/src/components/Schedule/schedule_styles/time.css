@@ -1,0 +1,10 @@
+.time {
+    color:rgba(0, 0, 0, 1);
+    position: relative;
+    left: 5%;
+    top:  30%;
+    vertical-align: middle;
+    font-family:Manrope;
+    font-size:40px;
+    letter-spacing:0;
+}

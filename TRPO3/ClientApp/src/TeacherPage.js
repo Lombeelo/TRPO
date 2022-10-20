@@ -1,56 +1,55 @@
 import React, {useState} from "react";
 import "./App.css";
-import Start from "./components/start";
-import Exit from "./components/exit";
-import Student from "./components/student";
-import Teacher from "./components/teacher";
+import Start from "./components/Buttons/start";
+import Exit from "./components/Buttons/exit";
+import Student from "./components/Buttons/student";
+import Teacher from "./components/Buttons/teacher";
 
 
-
-import "./components/button.css"
+import "./components/Buttons/button.css"
 import "./components/text.css"
 
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom';
+import Schedule from "./Schedule";
 
 
 function TeacherPage() {
 
-    const [name, setName] = useState("")
+    const [teacher_fios, setTeacher_fios] = useState ([
+        {id: 0, fio: "ФИО"},
+        {id: 1, fio: "Вестяк Анатолий Васильевич"},
+        {id: 2, fio: "Вестяк Владимир Анатольевич"}
+
+    ])
+
+    const [myName, setMyName] = useState("ФИО")
     const [show_button, setButton] = useState(false)
-    function next() {
-        return(
-            <Link to="/Schedule"> <button className = "Schedule"> Посмотреть </button></Link>
-        )
-    }
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-       if (window.confirm("Ваше ФИО: {name}. Правильно?", {name})) {
-           setButton(true);
-       };
-
+    const handleChange = (event) => {
+        setMyName(event.target.value)
+        setButton(true)
     }
 
 
         return (
             <div className = "App">
-                <h1 className = "who1"> Введите своё ФИО </h1>
-                <form onSubmit={handleSubmit}>
-                <input className = "Form"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
-                </form>
 
-            {
-                 show_button ?
-                <Link to="/Schedule"><button className = "Schedule"> Посмотреть </button></Link>
-                :
-            <Link to="/"><button className = "Exit"> Главное меню </button></Link>
-            }
+            <h1 className = "who"> Выберите ФИО преподавателя </h1>
+        <form>
 
-            </div>
+             <select className = "Select" value={myName} onChange={handleChange}>
+                {teacher_fios.map(fios =>
+                        <option key = {fios.id} value = {fios.fio}>{fios.fio}</option>)}
+            </select>
+
+        </form>
+        {
+            myName != "ФИО" ?
+        <Link to="/Schedule"><button className = "Schedule"> Посмотреть </button></Link>
+        :
+        <Link to="/"><button className = "Exit"> Главное меню </button></Link>
+        }
+    </div>
 
 );
 }
