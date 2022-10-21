@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import "./App.css";
+import {useLocation, setLocationState} from "react-router-dom";
 import ScheduleCard from "./components/Schedule/schedule_card";
 
 import Lesson from "./components/Schedule/schedule_filters/subject";
@@ -10,7 +11,17 @@ import Study_Week from "./components/Schedule/schedule_filters/study_week";
 import Subject from "./components/Schedule/schedule_filters/subject";
 import Pair_Card from "./components/Schedule/pair_card";
 
-function Shedule () {
+function Shedule (props) {
+
+    //Передаём состояния, откуда прибыли + группу и ФИО преподавателя
+    const location  = useLocation();
+    const [locationState, setLocationState] = React.useState({from: '', group: '', fio: ''})
+
+    React.useState (() => {
+        if (location.state) {
+            setLocationState(location.state)
+        }
+    })
 
     const [days, setDays] = useState ([
         {id: 1, day: "Понедельник. 10.10"},
@@ -48,9 +59,9 @@ function Shedule () {
 
     ])
 
-
     return (
         <div className = "App">
+
             <Study_Week weeks = {weeks} key = {weeks.id}/>
             <Week_Day weekdays = {weekdays} key = {weekdays.id}/>
             <Subject subjects = {subjects} key = {subjects.id}/>
