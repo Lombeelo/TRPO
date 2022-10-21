@@ -10,11 +10,14 @@ function Week_Day (props) {
 
     const handleChange = (event) => {
         setWeekday(event.target.value)
+        props.parentCallback(event.target.value)
     }
 
     return (
         <div>
+
             <form>
+
                     <select className = "weekday" value={weekday} onChange={handleChange}>
                         {weekdays.map(weekdays =>
                             <option key = {weekdays.id} value = {weekdays.weekday}>{weekdays.weekday}</option>)}

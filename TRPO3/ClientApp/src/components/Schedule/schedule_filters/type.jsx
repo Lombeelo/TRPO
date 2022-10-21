@@ -6,6 +6,7 @@ function Type (props) {
 
     const handleChange = (event) => {
         setType(event.target.value)
+        props.parentCallback(event.target.value)
     }
 
     return (

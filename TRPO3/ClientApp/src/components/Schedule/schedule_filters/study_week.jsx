@@ -6,15 +6,19 @@ function Study_Week (props) {
 
     const handleChange = (event) => {
         setWeek(event.target.value)
+        props.parentCallback(event.target.value)
     }
+
 
     return (
         <div>
+
             <form>
                 <select className = "week" value={week} onChange={handleChange}>
                     {props.weeks.map(weeks =>
                         <option key = {weeks.id} value = {weeks.weekday}>{weeks.week}</option>)}
                 </select>
+
             </form>
         </div>
 
