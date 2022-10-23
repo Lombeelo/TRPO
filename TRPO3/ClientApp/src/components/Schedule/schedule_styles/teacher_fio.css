@@ -12,3 +12,18 @@
     font-style: italic;
     letter-spacing:1px;
 }
+
+.teacher_fio_sel {
+    color:rgba(0, 0, 0, 1);
+    width:50%;
+    height:41px;
+    position:relative;
+    left: 30%;
+    top: 0%;
+    font-family:Manrope;
+    text-align:center;
+    vertical-align: middle;
+    font-size:30px;
+    font-style: italic;
+    letter-spacing:1px;
+}

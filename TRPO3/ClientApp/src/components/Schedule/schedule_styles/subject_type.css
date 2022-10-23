@@ -9,3 +9,15 @@
     font-size:40px;
     letter-spacing:0;
 }
+
+.lesson_type_sel {
+    color:rgba(0, 0, 0, 1);
+    position:relative;
+    left: 132%;
+    top: -50%;
+    font-family:Manrope;
+    text-align:center;
+    vertical-align: middle;
+    font-size:40px;
+    letter-spacing:0;
+}

@@ -12,3 +12,19 @@
     word-break: break-all;
 }
 
+
+.cabinet_sel {
+    color:rgba(0, 0, 0, 1);
+    position: relative;
+    left: 110%;
+    top: -17%;
+    font-family:Manrope;
+    text-align:left;
+    vertical-align: middle;
+    font-size:40px;
+    letter-spacing:0;
+    word-break: break-all;
+}
+
+
+

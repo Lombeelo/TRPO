@@ -10,3 +10,15 @@
     font-size:45px;
     letter-spacing:0;
 }
+
+.lesson_name_sel {
+    color:rgba(0, 0, 0, 1);
+    width:871px;
+    position:relative;
+    left: 30%;
+    top: -10%;
+    font-family:Manrope;
+    text-align:center;
+    font-size:45px;
+    letter-spacing:0;
+}

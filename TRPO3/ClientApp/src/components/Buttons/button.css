@@ -176,5 +176,50 @@
 
 
     border:2px solid rgba(0, 0, 0, 1);
+    cursor: pointer;
+
+}
+
+.Pair_Editing {
+
+    width:40px;
+    height:40px;
+    left:95%;
+    top: 80%;
+    position:absolute;
+
+    background-image:url(Images/pencil.png);
+    background-position:right;
+    background-repeat:no-repeat;
+    background-size: contain;
+
+    border-radius:500px;
+    background-color:rgba(0, 0, 0, 0.10000000149011612);
+
+
+    border:2px solid rgba(0, 0, 0, 1);
+    cursor: pointer;
+
+}
+
+.Pair_Editing_sel {
+
+    width:40px;
+    height:40px;
+    left:95%;
+    top: 76%;
+    position:absolute;
+
+    background-image:url(Images/pencil.png);
+    background-position:right;
+    background-repeat:no-repeat;
+    background-size: contain;
+
+    border-radius:500px;
+    background-color:rgba(0, 0, 0, 0.10000000149011612);
+
+
+    border:2px solid rgba(0, 0, 0, 1);
+    cursor: pointer;
 
 }
