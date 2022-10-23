@@ -10,7 +10,7 @@ function Week_Day (props) {
 
     const handleChange = (event) => {
         setWeekday(event.target.value)
-        props.parentCallback(event.target.value)
+        props.parentCallback(event.target.value, "weekday")
     }
 
     return (

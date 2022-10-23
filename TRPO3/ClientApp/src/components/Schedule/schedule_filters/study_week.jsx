@@ -6,7 +6,7 @@ function Study_Week (props) {
 
     const handleChange = (event) => {
         setWeek(event.target.value)
-        props.parentCallback(event.target.value)
+        props.parentCallback(event.target.value, "week")
     }
 
 

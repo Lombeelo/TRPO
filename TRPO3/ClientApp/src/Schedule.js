@@ -3,10 +3,13 @@ import "./App.css";
 import {useLocation, setLocationState} from "react-router-dom";
 import ScheduleCard from "./components/Schedule/schedule_card";
 
+import Lesson from "./components/Schedule/schedule_filters/subject";
 import Type from "./components/Schedule/schedule_filters/type";
 import Week_Day from "./components/Schedule/schedule_filters/week_day";
+import Calendar_Filter from "./components/Schedule/schedule_filters/calendar";
 import Study_Week from "./components/Schedule/schedule_filters/study_week";
 import Subject from "./components/Schedule/schedule_filters/subject";
+import Pair_Card from "./components/Schedule/pair_card";
 
 function Schedule (props) {
 
@@ -22,11 +25,34 @@ function Schedule (props) {
 
     const [week, setWeek] = useState("default")
 
-    const [filter, setFilter] = useState ("default");
+    const [filter, setFilter] = useState ([
+        {week_f: null, week_day_f: null, subject_f: null, type_f: null}]);
 
-    const handleCallback = (childData) =>{
-        setFilter(childData)
+    const [filter_type, setFilterType] = useState ("null");
+
+    const handleCallback = (childData, filter_t) =>{
+        setFilterType(filter_t);
+        switch (filter_t) {
+            case "week":
+                if (childData !== "Учебная неделя") return setFilter({week_f: childData});
+                else return setFilter({week_f: null});
+            case "weekday":
+                if (childData !== "День недели") return setFilter({week_day_f: childData});
+                else return setFilter({week_day_f: null});
+            case "subject":
+                if (childData !== "Предмет") return setFilter({subject_f: childData});
+                else return setFilter({subject_f: null});
+            case "subj_type":
+                if (childData !== "Тип занятия") return setFilter({type_f: childData});
+                else return setFilter({type_f: null});
+            default:
+                return null;
+        };
     }
+
+
+
+
 
     const [days, setDays] = useState ([
         {id: 1, day_date: "10.10", weekday: "Понедельник"},
@@ -65,9 +91,9 @@ function Schedule (props) {
     ])
 
     return (
+
         <div className = "App">
-        {filter}
-            <Study_Week weeks = {weeks} key = {weeks.id} parentCallback = {handleCallback}/>
+            <Study_Week weeks = {weeks} key = {weeks.id} parentCallback = {handleCallback} />
             <Week_Day weekdays = {weekdays} key = {weekdays.id} parentCallback = {handleCallback}/>
             <Subject subjects = {subjects} key = {subjects.id} parentCallback = {handleCallback}/>
             <Type pair_types = {pair_types} key = {pair_types.id} parentCallback = {handleCallback}/>
