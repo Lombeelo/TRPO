@@ -6,11 +6,12 @@ import ScheduleCard from "./components/Schedule/schedule_card";
 import Lesson from "./components/Schedule/schedule_filters/subject";
 import Type from "./components/Schedule/schedule_filters/type";
 import Week_Day from "./components/Schedule/schedule_filters/week_day";
+import Calendar_Filter from "./components/Schedule/schedule_filters/calendar";
 import Study_Week from "./components/Schedule/schedule_filters/study_week";
 import Subject from "./components/Schedule/schedule_filters/subject";
 import Pair_Card from "./components/Schedule/pair_card";
 
-function Shedule (props) {
+function Schedule (props) {
 
     //Передаём состояния, откуда прибыли + группу и ФИО преподавателя
     const location  = useLocation();
@@ -32,7 +33,7 @@ function Shedule (props) {
 
     const [days, setDays] = useState ([
         {id: 1, day_date: "10.10", weekday: "Понедельник"},
-        {id: 2, day: "Вторник. 11.10"}
+        {id: 2, day_date: "11.10", weekday: "Вторник"}
     ])
 
     const [weeks, setWeeks] = useState ([
@@ -83,4 +84,4 @@ function Shedule (props) {
 
 }
 
-export default Shedule;
+export default Schedule;
