@@ -3,7 +3,6 @@ import { Switch, BrowserRouter as Router, Route, Routes} from "react-router-dom"
 import StudentPage from "../StudentPage";
 import TeacherPage from "../TeacherPage";
 import Main from "../App";
-import Links from "./links";
 
 
 function Choose () {

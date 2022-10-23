@@ -1,9 +1,6 @@
 import React, {useState} from "react";
 import "./App.css";
 import Main from "./Main";
-import Links from "./components/links";
-
-import Choose from "./components/choose";
 
 import "./components/Buttons/button.css"
 

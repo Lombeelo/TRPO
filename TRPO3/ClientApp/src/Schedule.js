@@ -3,13 +3,10 @@ import "./App.css";
 import {useLocation, setLocationState} from "react-router-dom";
 import ScheduleCard from "./components/Schedule/schedule_card";
 
-import Lesson from "./components/Schedule/schedule_filters/subject";
 import Type from "./components/Schedule/schedule_filters/type";
 import Week_Day from "./components/Schedule/schedule_filters/week_day";
-import Calendar_Filter from "./components/Schedule/schedule_filters/calendar";
 import Study_Week from "./components/Schedule/schedule_filters/study_week";
 import Subject from "./components/Schedule/schedule_filters/subject";
-import Pair_Card from "./components/Schedule/pair_card";
 
 function Schedule (props) {
 

@@ -1,15 +1,7 @@
 import React, {useState} from "react";
 import "./App.css";
-import Start from "./components/Buttons/start";
 import Exit from "./components/Buttons/exit";
-import Student from "./components/Buttons/student";
-import Teacher from "./components/Buttons/teacher";
-import Links from "./components/links";
 
-import StudentPage from "./StudentPage";
-import TeacherPage from "./TeacherPage";
-
-import Choose from "./components/choose";
 
 import "./components/Buttons/button.css"
 
