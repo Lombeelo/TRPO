@@ -15,7 +15,7 @@ public interface IScheduleTable
 
     IEnumerable<Professor> GetAllProfessors();
     IEnumerable<Professor> GetProfessorsBySubject(Subject subject);
-    Professor GetProfessorByName(string name);
+    Professor GetProfessorById(int id);
     void CreateProfessor(Professor professor);
 
     IEnumerable<Subject> GetAllSubjects();

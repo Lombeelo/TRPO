@@ -123,9 +123,9 @@ public sealed class ScheduleTable : IScheduleTable
         return _context.Groups.Where(g => g.Id == id).FirstOrDefault();
     }
 
-    public Professor GetProfessorByName(string name)
+    public Professor GetProfessorById(int id)
     {
-        return GetAllProfessorsLazy().Where(p => p.FullName == name).FirstOrDefault();
+        return GetAllProfessorsLazy().Where(p => p.Id == id).FirstOrDefault();
     }
 
     public IEnumerable<Professor> GetProfessorsBySubject(Subject subject)
