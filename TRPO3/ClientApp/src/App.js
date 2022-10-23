@@ -12,7 +12,6 @@ import StudentPage from "./StudentPage";
 import TeacherPage from "./TeacherPage";
 import Schedule from "./Schedule";
 import EditPage from "./EditPage";
-import Calendar_Filter from "./components/Schedule/schedule_filters/calendar";
 
 
 function App() {
