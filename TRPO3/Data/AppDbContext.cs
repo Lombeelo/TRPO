@@ -13,6 +13,7 @@ public sealed class AppDbContext : DbContext
     public DbSet<Subject> Subjects { get; set; }
     public DbSet<Professor> Professors { get; set; }
     public DbSet<Group> Groups { get; set; }
+    public DbSet<LessonType> LessonTypes { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -20,10 +21,13 @@ public sealed class AppDbContext : DbContext
             .HasMany(p => p.Subjects)
             .WithMany(p => p.Professors);
         modelBuilder
+            .Entity<Group>()
+            .HasMany(p => p.Subjects)
+            .WithMany(p => p.Groups);
+        modelBuilder
             .Entity<ScheduleEntry>()
             .HasOne(p => p.Subject)
-            .WithMany()
-            .HasForeignKey(p => p.SubjectId);
+            .WithMany();
         modelBuilder
             .Entity<ScheduleEntry>()
             .HasMany(p => p.Groups)
@@ -37,54 +41,81 @@ public sealed class AppDbContext : DbContext
     void SeedData()
     {
         // Seeding data
-        var gr = new Group
+        var subjects = new List<Subject>
         {
-            Id = 1,
-            Name = "М3О-309Б-20"
+            new Subject
+            {
+                Name = "Теория графов"
+            },
+            new Subject
+            {
+                Name = "САПР"
+            }
         };
-        var prof = new Professor
+        var ltypes = new List<LessonType>
         {
-            Id = 1,
-            FullName = "Ратников М.О."
+            new LessonType
+            {
+                Name = "ЛК"
+            },
+            new LessonType
+            {
+                Name = "ПЗ"
+            },
+            new LessonType
+            {
+                Name = "ЛР"
+            },
         };
-        var prof2 = new Professor
+
+        var groups = new List<Group> {
+            new Group
+            {
+                Name = "М3О-309Б-20",
+                Subjects = subjects
+            },
+            new Group
+            {
+                Name = "М3О-307Б-20"
+            },
+            new Group
+            {
+                Name = "М3О-310Б-20"
+            }
+        };
+        var profs = new List<Professor>
         {
-            Id = 2,
-            FullName = "Чугаев"
+            new Professor
+            {
+                FullName = "Ратников"
+            },
+            new Professor
+            {
+                FullName = "Чугаев"
+            }
         };
-        var subj = new Subject
-        {
-            Id = 1,
-            Name = "Теория графов"
-        };
-        var subj2 = new Subject
-        {
-            Id = 2,
-            Name = "САПР"
-        };
-        var ltype = new LessonType
-        {
-            Id = 1,
-            Name = "Лекция"
-        };
-        prof.Subjects.Add(subj);
-        prof2.Subjects.Add(subj);
-        prof2.Subjects.Add(subj2);
-        Subjects.Add(subj);
-        Subjects.Add(subj2);
-        Professors.Add(prof);
-        Professors.Add(prof2);
+
+
+
+        profs[0].Subjects.Add(subjects[0]);
+        profs[1].Subjects.Add(subjects[0]);
+        profs[1].Subjects.Add(subjects[1]);
+
+        Groups.AddRange(groups);
+        Subjects.AddRange(subjects);
+        Professors.AddRange(profs);
+        LessonTypes.AddRange(ltypes);
+
         Schedule.Add(new ScheduleEntry
         {
             Id = 1,
             Date = DateTime.Now,
             Cabinet = 304,
             Para = 2,
-            Groups = new List<Group> { gr },
-            Professors = new List<Professor> { prof, prof2 },
-            Subject = subj,
-            SubjectId = subj.Id,
-            Type = ltype
+            Groups = new List<Group> { groups[0] },
+            Professors = new List<Professor> { profs[0], profs[1] },
+            Subject = subjects[0],
+            Type = ltypes[0]
         });
 
         SaveChanges();
