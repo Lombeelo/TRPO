@@ -24,13 +24,12 @@ function ScheduleCard (props) {
 
         <div className = "list_elem_card">
             <div>
-                <span className = "date_text"> {props.days.day}</span>
+                <span className = "date_text"> {props.days.weekday} {props.days.day_date}</span>
             </div>
 
             {pairs.map(pairs =>
                 <Pair_Card pairs = {pairs} key = {pairs.id}/>
                 )}
-
         </div>
 
     );
