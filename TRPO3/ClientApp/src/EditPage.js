@@ -13,21 +13,21 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 function EditPage () {
 
     //---------------- ФЛАГИ ------------------------------
-    const [editing, setEditing] = useState(false)
+    const [approve, setApprove] = useState(false)
     const [dateChange, setDateChange] = useState(false)
     const [firstChange, setFirstChange] = useState (false)
-    const [secondChange, setSecondChange] = useState(false)
+    const [cabinetSelect, setCabinetSelect] = useState(false)
     const [lastChange, setLastChange] = useState(false)
 
-    const [g_flag, setG_Flag] = useState (false)
-    const [f_flag, setF_Flag] = useState (false)
+    const [many_groups_flag, setManyGroupsFlag] = useState (false)
+    const [many_fios_flag, setManyFiosFlag] = useState (false)
 
-    function ChangeF () {
-        setF_Flag(!f_flag);
+    function ChangeFiosFlag () {
+        setManyFiosFlag(!many_fios_flag);
     }
 
-    function ChangeG () {
-        setG_Flag(!g_flag);
+    function ChangeGroupsFlag () {
+        setManyGroupsFlag(!many_groups_flag);
     }
 
 
@@ -37,8 +37,10 @@ function EditPage () {
         {id: 2, label: "310Б", value: "М3О-310Б-20"}
     ])
     const [groups, setGroups] = useState(null)
-    const handleChangeGroups = (event) => {
-        setGroups(event.target.value)
+    const handleChangeGroups = (value) => {
+        debugger;
+        setGroups(value);
+        if (value != null) setFirstChange (true);
     }
 
     const [addFio, setAddFio] = useState ([
@@ -46,8 +48,9 @@ function EditPage () {
         {id: 2, label: "Чечиков Ю.Б.", value: "Чечиков Юрий Борисович"}
     ])
     const [fio, setFio] = useState(null)
-    const handleChangeFio = (event) => {
-        setFio(event.target.value)
+    const handleChangeFio = (value) => {
+        setFio(value);
+        if (value != null) setFirstChange (true);
     }
 
     const [addType, setAddType] = useState ([
@@ -60,17 +63,19 @@ function EditPage () {
     const handleChangeType = (event) => {
         setType(event.target.value)
         if (event.target.value == "Лекция") {
-            ChangeG();
-            if (f_flag==true) ChangeF();
+            ChangeGroupsFlag();
+            if (many_fios_flag==true) ChangeFiosFlag();
         }
         else if (event.target.value == "ЛР")
         {
-            ChangeF();
-            if (g_flag==true) ChangeG()}
+            ChangeFiosFlag();
+            if (many_groups_flag==true) ChangeGroupsFlag()}
         else if (event.target.value == "ПЗ"){
-            if (f_flag == true) ChangeF();
-            if (g_flag == true) ChangeG();
+            if (many_fios_flag == true) ChangeFiosFlag();
+            if (many_groups_flag == true) ChangeGroupsFlag();
         }
+        if (event.target.value != null) setFirstChange (true);
+
     }
     const [addSubjType, setAddSubjType] = useState ([
         {id: 0, value: "Тип занятия"},
@@ -87,6 +92,7 @@ function EditPage () {
     const [para, setPara] = useState(null)
     const handleChangePara = (event) => {
         setPara(event.target.value)
+        if (event.target.value != null) setCabinetSelect (true);
     }
 
 
@@ -133,16 +139,15 @@ function EditPage () {
     return (
         <div className = "App">
             <h1> Это страница для добавления пар </h1>
-
             <label className = "group_list_label"> Выбор группы </label>
              <MultiSelect
                 className="group_list_editing" onChange={handleChangeGroups} options={addGroups}
-                singleSelect={g_flag? false: true}/>
+                singleSelect={many_groups_flag? false: true}/>
 
             <label className = "fio_label"> Выбор преподавателя </label>
             <MultiSelect
                 className="fio_editing" onChange={handleChangeFio} options={addFio}
-                singleSelect={f_flag? false: true}/>
+                singleSelect={many_fios_flag? false: true}/>
 
             <select className = "type_editing" value={type} onChange={handleChangeType}>
                 {addType.map(subj_type =>
@@ -167,12 +172,12 @@ function EditPage () {
                     <option key = {addingPara.id} value = {addingPara.value}>{addingPara.value}</option>)}
                 </select>
 
-                 <select className = "subj_editing" value = {subj} onChange = {handleChangeSubj}>
+                 <select disabled = {(firstChange)? false : true} className = "subj_editing" value = {subj} onChange = {handleChangeSubj}>
                             {addSubj.map(addingSubj => <option key = {addingSubj.id}
                             value = {addingSubj.value}>{addingSubj.value} </option>)}
                  </select>
 
-                 <select className = "cabinet_editing" value = {cabinet} onChange = {handleChangeCabinet}>
+                 <select disabled = {(cabinetSelect)? false: true}className = "cabinet_editing" value = {cabinet} onChange = {handleChangeCabinet}>
                                 {addCab.map(addingCab => <option key = {addingCab.id}
                                 value = {addingCab.value}> {addingCab.value}</option>)}
                  </select>
@@ -180,14 +185,11 @@ function EditPage () {
             </div>
 
 
-        {
 
-         editing == true ?
-            <Link to="/"><button className = "Exit"> Подтвердить </button></Link>
-            :
-            <Link to="/"><button className = "Exit"> Главное меню </button></Link>
+            <Link to="/"><button disabled = {true} className = "Approve_button"> Подтвердить </button>
+           <button className = "Exit_button"> Главное меню </button></Link>
 
-        }
+
         </div>
 
     );
