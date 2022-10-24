@@ -27,7 +27,20 @@
     "workbox-range-requests": "^6.5.3",
     "workbox-routing": "^6.5.3",
     "workbox-strategies": "^6.5.3",
-    "workbox-streams": "^6.5.3"
+    "workbox-streams": "^6.5.3",
+    "@reduxjs/toolkit": "^1.8.6",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "calendar": "^0.1.1",
+    "link": "^1.5.1",
+    "multiselect-react-dropdown": "^2.0.25",
+    "react-calendar": "^3.9.0",
+    "react-datepicker": "^4.8.0",
+    "react-modern-calendar-datepicker": "^3.1.6",
+    "react-multiple-select-dropdown-lite": "^2.0.6",
+    "react-native-exit-app": "^1.1.0",
+    "redux": "^4.2.0"
   },
   "devDependencies": {
     "ajv": "^8.11.0",
