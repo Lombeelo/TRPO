@@ -8,7 +8,7 @@ import {useNavigate, BrowserRouter, Routes, Route, Link} from 'react-router-dom'
 import StudentPage from "./StudentPage";
 import TeacherPage from "./TeacherPage";
 import Schedule from "./Schedule";
-import EditPage from "./EditPage";
+import AddingPage from "./AddingPage";
 
 
 function App() {
@@ -26,11 +26,11 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route index element={<Main/>}/>
+          <Route exact path="/" element={<Main/>}/>
           <Route exact path="/StudentPage" element={<StudentPage/>}/>
           <Route exact path="/TeacherPage" element={<TeacherPage/>}/>
           <Route exact path="/Schedule" element ={<Schedule/>}/>
-          <Route exact path="/EditPage" element ={<EditPage/>}/>
+          <Route exact path="/AddingPage" element ={<AddingPage/>}/>
         </Routes>
       </BrowserRouter>
       </div>

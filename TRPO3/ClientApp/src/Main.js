@@ -25,7 +25,7 @@ function Main() {
         <div>
             <Link to="/StudentPage"> <button className = "Student"> По группам </button></Link>
             <Link to="/TeacherPage"> <button className = "Teacher"> По преподавателям </button></Link>
-            <Link to="/EditPage"> <button className = "Editing"></button></Link>
+            <Link to="/AddingPage"> <button className = "Editing"></button></Link>
             <Link to="/"><button className = "Exit" onClick = {Show}> Назад </button></Link>
             <Outlet/>
         </div>

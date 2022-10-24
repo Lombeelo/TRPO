@@ -5,6 +5,5 @@ import {BrowserRouter, Router, Route, hashHistory} from  "react-router-dom";
 
 createRoot(document.getElementById("root")).render(
         <App/>
-
     );
 

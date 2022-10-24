@@ -2,15 +2,15 @@ import React, {useState} from "react";
 import "./App.css";
 import "../src/components/Editing/editing_styles.css";
 
-import { Calendar, utils } from "react-modern-calendar-datepicker";
+import { Calendar } from "react-modern-calendar-datepicker";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 
 import MultiSelect from 'react-multiple-select-dropdown-lite';
 import "react-multiple-select-dropdown-lite/dist/index.css";
 
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Outlet} from 'react-router-dom';
 
-function EditPage () {
+function AddingPage () {
 
     //---------------- ФЛАГИ ------------------------------
     const [approve, setApprove] = useState(false)
@@ -185,9 +185,13 @@ function EditPage () {
             </div>
 
 
-
-            <Link to="/"><button disabled = {true} className = "Approve_button"> Подтвердить </button>
-           <button className = "Exit_button"> Главное меню </button></Link>
+           {
+            <div>
+                <Link to="/Schedule"><button disabled = {true} className = "Approve_button"> Подтвердить </button></Link>
+                <Link to="/"><button className = "Exit_button"> Главное меню </button></Link>
+                <Outlet/>
+            </div>
+           }
 
 
         </div>
@@ -196,4 +200,4 @@ function EditPage () {
 
 }
 
-export default EditPage;
+export default AddingPage;
