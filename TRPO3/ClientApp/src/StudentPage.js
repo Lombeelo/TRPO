@@ -44,10 +44,10 @@ function StudentPage() {
 
         <select className = "Select" value={myGroup} onChange={handleChange}>
             
-            {   loading? loadingOption.map(lOption => 
+            {   loading?
                 <option key = {loadingOption.id} value = {loadingOption.group}>
                     {loadingOption.group}
-                </option>)
+                </option>
             :
                 groups.map(groups =>
                 <option key = {groups.id} value = {groups.group}>{groups.group}</option>)}
