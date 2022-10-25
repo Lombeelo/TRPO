@@ -10,7 +10,11 @@ import Study_Week from "./components/Schedule/schedule_filters/study_week";
 import Subject from "./components/Schedule/schedule_filters/subject";
 import Pair_Card from "./components/Schedule/pair_card";
 
+import {callApiGet, callApiPost} from "./requests.js";
+
 function Schedule (props) {
+
+    
 
     //Передаём состояния, откуда прибыли + группу и ФИО преподавателя
     const location  = useLocation();
