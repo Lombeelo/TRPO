@@ -148,16 +148,11 @@ function AddingPage () {
              
               return disabledDates.find(dDate => isSameDay(dDate, date));
             }
-          }
+        }
 
     const handleClickDay = (value) => {
         setDateChange(true);
-        setDate(value);
-        if(disabledDates.includes(value) == true){
-              alert.show('this date is disabled')
-        }else{
-            //do something with the date
-        }        
+        setDate(value);       
         }
 
 
@@ -210,7 +205,7 @@ function AddingPage () {
             <div className = "calendar">
                 <DatePicker 
                     selected={date} 
-                    onChange={(date) => setDate(date)}
+                    onChange={handleClickDay}
                     CalendarContainer={MyContainer}
                     minDate = {minimumDate}
                     maxDate = {firstChange?maximumDate:minimumDate}
