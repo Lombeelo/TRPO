@@ -9,13 +9,16 @@ import "./components/text.css"
 
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import Schedule from "./Schedule";
+
+//--------------------------------------------------
 import {callApiGet, callApiPost} from "./requests.js";
+//--------------------------------------------------
 
 function StudentPage() {
 
     const [loading, setLoading] = useState(false);
 
-    const loadingOption = {id: 0, group: "Загрузка данных"};
+    const chooseOption = [{id: 0, name: "Номер группы"}];
 
     const[groups, setGroups] = useState ([
         {id: 0, name: "Номер группы"}
@@ -30,11 +33,11 @@ function StudentPage() {
     }
 
     const handleClick = (event) => {
-        if (myGroup == null) {
+        if (true) {
             setLoading(true);
             callApiGet("GetAllGroups",{}, (resp)=>{
             setLoading(false)
-            setGroups(resp.data)
+            setGroups(chooseOption.concat(resp.data))
         })
     }
         else return;   
@@ -49,20 +52,16 @@ function StudentPage() {
 
         <select className = "Select" value={myGroup} onClick = {handleClick} onChange={handleChange}>
             
-            {   loading?
-                <option key = {loadingOption.id} value = {loadingOption.group}>
-                    {loadingOption.group}
-                </option>
-            :
+            {  
                 groups.map(groups =>
-                <option key = {groups.id} value = {groups.name}>{groups.name}</option>)
+                <option disabled = {loading} key = {groups.id} value = {groups.name}>{groups.name}</option>)
             }
             </select>
         </form>
 
          {
             myGroup != "Номер группы" ?
-            <Link to="/Schedule" state = {{from: "StudentPage", group:groups.name, fio: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
+            <Link to="/Schedule" state = {{from: "StudentPage", group: myGroup, fio: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
             :
             <Link to="/"><button className = "Exit"> Главное меню </button></Link>
         }
