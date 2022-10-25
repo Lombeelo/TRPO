@@ -59,7 +59,7 @@ Schedule API
 */
 
 function callApi(callType, apiFuncName, formObj, callback) {
-    const baseUrl = 'https://localhost:7197/api/schedule/';
+    const baseUrl = 'https://localhost:44479/api/schedule/';
     const options = {
         method: callType,
         url: baseUrl + apiFuncName,
