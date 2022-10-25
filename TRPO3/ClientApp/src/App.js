@@ -10,7 +10,6 @@ import TeacherPage from "./TeacherPage";
 import Schedule from "./Schedule";
 import AddingPage from "./AddingPage";
 
-
 function App() {
   const [visibility, setVisibility] = useState(false)
 
@@ -18,6 +17,8 @@ function App() {
     {
         setVisibility(!visibility);
     }
+
+
 
 
   return (

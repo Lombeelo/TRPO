@@ -25,10 +25,13 @@ function TeacherPage() {
 
     const [myName, setMyName] = useState(null)
     const [show_button, setButton] = useState(false)
+    
+    const [proffId, setProffId] = useState (null)
 
     const handleChange = (event) => {
         setMyName(event.target.value)
         setButton(true)
+        setProffId (event.target.options.selectedIndex)
     }
 
     const handleClick = (event) => {
@@ -37,6 +40,7 @@ function TeacherPage() {
             callApiGet("GetAllProfessors",{}, (resp)=>{
             setLoading(false)
             setTeacher_fios(chooseOption.concat(resp.data))
+            
         })
     }
         else return;   
@@ -60,7 +64,7 @@ function TeacherPage() {
         </form>
         {
             myName != "ФИО" ?
-        <Link to="/Schedule" state = {{from: "TeacherPage", fio: myName, group: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
+        <Link to="/Schedule" state = {{from: "TeacherPage", fio: proffId, group: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
         :
         <Link to="/"><button className = "Exit"> Главное меню </button></Link>
         }

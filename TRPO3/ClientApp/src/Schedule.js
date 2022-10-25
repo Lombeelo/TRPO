@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import "./App.css";
 import {useLocation, setLocationState} from "react-router-dom";
 import ScheduleCard from "./components/Schedule/schedule_card";
+import axios from "axios";
 
 import Lesson from "./components/Schedule/schedule_filters/subject";
 import Type from "./components/Schedule/schedule_filters/type";
@@ -10,21 +11,97 @@ import Study_Week from "./components/Schedule/schedule_filters/study_week";
 import Subject from "./components/Schedule/schedule_filters/subject";
 import Pair_Card from "./components/Schedule/pair_card";
 
+import startAndEndOfWeek from "./WeekDays";
+
 import {callApiGet, callApiPost} from "./requests.js";
+import { getDate } from "date-fns";
 
 function Schedule (props) {
 
     
+    const [scheduleObject, setScheduleObject] = useState (
+        [
+            {
+                id: 1,
+                date: "2022-10-23T00:00:00",
+                para: 2,
+                cabinet: 304,
+                subject: {
+                    id: 1,
+                    name: "Теория графов"
+                },
+                type: {
+                    id: 1,
+                    name: "ЛК"
+                },
+                groups: [
+                    {
+                        id: 1,
+                        name: "М3О-309Б-20"
+                    },
+                    {
+                        id: 2,
+                        name: "М3О-307Б-20"
+                    }
+                ],
+                professors: [
+                    {
+                        id: 1,
+                        fullName: "Ратников"
+                    },
+                    {
+                        id: 2,
+                        fullName: "Чугаев"
+                    }
+                ]
+            }
+        ]
+    )
+
+    //-----------------------------------
+    const [loading, setLoading] = useState(false);
+
+    
+
+    //------------------------------------------------
 
     //Передаём состояния, откуда прибыли + группу и ФИО преподавателя
     const location  = useLocation();
     const [locationState, setLocationState] = React.useState({from: '', group: '', fio: ''})
 
-    React.useState (() => {
+    React.useEffect (() => {
+
+        const [begin_of_week, end_of_week] = startAndEndOfWeek();
+        let apiFunc, apiArg;
+
         if (location.state) {
             setLocationState(location.state)
         }
-    })
+
+        if (location.state.from === "StudentPage") {
+            apiFunc = "GetScheduleByDateIntervalAndGroupId"
+            apiArg = location.state.group
+        }
+        else if (location.state.from === "TeacherPage") {
+            apiFunc = "GetScheduleByDateIntervalAndProfessorId"
+            apiArg = location.state.fio}
+
+            setLoading(true)
+
+            const apiSecondArg = ({
+                DateSpan: {
+                BeginDate: (begin_of_week).toISOString(),
+                EndDate: (end_of_week).toISOString()
+            },
+            GroupId : 3
+        })
+            
+        callApiGet(apiFunc,apiSecondArg, (resp)=>{
+            setLoading(false)
+            setScheduleObject(resp.data)})
+            
+    },[])
+
 
     const [week, setWeek] = useState("default")
 
@@ -56,9 +133,9 @@ function Schedule (props) {
 
 
 
-
     const [days, setDays] = useState ([
-        {id: 1, day_date: "10.10", weekday: "Понедельник"},
+        {id: 1, day_date:( new Date (scheduleObject[0].date)).toLocaleDateString(), weekday: ( new Date (scheduleObject[0].date)).toLocaleString(
+            'default', {weekday: 'long'})},
         {id: 2, day_date: "11.10", weekday: "Вторник"}
     ])
 
@@ -93,6 +170,13 @@ function Schedule (props) {
 
     ])
 
+    const scheduleByDate = scheduleObject.reduce((groups, item) => {
+        const group = (groups[item.date] || []);
+        group.push(item);
+        groups[item.date] = group;
+        return groups;
+      }, {});
+
     return (
 
         <div className = "App">
@@ -101,8 +185,8 @@ function Schedule (props) {
             <Subject subjects = {subjects} key = {subjects.id} parentCallback = {handleCallback}/>
             <Type pair_types = {pair_types} key = {pair_types.id} parentCallback = {handleCallback}/>
             <div>
-                {days.map(days =>
-                        <ScheduleCard days = {days} key = {days.id}/>
+                {Object.entries(scheduleByDate).map(([date, schObj], index) =>
+                        <ScheduleCard propsdate = {date} scheduleObject = {schObj} key = {index} />
                 )}
             </div>
         </div>

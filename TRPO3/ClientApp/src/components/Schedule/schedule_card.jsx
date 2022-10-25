@@ -12,19 +12,35 @@ import "./schedule_styles/cabinet.css";
 
 function ScheduleCard (props) {
 
-    const [pairs, setPairs] = useState ([
-        {id: 1, time: '9:00-10:30', subj_name: "Теория автоматического управления", teach_fio: "Вестяк Анатолий Васильевич",
-            pair_type: "ПЗ", cabinet: 303, groups: "М3О-309Б-20"},
-        {id: 2, time: '10:45-12:15', subj_name: "Теория автоматического управления", teach_fio: "Вестяк Анатолий Васильевич",
-            pair_type: "Лекция", cabinet: "Гук-В 221", groups: "М3О-309Б-20, М3О-307Б-20Б, М3О-310Б-20"}
-    ])
+    const day = 
+         {day_date:( new Date (props.propsdate)).toLocaleDateString(), 
+            weekday: ( new Date (props.propsdate)).toLocaleString('default', {weekday: 'long'})
+         }
+
+    const para_time = ["9:00-10:30",
+                        "10:45-12:15",
+                        "13:00-14:30",
+                        "14:45-16:15",
+                        "16:30-18:00",
+                        "18:15-19:45",
+                        "20:00-21:30"]
+
+    const pairs = props.scheduleObject.map((schObj) =>
+        {return {id: schObj.id, 
+            time: para_time[schObj.para-1], 
+            subj_name: schObj.subject.name, 
+            teach_fio: schObj.professors.map((schObjProff) => schObjProff.fullName).join(", "),
+            pair_type: schObj.type.name, 
+            cabinet: schObj.cabinet, 
+            groups:schObj.groups.map((schObjGroups) => schObjGroups.name).join(", ")}})
+    
 
     return (
 
 
         <div className = "list_elem_card">
             <div>
-                <span className = "date_text"> {props.days.weekday} {props.days.day_date}</span>
+                <span className = "date_text"> {day.day_date}, {day.weekday}</span>
             </div>
 
             {pairs.map(pairs =>

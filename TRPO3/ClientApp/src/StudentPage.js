@@ -24,12 +24,17 @@ function StudentPage() {
         {id: 0, name: "Номер группы"}
     ])
 
+    const [groupId, setGroupId] = useState (0);
+
+
     const [myGroup, setMyGroup] = useState(null)
     const [show_button, setButton] = useState(false)
 
     const handleChange = (event) => {
         setMyGroup(event.target.value)
         setButton(true)
+        setGroupId(event.target.options.selectedIndex)
+
     }
 
     const handleClick = (event) => {
@@ -61,7 +66,7 @@ function StudentPage() {
 
          {
             myGroup != "Номер группы" ?
-            <Link to="/Schedule" state = {{from: "StudentPage", group: myGroup, fio: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
+            <Link to="/Schedule" state = {{from: "StudentPage", group: groupId, fio: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
             :
             <Link to="/"><button className = "Exit"> Главное меню </button></Link>
         }
