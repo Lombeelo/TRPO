@@ -73,15 +73,6 @@ function callApi(callType, apiFuncName, formObj, callback) {
         });
 }
 
-function createStringObj(stringArr) {
-    return stringArr.reduce((obj, string) => {
-        obj[string] = string;
-        return obj;
-    }, {});
-}
-
-
-
 // Makes a get request, asynchronous, result can be fetched using callback(result).
 function callApiGet(apiFuncName, obj, callback) {
     callApi('GET', apiFuncName, obj, callback);
@@ -93,4 +84,4 @@ function callApiPost(apiFuncName, obj, callback) {
 }
 
 
-export { callApiGet, callApiPost, FormApiGetFunctions, FormApiPostFunctions, ScheduleApiGetFunctions }
+export { callApiGet, callApiPost }
