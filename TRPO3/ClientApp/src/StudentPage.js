@@ -9,8 +9,13 @@ import "./components/text.css"
 
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import Schedule from "./Schedule";
+import {callApiGet, callApiPost} from "./requests.js";
 
 function StudentPage() {
+
+    const [loading, setLoading] = useState(false);
+
+    const loadingOption = {id: 0, group: "Загрузка данных"};
 
     const[groups, SetGroups] = useState ([
         {id: 0, group: "Номер группы"},
@@ -23,8 +28,12 @@ function StudentPage() {
     const [show_button, setButton] = useState(false)
 
     const handleChange = (event) => {
-        setMyGroup(event.target.value)
-        setButton(true)
+        setLoading(true);
+        callApiGet("GetAllGroups",{}, (resp)=>{
+            setLoading(false)
+            setMyGroup(resp.data)
+            setButton(true)
+        })
     }
 
     return (
@@ -34,7 +43,8 @@ function StudentPage() {
         <form>
 
         <select className = "Select" value={myGroup} onChange={handleChange}>
-            {groups.map(groups =>
+            
+            {   (loading? loadingOption : groups).map(groups =>
                 <option key = {groups.id} value = {groups.group}>{groups.group}</option>)}
             </select>
         </form>
