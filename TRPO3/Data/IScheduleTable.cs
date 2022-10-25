@@ -27,4 +27,17 @@ public interface IScheduleTable
     Group GetGroupById(int id);
     void CreateGroup(Group group);
 
+    IEnumerable<LessonType> GetAllLessonTypes();
+
+    IEnumerable<LessonType> GetSubjectTypeAvailable(ScheduleEntryCreateForm data);
+    IEnumerable<int> GetParaAvailable(ScheduleEntryCreateForm data);
+    IEnumerable<Subject> GetSubjectsAvailable(ScheduleEntryCreateForm data);
+    IEnumerable<Professor> GetProfessorsAvailable(ScheduleEntryCreateForm data);
+    IEnumerable<Group> GetGroupsAvailable(ScheduleEntryCreateForm data);
+    IEnumerable<DateTime> GetDatesOccupied(ScheduleEntryCreateForm data);
+    IEnumerable<int> GetCabinetsOccupied(ScheduleEntryCreateForm data);
+    //ScheduleEntryCreateForm GetFormFromScheduleEntryId(int id);
+    //IEnumerable<> EditScheduleEntryFromForm(ScheduleEntryCreateForm data);
+    bool PostScheduleEntryFromForm(ScheduleEntryCreateForm data);
+
 }
