@@ -2,7 +2,11 @@ import React, {useState} from "react";
 import "./App.css";
 import "../src/components/Editing/editing_styles.css";
 
-import Calendar from 'react-calendar';
+import { useAlert } from 'react-alert';
+import { differenceInCalendarDays } from 'date-fns';
+
+import DatePicker, {CalendarContainer} from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 import 'react-calendar/dist/Calendar.css';
 
 import MultiSelect from 'react-multiple-select-dropdown-lite';
@@ -123,18 +127,52 @@ function AddingPage () {
     //-----------------------------------------------
 
     //КАЛЕНДАРЬ -------------------------------------
-    const [date, setDate] = useState( null);
+    const [date, setDate] = useState( new Date ());
 
     const maximumDate = new Date ("2023/07/01");
     const minimumDate = new Date ("2022/09/01");
 
 
+
+    function isSameDay(a, b) {
+      return differenceInCalendarDays(a, b) === 0;
+    }
+
     const disabledDates = [
         new Date ("2022/10/10"),
-        new Date ("2022/10/12")
-        ];
+        new Date ("2022/10/12")];
+
+        function tileDisabled({ date, view }) {
+        
+            if (view === 'month') {
+             
+              return disabledDates.find(dDate => isSameDay(dDate, date));
+            }
+          }
+
+    const handleClickDay = (value) => {
+        setDateChange(true);
+        setDate(value);
+        if(disabledDates.includes(value) == true){
+              alert.show('this date is disabled')
+        }else{
+            //do something with the date
+        }        
+        }
 
 
+        const MyContainer = ({ className, children }) => {
+            return (
+              <div style={{ padding: "16px", background: "#216ba5", color: "#fff" }}>
+                <CalendarContainer className={className}>
+                  <div style={{ background: "#f0f0f0" }}>
+                    What is your favorite day?
+                  </div>
+                  <div style={{ position: "relative" }}>{children}</div>
+                </CalendarContainer>
+              </div>
+            );
+          };
     //-----------------------------------------
 
     function refreshPage(){ 
@@ -165,20 +203,25 @@ function AddingPage () {
             </select>
 
 
-            
 
-             <div className = "calendar">
-             <Calendar
-                value = {date}
-                onChange = {setDate}
-                minDate = {minimumDate}
-                maxiDate = {firstChange == true?maximumDate: minimumDate}
-            />
+            
+             
+             
+            <div className = "calendar">
+                <DatePicker 
+                    selected={date} 
+                    onChange={(date) => setDate(date)}
+                    CalendarContainer={MyContainer}
+                    minDate = {minimumDate}
+                    maxDate = {firstChange?maximumDate:minimumDate}
+                    excludeDates={disabledDates}
+                    inline
+                    />
              </div>
 
 
             <div>
-                <select disabled = {(date!=null) ? false: true} className = "para" value={para} onChange={handleChangePara}>
+                <select disabled = {(dateChange == true) ? false: true} className = "para" value={para} onChange={handleChangePara}>
                         {addPara.map(addingPara =>
                     <option key = {addingPara.id} value = {addingPara.value}>{addingPara.value}</option>)}
                 </select>
