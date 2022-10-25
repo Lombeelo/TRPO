@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import "./App.css";
 import "../src/components/Editing/editing_styles.css";
 
-import { Calendar } from "react-modern-calendar-datepicker";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 import MultiSelect from 'react-multiple-select-dropdown-lite';
 import "react-multiple-select-dropdown-lite/dist/index.css";
@@ -125,19 +125,29 @@ function AddingPage () {
     //КАЛЕНДАРЬ -------------------------------------
     const [date, setDate] = useState( null);
 
-    const maximumDate = {year: 2023, month: 7, day: 1};
-    const minimumDate = {year: 2022, month: 9, day: 1};
+    const maximumDate = new Date ("2023/07/01");
+    const minimumDate = new Date ("2022/09/01");
 
 
     const disabledDates = [
-        {year: 2022, month: 10, day: 10}
+        new Date ("2022/10/10"),
+        new Date ("2022/10/12")
         ];
+
 
     //-----------------------------------------
 
+    function refreshPage(){ 
+        window.location.reload(false); 
+      
+    }
+
 
     return (
+        
+        
         <div className = "App">
+        
             <h1> Это страница для добавления пар </h1>
             <label className = "group_list_label"> Выбор группы </label>
              <MultiSelect
@@ -155,14 +165,15 @@ function AddingPage () {
             </select>
 
 
-            <div className = "calendar">
-               <Calendar
-                calendarClassName="responsive-calendar"
+            
+
+             <div className = "calendar">
+             <Calendar
                 value = {date}
                 onChange = {setDate}
-                minimumDate = {minimumDate}
-                maximumDate = {firstChange == true?maximumDate: minimumDate}
-                disabledDays={disabledDates} />
+                minDate = {minimumDate}
+                maxiDate = {firstChange == true?maximumDate: minimumDate}
+            />
              </div>
 
 
@@ -188,7 +199,7 @@ function AddingPage () {
            {
             <div>
                 <Link to="/Schedule"><button disabled = {true} className = "Approve_button"> Подтвердить </button></Link>
-                <Link to="/"><button className = "Exit_button"> Главное меню </button></Link>
+                <Link to="/" state = {{from: "AddingPage", update: true}}><button className = "Exit_button"> Главное меню </button></Link>
                 <Outlet/>
             </div>
            }

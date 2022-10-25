@@ -1,6 +1,8 @@
 import React, {useState} from "react";
+import {useLocation, setLocationState} from "react-router-dom";
 import "./App.css";
 import Exit from "./components/Buttons/exit";
+
 
 
 import "./components/Buttons/button.css"
@@ -11,6 +13,21 @@ import {useNavigate, BrowserRouter, Routes, Route, Link, Outlet} from 'react-rou
 function Main() {
     const [visibility, setVisibility] = useState(false)
 
+    const location  = useLocation();
+    const [locationState, setLocationState] = React.useState({from: '', update: false})
+
+    React.useState (() => {
+        if (location.state) {
+            setLocationState(location.state)
+        }
+    })
+
+    function refreshPage(){ 
+        window.location.reload(); 
+        setLocationState({update: false});
+      
+    }
+
     function Show()
     {
         setVisibility(!visibility);
@@ -20,6 +37,13 @@ function Main() {
     return (
         <div className = "App"
         >
+        
+        {
+            locationState.update == true?
+            refreshPage
+            : 
+            null
+        }
         {
             visibility ?
         <div>
