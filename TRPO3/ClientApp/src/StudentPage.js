@@ -50,7 +50,8 @@ function StudentPage() {
                 </option>
             :
                 groups.map(groups =>
-                <option key = {groups.id} value = {groups.group}>{groups.group}</option>)}
+                <option key = {groups.id} value = {groups.group}>{groups.group}</option>)
+            }
             </select>
         </form>
 
