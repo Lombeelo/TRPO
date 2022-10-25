@@ -11,6 +11,19 @@ form object is :
     "GroupIds": [],
     "ProfessorIds": []
 }
+Form API
+
+    "GetSubjectTypeAvailable",
+    "GetParaAvailable",
+    "GetSubjectsAvailable",
+    "GetProfessorsAvailable",
+    "GetGroupsAvailable",
+    "GetDatesOccupied",
+    "GetCabinetsOccupied"
+
+    "PostScheduleEntryFromForm"
+
+
 GetScheduleBetweenDates request object :
 {
     "BeginDate": "2022-09-30",
@@ -36,6 +49,13 @@ GetScheduleByDateIntervalAndGroupId request object :
     },
     "GroupId" : 1
 }
+
+Schedule API
+    "GetScheduleBetweenDates",
+    "GetScheduleByDateIntervalAndProfessorId",
+    "GetScheduleByDateIntervalAndGroupId",
+    "GetAllGroups",
+    "GetAllProfessors"
 */
 
 function callApi(callType, apiFuncName, formObj, callback) {
@@ -60,19 +80,7 @@ function createStringObj(stringArr) {
     }, {});
 }
 
-const FormApiGetFunctions = createStringObj([
-    "GetSubjectTypeAvailable",
-    "GetParaAvailable",
-    "GetSubjectsAvailable",
-    "GetProfessorsAvailable",
-    "GetGroupsAvailable",
-    "GetDatesOccupied",
-    "GetCabinetsOccupied"]
-);
 
-const FormApiPostFunctions = createStringObj([
-    "PostScheduleEntryFromForm"]
-);
 
 // Makes a get request, asynchronous, result can be fetched using callback(result).
 function callApiGet(apiFuncName, obj, callback) {
@@ -84,12 +92,5 @@ function callApiPost(apiFuncName, obj, callback) {
     callApi('POST', apiFuncName, obj, callback);
 }
 
-const ScheduleApiGetFunctions = createStringObj([
-    "GetScheduleBetweenDates",
-    "GetScheduleByDateIntervalAndProfessorId",
-    "GetScheduleByDateIntervalAndGroupId",
-    "GetAllGroups",
-    "GetAllProfessors"
-]);
 
 export { callApiGet, callApiPost, FormApiGetFunctions, FormApiPostFunctions, ScheduleApiGetFunctions }
