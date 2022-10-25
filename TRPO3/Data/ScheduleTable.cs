@@ -152,4 +152,195 @@ public sealed class ScheduleTable : IScheduleTable
     {
         return _context.SaveChanges() >= 0;
     }
+
+    public IEnumerable<LessonType> GetAllLessonTypes()
+    {
+        return _context.LessonTypes.OrderBy(s => s.Id).ToList();
+    }
+
+    public IEnumerable<ScheduleEntry> TrimGroupSubjectLazy(IQueryable<ScheduleEntry> query, ScheduleEntryCreateForm data)
+    {
+        var items = query;
+        if (data.GroupIds.Any())
+        {
+            items = items.Where(i => i.Groups.IntersectBy(data.GroupIds, p => p.Id).Any());
+            if (data.SubjectId is int subjId)
+            {
+                items = items.Where(i => i.Groups.Any(p => p.Subjects.Any(p => p.Id == subjId)));
+            }
+        }
+        return items;
+    }
+
+    public IEnumerable<ScheduleEntry> TrimProfessorSubjectLazy(IQueryable<ScheduleEntry> query, ScheduleEntryCreateForm data)
+    {
+        var items = query;
+        if (data.ProfessorIds.Any())
+        {
+            items = items.Where(i => i.Professors.IntersectBy(data.ProfessorIds, p => p.Id).Any());
+            if (data.SubjectId is int subjId)
+            {
+                items = items.Where(i => i.Professors.Any(p => p.Subjects.Any(p => p.Id == subjId)));
+            }
+        }
+        return items;
+    }
+
+
+    public IEnumerable<LessonType> GetSubjectTypeAvailable(ScheduleEntryCreateForm data)
+    {
+        return GetAllLessonTypes();
+    }
+
+
+
+    public IEnumerable<Subject> GetSubjectsAvailable(ScheduleEntryCreateForm data)
+    {
+        // Group or Professor were already selected
+        var items = _context.Subjects.AsQueryable();
+        if (data.ProfessorIds.Any())
+        {
+            // Subjects which professors know
+            items = items.Where(s => s.Professors.Any(p => data.ProfessorIds.Contains(p.Id)));
+        }
+        if (data.GroupIds.Any())
+        {
+            // Subjects wich groups study
+            items = items.Where(s => s.Groups.Any(p => data.GroupIds.Contains(p.Id)));
+        }
+
+        return items;
+    }
+
+    public IEnumerable<Professor> GetProfessorsAvailable(ScheduleEntryCreateForm data)
+    {
+        var items = _context.Professors.AsQueryable();
+
+        if (data.ProfessorIds.Any())
+        {
+            // Professors whose Subjects intersection is not empty
+            items = items.Where(p => p.Subjects.Any(s => s.Professors.Any(g => data.ProfessorIds.Contains(g.Id))));
+        }
+
+        if (data.GroupIds.Any())
+        {
+            //choose professors who has at least one subject same as chosen groups
+            items = items.Where(p => p.Subjects.Any(s => s.Groups.Any(g => data.GroupIds.Contains(g.Id))));
+
+            if (data.SubjectId is int subjId)
+            {
+                // Professors who know subject
+                items = items.Where(p => p.Subjects.Any(s => data.SubjectId == s.Id));
+            }
+        }
+
+        return items;
+    }
+
+    public IEnumerable<Group> GetGroupsAvailable(ScheduleEntryCreateForm data)
+    {
+        var items = _context.Groups.AsQueryable();
+
+        if (data.GroupIds.Any())
+        {
+            var groups = items.Where(
+                        g => data.GroupIds.Contains(g.Id)
+                    ).ToList();
+            // Groups whose Subjects intersection is not empty
+            items = items.Where(
+                g => g.Subjects.Any(
+                    s => groups.Any(g2 => g2.Subjects.Contains(s))
+                )
+            );
+        }
+
+        if (data.ProfessorIds.Any())
+        {
+            //choose Groups who has at least one subject same as chosen professors
+            items = items.Where(g => g.Subjects.Any(s => s.Professors.Any(p => data.ProfessorIds.Contains(p.Id))));
+
+            if (data.SubjectId is int subjId)
+            {
+                // Groups who study subject
+                items = items.Where(g => g.Subjects.Any(s => data.SubjectId == s.Id));
+            }
+        }
+
+        return items;
+    }
+
+    public IEnumerable<DateTime> GetDatesOccupied(ScheduleEntryCreateForm data)
+    {
+        // Group || Professor already chosen
+        var items = _context.Schedule.AsQueryable();
+        // Date are occupied when Groups or Proffessors have 4 paras in single day
+
+        return items.GroupBy(p => p.Date.Date, p => new
+        {
+            para = p.Para,
+            groups = p.Groups.Where(g => data.GroupIds.Contains(g.Id)),
+            profs = p.Professors.Where(g => data.ProfessorIds.Contains(g.Id))
+        },
+        (date, objs) => new
+        {
+            Key = date,
+            Groups = objs.Select(o => o.groups).Aggregate((initial, step) => initial.Concat(step).ToList())
+                        .GroupBy(p => p.Id, (id, Groups) => Groups.Count()).Any(c => c >= 4),
+            Professors = objs.Select(o => o.profs).Aggregate((initial, step) => initial.Concat(step).ToList())
+                        .GroupBy(p => p.Id, (id, Professors) => Professors.Count()).Any(c => c >= 4)
+        })
+        .Where(d => d.Groups || d.Professors).Select(o => o.Key);
+    }
+
+    public IEnumerable<int> GetParaAvailable(ScheduleEntryCreateForm data)
+    {
+        if (data.Date is DateTime date)
+        {
+            var items = _context.Schedule.AsQueryable();
+            var TotalParas = new List<int> { 1, 2, 3, 4, 5, 6 };
+            return TotalParas.Except(items.Where(i => i.Date.Date == date.Date
+                && (i.Groups.Any(g => data.GroupIds.Contains(g.Id))
+                || i.Professors.Any(p => data.ProfessorIds.Contains(p.Id))))
+                .Select(i => i.Para));
+        }
+        // Date and group || prof was selected => нужно отсеять занятые пары
+        return Array.Empty<int>();
+    }
+
+    public IEnumerable<int> GetCabinetsOccupied(ScheduleEntryCreateForm data)
+    {
+        if (data.Date is DateTime date)
+        {
+            var items = _context.Schedule.AsQueryable();
+            return items.Where(i => i.Date.Date == date.Date).Select(i => i.Cabinet).Distinct();
+        }
+        return Array.Empty<int>();
+    }
+
+    public bool PostScheduleEntryFromForm(ScheduleEntryCreateForm data)
+    {
+        if (data.Date is DateTime date
+            && data.Cabinet is int cab
+            && data.Para is int para
+            && data.SubjectId is int subjID
+            && data.GroupIds.Any()
+            && data.ProfessorIds.Any()
+            && data.SubjectTypeId is int typeId)
+        {
+            var entry = new ScheduleEntry
+            {
+                Date = date.Date,
+                Cabinet = cab,
+                Para = para,
+                Subject = _context.Subjects.Where(s => s.Id == subjID).FirstOrDefault(),
+                Groups = _context.Groups.Where(g => data.GroupIds.Contains(g.Id)).ToList(),
+                Professors = _context.Professors.Where(p => data.ProfessorIds.Contains(p.Id)).ToList(),
+                Type = _context.LessonTypes.FirstOrDefault(l => l.Id == typeId)
+            };
+            _context.Schedule.Add(entry);
+            SaveChanges();
+            return true;
+        }
+        return false;
+    }
 }

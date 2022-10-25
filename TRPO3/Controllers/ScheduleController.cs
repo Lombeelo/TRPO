@@ -29,8 +29,6 @@ public class ScheduleController : ControllerBase
         LogMethodInfo<string>(null);
     }
 
-    // Example request
-    // https://localhost:7197/api/schedule
     [HttpGet]
     public ActionResult<IEnumerable<ScheduleEntryReadDto>> GetSchedule()
     {
@@ -81,64 +79,88 @@ public class ScheduleController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<ScheduleGroupReadDto>>(items));
     }
 
-    [HttpGet, Route("GetSubjectTypeAvailable")]
-    public ActionResult GetSubjectTypeAvailable()
+    [HttpGet, Route("GetAllSubjectTypes")]
+    public ActionResult<IEnumerable<ScheduleSubjectReadDto>> GetAllSubjectTypes()
     {
-        throw new NotImplementedException();
+        LogMethodInfo();
+        var items = _table.GetAllLessonTypes();
+        return Ok(_mapper.Map<IEnumerable<ScheduleSubjectReadDto>>(items));
+    }
+
+    // Create Form Methods
+
+
+    [HttpGet, Route("GetSubjectTypeAvailable")]
+    public ActionResult<IEnumerable<ScheduleLessonTypeReadDto>> GetSubjectTypeAvailable(ScheduleEntryCreateForm data)
+    {
+        LogMethodInfo(data);
+        return Ok(_mapper.Map<IEnumerable<ScheduleLessonTypeReadDto>>(_table.GetAllLessonTypes()));
     }
 
     [HttpGet, Route("GetParaAvailable")]
-    public ActionResult GetParaAvailable()
+    public ActionResult<IEnumerable<int>> GetParaAvailable(ScheduleEntryCreateForm data)
     {
-        throw new NotImplementedException();
+        LogMethodInfo(data);
+        return Ok(_table.GetParaAvailable(data));
     }
 
     [HttpGet, Route("GetSubjectsAvailable")]
-    public ActionResult GetSubjectsAvailable()
+    public ActionResult<IEnumerable<ScheduleSubjectReadDto>> GetSubjectsAvailable(ScheduleEntryCreateForm data)
     {
-        throw new NotImplementedException();
+        LogMethodInfo(data);
+        return Ok(_mapper.Map<IEnumerable<ScheduleSubjectReadDto>>(_table.GetSubjectsAvailable(data)));
     }
 
     [HttpGet, Route("GetProfessorsAvailable")]
-    public ActionResult GetProfessorsAvailable()
+    public ActionResult<IEnumerable<ScheduleProfessorReadDto>> GetProfessorsAvailable(ScheduleEntryCreateForm data)
     {
-        throw new NotImplementedException();
+        LogMethodInfo(data);
+        return Ok(_mapper.Map<IEnumerable<ScheduleProfessorReadDto>>(_table.GetProfessorsAvailable(data)));
     }
 
     [HttpGet, Route("GetGroupsAvailable")]
-    public ActionResult GetGroupsAvailable()
+    public ActionResult<IEnumerable<ScheduleGroupReadDto>> GetGroupsAvailable(ScheduleEntryCreateForm data)
     {
-        throw new NotImplementedException();
+        LogMethodInfo(data);
+        return Ok(_mapper.Map<IEnumerable<ScheduleGroupReadDto>>(_table.GetGroupsAvailable(data)));
     }
 
     [HttpGet, Route("GetDatesOccupied")]
-    public ActionResult GetDatesOccupied()
+    public ActionResult<IEnumerable<DateTime>> GetDatesOccupied(ScheduleEntryCreateForm data)
     {
-        throw new NotImplementedException();
+        LogMethodInfo(data);
+        return Ok(_table.GetDatesOccupied(data));
     }
 
     [HttpGet, Route("GetCabinetsOccupied")]
-    public ActionResult GetCabinetsOccupied()
+    public ActionResult<IEnumerable<int>> GetCabinetsOccupied(ScheduleEntryCreateForm data)
     {
-        throw new NotImplementedException();
+        LogMethodInfo(data);
+        return Ok(_table.GetCabinetsOccupied(data));
     }
 
     [HttpGet, Route("GetFormFromScheduleEntryId")]
-    public ActionResult GetFormFromScheduleEntryId()
+    public ActionResult GetFormFromScheduleEntryId(ScheduleEntryCreateForm data)
     {
         throw new NotImplementedException();
     }
 
     [HttpGet, Route("EditScheduleEntryFromForm")]
-    public ActionResult EditScheduleEntryFromForm()
+    public ActionResult EditScheduleEntryFromForm(ScheduleEntryCreateForm data)
     {
         throw new NotImplementedException();
     }
 
     [HttpGet, Route("PostScheduleEntryFromForm")]
-    public ActionResult PostScheduleEntryFromForm()
+    public ActionResult<bool> PostScheduleEntryFromForm(ScheduleEntryCreateForm data)
     {
-        throw new NotImplementedException();
+        LogMethodInfo(data);
+        var created = _table.PostScheduleEntryFromForm(data);
+        if (created)
+        {
+            return Ok(created);
+        }
+        return BadRequest(data);
     }
 
 }
