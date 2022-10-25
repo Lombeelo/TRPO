@@ -17,23 +17,28 @@ function StudentPage() {
 
     const loadingOption = {id: 0, group: "Загрузка данных"};
 
-    const[groups, SetGroups] = useState ([
-        {id: 0, group: "Номер группы"},
-        {id: 1, group: "М3О-307Б-20"},
-        {id: 2, group: "М3О-309Б-20"},
-        {id: 3, group: "М3О-310Б-20"}
+    const[groups, setGroups] = useState ([
+        {id: 0, name: "Номер группы"}
     ])
 
-    const [myGroup, setMyGroup] = useState("Номер группы")
+    const [myGroup, setMyGroup] = useState(null)
     const [show_button, setButton] = useState(false)
 
     const handleChange = (event) => {
-        setLoading(true);
-        callApiGet("GetAllGroups",{}, (resp)=>{
+        setMyGroup(event.target.value)
+        setButton(true)
+    }
+
+    const handleClick = (event) => {
+        if (myGroup == null) {
+            setLoading(true);
+            callApiGet("GetAllGroups",{}, (resp)=>{
             setLoading(false)
-            setMyGroup(resp.data)
-            setButton(true)
+            setGroups(resp.data)
         })
+    }
+        else return;   
+        
     }
 
     return (
@@ -42,7 +47,7 @@ function StudentPage() {
         <h1 className = "who"> Выберите номер группы </h1>
         <form>
 
-        <select className = "Select" value={myGroup} onChange={handleChange}>
+        <select className = "Select" value={myGroup} onClick = {handleClick} onChange={handleChange}>
             
             {   loading?
                 <option key = {loadingOption.id} value = {loadingOption.group}>
@@ -50,14 +55,14 @@ function StudentPage() {
                 </option>
             :
                 groups.map(groups =>
-                <option key = {groups.id} value = {groups.group}>{groups.group}</option>)
+                <option key = {groups.id} value = {groups.name}>{groups.name}</option>)
             }
             </select>
         </form>
 
          {
             myGroup != "Номер группы" ?
-            <Link to="/Schedule" state = {{from: "StudentPage", group:myGroup, fio: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
+            <Link to="/Schedule" state = {{from: "StudentPage", group:groups.name, fio: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
             :
             <Link to="/"><button className = "Exit"> Главное меню </button></Link>
         }

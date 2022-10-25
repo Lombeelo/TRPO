@@ -371,3 +371,5 @@ TRPO3/ClientApp/.idea/modules.xml
 TRPO3/ClientApp/.idea/workspace.xml
 TRPO3/ClientApp/.idea/vcs.xml
 TRPO3/ClientApp/.idea/inspectionProfiles/Project_Default.xml
+TRPO3/Db.sqlite-shm
+TRPO3/Db.sqlite-wal
