@@ -16,6 +16,11 @@ import {BrowserRouter as Router, Route, Link, Outlet} from 'react-router-dom';
 
 function AddingPage () {
 
+    //---------------------------------------------
+    const [form, setForm] = useState ([
+        {form_date: null, form_para: null, form_cabinet: null, form_subj: null, form_subj_type: null, form_groups: null, form_proffs: null}
+    ]);
+
     //---------------- ФЛАГИ ------------------------------
     const [approve, setApprove] = useState(false)
     const [dateChange, setDateChange] = useState(false)
@@ -44,6 +49,8 @@ function AddingPage () {
     const handleChangeGroups = (value) => {
         debugger;
         setGroups(value);
+        setForm({...form, form_groups: value})
+
         if (value != null) setFirstChange (true);
     }
 
@@ -54,6 +61,8 @@ function AddingPage () {
     const [fio, setFio] = useState(null)
     const handleChangeFio = (value) => {
         setFio(value);
+        setForm({...form, form_proffs: value})
+
         if (value != null) setFirstChange (true);
     }
 
@@ -66,6 +75,8 @@ function AddingPage () {
     const [type, setType] = useState(null)
     const handleChangeType = (event) => {
         setType(event.target.value)
+        setForm({...form, form_subj_type: event.target.value})
+
         if (event.target.value == "Лекция") {
             ChangeGroupsFlag();
             if (many_fios_flag==true) ChangeFiosFlag();
@@ -96,7 +107,7 @@ function AddingPage () {
     const [para, setPara] = useState(null)
     const handleChangePara = (event) => {
         setPara(event.target.value)
-        if (event.target.value != null) setCabinetSelect (true);
+        setForm({...form, form_para: event.target.value});
     }
 
 
@@ -108,6 +119,7 @@ function AddingPage () {
     const [subj, setSubj] = useState(null)
     const handleChangeSubj = (event) => {
         setSubj(event.target.value)
+        setForm({...form, form_subj: event.target.value})
     }
 
     const [addCab, setAddCab] = useState ([
@@ -118,6 +130,8 @@ function AddingPage () {
     const [cabinet, setCabinet] = useState(null)
     const handleChangeCabinet = (event) => {
         setCabinet(event.target.value)
+        setForm({...form, form_cabinet: event.target.value})
+        console.log(form.form_cabinet)
     }
 
 
@@ -132,42 +146,16 @@ function AddingPage () {
     const maximumDate = new Date ("2023/07/01");
     const minimumDate = new Date ("2022/09/01");
 
-
-
-    function isSameDay(a, b) {
-      return differenceInCalendarDays(a, b) === 0;
-    }
-
     const disabledDates = [
         new Date ("2022/10/10"),
         new Date ("2022/10/12")];
 
-        function tileDisabled({ date, view }) {
-        
-            if (view === 'month') {
-             
-              return disabledDates.find(dDate => isSameDay(dDate, date));
-            }
-        }
-
     const handleClickDay = (value) => {
         setDateChange(true);
-        setDate(value);       
+        setDate(value);
+        setForm ({...form, form_date:value})       
         }
 
-
-        const MyContainer = ({ className, children }) => {
-            return (
-              <div style={{ padding: "16px", background: "#216ba5", color: "#fff" }}>
-                <CalendarContainer className={className}>
-                  <div style={{ background: "#f0f0f0" }}>
-                    What is your favorite day?
-                  </div>
-                  <div style={{ position: "relative" }}>{children}</div>
-                </CalendarContainer>
-              </div>
-            );
-          };
     //-----------------------------------------
 
     function refreshPage(){ 
@@ -197,16 +185,11 @@ function AddingPage () {
                     <option key = {subj_type.id} value = {subj_type.value}>{subj_type.value}</option>)}
             </select>
 
-
-
-            
-             
              
             <div className = "calendar">
                 <DatePicker 
                     selected={date} 
                     onChange={handleClickDay}
-                    CalendarContainer={MyContainer}
                     minDate = {minimumDate}
                     maxDate = {firstChange?maximumDate:minimumDate}
                     excludeDates={disabledDates}
@@ -216,7 +199,7 @@ function AddingPage () {
 
 
             <div>
-                <select disabled = {(dateChange == true) ? false: true} className = "para" value={para} onChange={handleChangePara}>
+                <select disabled = {(form.form_date != null) ? false: true} className = "para" value={para} onChange={handleChangePara}>
                         {addPara.map(addingPara =>
                     <option key = {addingPara.id} value = {addingPara.value}>{addingPara.value}</option>)}
                 </select>
@@ -226,7 +209,7 @@ function AddingPage () {
                             value = {addingSubj.value}>{addingSubj.value} </option>)}
                  </select>
 
-                 <select disabled = {(cabinetSelect)? false: true}className = "cabinet_editing" value = {cabinet} onChange = {handleChangeCabinet}>
+                 <select disabled = {(form.form_subj != null)? false: true} className = "cabinet_editing" value = {cabinet} onChange = {handleChangeCabinet}>
                                 {addCab.map(addingCab => <option key = {addingCab.id}
                                 value = {addingCab.value}> {addingCab.value}</option>)}
                  </select>
