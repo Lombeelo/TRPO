@@ -118,7 +118,6 @@ function Schedule(props) {
 
     const handleCallback = (childData, filter_t) => {
         setFilterType(filter_t);
-        console.log(filter_t);
         let newFilter = { ...filter };
         switch (filter_t) {
             case "week":
@@ -133,7 +132,9 @@ function Schedule(props) {
                 else setFilter({ ...filter, week_day_f: null });
                 break;
             case "subject":
-                if (childData !== "Предмет") setFilter({ ...filter, subject_f: childData });
+                if (childData !== "Предмет")  {
+                newFilter.subject_f = childData;
+                setFilter({ ...filter, subject_f: childData })}
                 else setFilter({ ...filter, subject_f: null });
                 break;
             case "subj_type":
@@ -183,10 +184,11 @@ function Schedule(props) {
     const [weeks, setWeeks] = useState([
     ])
 
+    const [weeksOptions] = useState ([])
+
     const filteringData = scheduleObject;
 
     function Filtering(filter_params) {
-        console.log(filter_params.week_f);
         if (filter_params.week_f != null) {
 
             let apiFunc, apiArg;
@@ -199,7 +201,6 @@ function Schedule(props) {
                 apiFunc = "GetScheduleByDateIntervalAndProfessorId"
                 apiArg = location.state.fio
             }
-            console.log(weeks[filter_params.week_f - 1]);
             setLoading(true)
             callApiPost(apiFunc, {
                 DateSpan: {

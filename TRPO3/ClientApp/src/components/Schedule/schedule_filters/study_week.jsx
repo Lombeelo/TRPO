@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import "./filters.css";
 
 function Study_Week (props) {
-    const [week, setWeek] = useState("default")
+    const [week, setWeek] = useState(null)
 
     const handleChange = (event) => {
         setWeek(event.target.value)
