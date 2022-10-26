@@ -142,7 +142,7 @@
     width: 450px;
     height: 81px;
     margin-left: 1%;
-    left: 6%;
+    left: 35%;
     position: absolute;
 
 
@@ -161,4 +161,14 @@
     text-align: center;
     font-size: 36px;
     letter-spacing: 0;
+}
+
+.info {
+    text-align: center;
+    margin-top: 25%;
+    font-family: Manrope;
+    text-align: center;
+    font-size: 40px;
+    letter-spacing: 0;
+
 }

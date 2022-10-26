@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
+import "./components/Schedule/schedule_filters/filters.css";
 import { useLocation, setLocationState } from "react-router-dom";
 import ScheduleCard from "./components/Schedule/schedule_card";
 import axios from "axios";
@@ -271,13 +272,11 @@ function Schedule(props) {
 
         <div className="App">
             <Study_Week disabled={filterLoading} weeks={weeks} key={weeks.id} parentCallback={(handleCallback)} />
-            <Subject disabled={filterLoading} subjects={subjects} key={subjects.id} parentCallback={handleCallback} />
-            <Type disabled={filterLoading} pair_types={pair_types} key={pair_types.id} parentCallback={handleCallback} />
-
+            
             {
                 loading ?
                     <div>
-                        <h1> Загрузка данных </h1>
+                        <div className="info"> Загрузка данных </div>
                     </div>
                     :
                     <div>
@@ -288,7 +287,10 @@ function Schedule(props) {
                                 (scheduleObject.length == 0)
                                     ? (
                                         <div>
-                                            <h1> На выбранной неделе пар нет </h1>
+                                            <div className="info"> На {filter.week_f}-й неделе (
+                                                 {(weeks[filter.week_f-1].weekBeginDate).toLocaleDateString()}
+                                                 - {(weeks[filter.week_f-1].weekEndDate).toLocaleDateString()})
+                                                  пар нет </div>
                                         </div>)
                                     :
                                     (
