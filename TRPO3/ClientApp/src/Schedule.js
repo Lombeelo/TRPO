@@ -68,11 +68,11 @@ function Schedule(props) {
     //Передаём состояния, откуда прибыли + группу и ФИО преподавателя
     const location = useLocation();
     const [locationState, setLocationState] = React.useState({ from: '', group: '', fio: '' })
-    const [weekdays, setWeekDays] = useState(startAndEndOfWeek);
+    const [weekdays, setWeekDays] = useState(startAndEndOfWeek());
 
 
     function sorting(a, b) {
-        return (a > b ? 1 : -1)
+        return (a.date > b.date ? 1 : -1)
     }
 
     React.useEffect(() => {
@@ -118,9 +118,14 @@ function Schedule(props) {
 
     const handleCallback = (childData, filter_t) => {
         setFilterType(filter_t);
+        console.log(filter_t);
+        let newFilter = { ...filter };
         switch (filter_t) {
             case "week":
-                if (childData !== "Учебная неделя") setFilter({ ...filter, week_f: childData });
+                if (childData !== "Учебная неделя") {
+                    newFilter.week_f = childData;
+                    setFilter({ ...filter, week_f: childData });
+                }
                 else setFilter({ ...filter, week_f: null });
                 break;
             case "weekday":
@@ -139,7 +144,7 @@ function Schedule(props) {
                 break;
 
         };
-        Filtering();
+        Filtering(newFilter);
     }
 
 
@@ -180,8 +185,9 @@ function Schedule(props) {
 
     const filteringData = scheduleObject;
 
-    function Filtering() {
-        if (filter.week_f != null) {
+    function Filtering(filter_params) {
+        console.log(filter_params.week_f);
+        if (filter_params.week_f != null) {
 
             let apiFunc, apiArg;
 
@@ -193,12 +199,12 @@ function Schedule(props) {
                 apiFunc = "GetScheduleByDateIntervalAndProfessorId"
                 apiArg = location.state.fio
             }
-
+            console.log(weeks[filter_params.week_f - 1]);
             setLoading(true)
             callApiPost(apiFunc, {
                 DateSpan: {
-                    BeginDate: (weeks[filter.week_f].weekBeginDate).toISOString(),
-                    EndDate: (weeks[filter.week_f].weekEndDate).toISOString()
+                    BeginDate: (weeks[filter_params.week_f - 1].weekBeginDate).toISOString(),
+                    EndDate: (weeks[filter_params.week_f - 1].weekEndDate).toISOString()
                 },
                 GroupId: apiArg,
                 ProfessorId: apiArg
@@ -209,7 +215,7 @@ function Schedule(props) {
             })
         }
 
-        if (filter.subject_f != null) {
+        if (filter_params.subject_f != null) {
 
         }
 
