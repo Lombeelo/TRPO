@@ -114,19 +114,23 @@ function Schedule(props) {
         setFilterType(filter_t);
         switch (filter_t) {
             case "week":
-                if (childData !== "Учебная неделя") return setFilter({ week_f: childData });
-                else return setFilter({ week_f: null });
+                if (childData !== "Учебная неделя") setFilter({ week_f: childData });
+                else setFilter({ week_f: null });
+                break;
             case "weekday":
-                if (childData !== "День недели") return setFilter({ week_day_f: childData });
-                else return setFilter({ week_day_f: null });
+                if (childData !== "День недели") setFilter({ week_day_f: childData });
+                else setFilter({ week_day_f: null });
+                break;
             case "subject":
-                if (childData !== "Предмет") return setFilter({ subject_f: childData });
-                else return setFilter({ subject_f: null });
+                if (childData !== "Предмет") setFilter({ subject_f: childData });
+                else setFilter({ subject_f: null });
+                break;
             case "subj_type":
-                if (childData !== "Тип занятия") return setFilter({ type_f: childData });
-                else return setFilter({ type_f: null });
+                if (childData !== "Тип занятия") setFilter({ type_f: childData });
+                else setFilter({ type_f: null });
+                break;
             default:
-                return null;
+                break;
         };
     }
 
@@ -182,7 +186,7 @@ function Schedule(props) {
     return (
 
         <div className="App">
-            <Study_Week weeks={weeks} key={weeks.id} parentCallback={handleCallback} />
+            <Study_Week weeks={weeks} key={weeks.id} parentCallback={(handleCallback)} />
             <Week_Day weekdays={weekdays} key={weekdays.id} parentCallback={handleCallback} />
             <Subject subjects={subjects} key={subjects.id} parentCallback={handleCallback} />
             <Type pair_types={pair_types} key={pair_types.id} parentCallback={handleCallback} />
