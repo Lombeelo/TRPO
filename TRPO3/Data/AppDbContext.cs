@@ -137,6 +137,16 @@ public sealed class AppDbContext : DbContext
                 Subject = subjects.Last(),
                 Groups = groups.Take(2).ToList(),
                 Professors = profs.Skip(2).ToList(),
+                Type = ltypes[0]
+            },
+            new ScheduleEntry {
+                Id = 3,
+                Date = DateTime.Today.AddDays(1),
+                Cabinet = 108,
+                Para = 3,
+                Subject = subjects.Skip(1).Take(1).ToArray()[0],
+                Groups = new List<Group> {groups[2]},
+                Professors = new List<Professor> {profs[1]},
                 Type = ltypes[1]
             }
         });
