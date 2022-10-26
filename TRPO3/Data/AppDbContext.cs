@@ -145,7 +145,7 @@ public sealed class AppDbContext : DbContext
                 Cabinet = 108,
                 Para = 3,
                 Subject = subjects.Skip(1).Take(1).ToArray()[0],
-                Groups = new List<Group> {groups[2]},
+                Groups = new List<Group> {groups[0]},
                 Professors = new List<Professor> {profs[1]},
                 Type = ltypes[1]
             }
