@@ -93,7 +93,8 @@ function Schedule(props) {
                 BeginDate: (begin_of_week).toISOString(),
                 EndDate: (end_of_week).toISOString()
             },
-            GroupId: 1
+            GroupId: apiArg,
+            ProfessorId: apiArg
         }, (resp) => {
             setLoading(false)
             setScheduleObject(resp.data)
@@ -105,8 +106,8 @@ function Schedule(props) {
 
     const [week, setWeek] = useState("default")
 
-    const [filter, setFilter] = useState([
-        { week_f: null, week_day_f: null, subject_f: null, type_f: null }]);
+    const [filter, setFilter] = useState(
+        { week_f: null, week_day_f: null, subject_f: null, type_f: null });
 
     const [filter_type, setFilterType] = useState("null");
 
@@ -114,20 +115,20 @@ function Schedule(props) {
         setFilterType(filter_t);
         switch (filter_t) {
             case "week":
-                if (childData !== "Учебная неделя") setFilter({ week_f: childData });
-                else setFilter({ week_f: null });
+                if (childData !== "Учебная неделя") setFilter({...filter, week_f: childData });
+                else setFilter({...filter, week_f: null });
                 break;
             case "weekday":
-                if (childData !== "День недели") setFilter({ week_day_f: childData });
-                else setFilter({ week_day_f: null });
+                if (childData !== "День недели") setFilter({...filter, week_day_f: childData });
+                else setFilter({...filter, week_day_f: null });
                 break;
             case "subject":
-                if (childData !== "Предмет") setFilter({ subject_f: childData });
-                else setFilter({ subject_f: null });
+                if (childData !== "Предмет") setFilter({ ...filter,subject_f: childData });
+                else setFilter({...filter, subject_f: null });
                 break;
             case "subj_type":
-                if (childData !== "Тип занятия") setFilter({ type_f: childData });
-                else setFilter({ type_f: null });
+                if (childData !== "Тип занятия") setFilter({...filter, type_f: childData });
+                else setFilter({...filter, type_f: null });
                 break;
             default:
                 break;
@@ -186,15 +187,25 @@ function Schedule(props) {
     return (
 
         <div className="App">
-            <Study_Week weeks={weeks} key={weeks.id} parentCallback={(handleCallback)} />
-            <Week_Day weekdays={weekdays} key={weekdays.id} parentCallback={handleCallback} />
-            <Subject subjects={subjects} key={subjects.id} parentCallback={handleCallback} />
-            <Type pair_types={pair_types} key={pair_types.id} parentCallback={handleCallback} />
-            <div>
-                {Object.entries(scheduleByDate).map(([date, schObj], index) =>
-                    <ScheduleCard propsdate={date} scheduleObject={schObj} key={index} />
-                )}
-            </div>
+        
+            {
+                loading?
+                <div>
+                    <h1> Загрузка данных </h1>
+                </div>
+                :
+                <div>
+                <Study_Week weeks={weeks} key={weeks.id} parentCallback={(handleCallback)} />
+                <Week_Day weekdays={weekdays} key={weekdays.id} parentCallback={handleCallback} />
+                <Subject subjects={subjects} key={subjects.id} parentCallback={handleCallback} />
+                <Type pair_types={pair_types} key={pair_types.id} parentCallback={handleCallback} />
+                <div>
+                    {Object.entries(scheduleByDate).map(([date, schObj], index) =>
+                        <ScheduleCard propsdate={date} scheduleObject={schObj} key={index} />
+                    )}
+                </div>
+                </div>
+            }
         </div>
     );
 
