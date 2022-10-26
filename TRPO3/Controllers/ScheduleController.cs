@@ -37,7 +37,7 @@ public class ScheduleController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<ScheduleEntryReadDto>>(items));
     }
 
-    [HttpGet, Route("GetScheduleBetweenDates")]
+    [HttpPost, Route("GetScheduleBetweenDates")]
     public ActionResult<IEnumerable<ScheduleEntryReadDto>> GetScheduleBetweenDates(DateSpanDto data)
     {
         LogMethodInfo(data);
@@ -45,7 +45,7 @@ public class ScheduleController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<ScheduleEntryReadDto>>(items));
     }
 
-    [HttpGet, Route("GetScheduleByDateIntervalAndProfessorId")]
+    [HttpPost, Route("GetScheduleByDateIntervalAndProfessorId")]
     public ActionResult<IEnumerable<ScheduleEntryReadDto>> GetScheduleByDateIntervalAndProfessorId(DateSpanAndProfessorScheduleReadDto data)
     {
         LogMethodInfo(data);
@@ -54,7 +54,7 @@ public class ScheduleController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<ScheduleEntryReadDto>>(schedule));
     }
 
-    [HttpGet, Route("GetScheduleByDateIntervalAndGroupId")]
+    [HttpPost, Route("GetScheduleByDateIntervalAndGroupId")]
     public ActionResult GetScheduleByDateIntervalAndGroupId(DateSpanAndGroupScheduleReadDto data)
     {
         LogMethodInfo(data);
@@ -90,68 +90,68 @@ public class ScheduleController : ControllerBase
     // Create Form Methods
 
 
-    [HttpGet, Route("GetSubjectTypeAvailable")]
+    [HttpPost, Route("GetSubjectTypeAvailable")]
     public ActionResult<IEnumerable<ScheduleLessonTypeReadDto>> GetSubjectTypeAvailable(ScheduleEntryCreateForm data)
     {
         LogMethodInfo(data);
         return Ok(_mapper.Map<IEnumerable<ScheduleLessonTypeReadDto>>(_table.GetAllLessonTypes()));
     }
 
-    [HttpGet, Route("GetParaAvailable")]
+    [HttpPost, Route("GetParaAvailable")]
     public ActionResult<IEnumerable<int>> GetParaAvailable(ScheduleEntryCreateForm data)
     {
         LogMethodInfo(data);
         return Ok(_table.GetParaAvailable(data));
     }
 
-    [HttpGet, Route("GetSubjectsAvailable")]
+    [HttpPost, Route("GetSubjectsAvailable")]
     public ActionResult<IEnumerable<ScheduleSubjectReadDto>> GetSubjectsAvailable(ScheduleEntryCreateForm data)
     {
         LogMethodInfo(data);
         return Ok(_mapper.Map<IEnumerable<ScheduleSubjectReadDto>>(_table.GetSubjectsAvailable(data)));
     }
 
-    [HttpGet, Route("GetProfessorsAvailable")]
+    [HttpPost, Route("GetProfessorsAvailable")]
     public ActionResult<IEnumerable<ScheduleProfessorReadDto>> GetProfessorsAvailable(ScheduleEntryCreateForm data)
     {
         LogMethodInfo(data);
         return Ok(_mapper.Map<IEnumerable<ScheduleProfessorReadDto>>(_table.GetProfessorsAvailable(data)));
     }
 
-    [HttpGet, Route("GetGroupsAvailable")]
+    [HttpPost, Route("GetGroupsAvailable")]
     public ActionResult<IEnumerable<ScheduleGroupReadDto>> GetGroupsAvailable(ScheduleEntryCreateForm data)
     {
         LogMethodInfo(data);
         return Ok(_mapper.Map<IEnumerable<ScheduleGroupReadDto>>(_table.GetGroupsAvailable(data)));
     }
 
-    [HttpGet, Route("GetDatesOccupied")]
+    [HttpPost, Route("GetDatesOccupied")]
     public ActionResult<IEnumerable<DateTime>> GetDatesOccupied(ScheduleEntryCreateForm data)
     {
         LogMethodInfo(data);
         return Ok(_table.GetDatesOccupied(data));
     }
 
-    [HttpGet, Route("GetCabinetsOccupied")]
+    [HttpPost, Route("GetCabinetsOccupied")]
     public ActionResult<IEnumerable<int>> GetCabinetsOccupied(ScheduleEntryCreateForm data)
     {
         LogMethodInfo(data);
         return Ok(_table.GetCabinetsOccupied(data));
     }
 
-    [HttpGet, Route("GetFormFromScheduleEntryId")]
+    [HttpPost, Route("GetFormFromScheduleEntryId")]
     public ActionResult GetFormFromScheduleEntryId(ScheduleEntryCreateForm data)
     {
         throw new NotImplementedException();
     }
 
-    [HttpGet, Route("EditScheduleEntryFromForm")]
+    [HttpPost, Route("EditScheduleEntryFromForm")]
     public ActionResult EditScheduleEntryFromForm(ScheduleEntryCreateForm data)
     {
         throw new NotImplementedException();
     }
 
-    [HttpGet, Route("PostScheduleEntryFromForm")]
+    [HttpPost, Route("PostScheduleEntryFromForm")]
     public ActionResult<bool> PostScheduleEntryFromForm(ScheduleEntryCreateForm data)
     {
         LogMethodInfo(data);
