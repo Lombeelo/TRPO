@@ -171,16 +171,17 @@ function Schedule(props) {
 
 
 
-
+    const chooseWeekOption = [{ id: 0, text: "Выберите день недели", weekBeginDate: {}, weekEndDate: {} }];
     function FindWeeks() {
         let id = 0;
+        let temp = weeks;
         for (let i = new Date(firstDate); i < maxDate; i.setDate(i.getDate() + 7)) {
             let wd = startAndEndOfWeek(i);
-            let temp = weeks;
             temp.push({ id: id + 1, weekBeginDate: wd[0], weekEndDate: wd[1] });
-            setWeeks(temp);
             id++;
         }
+
+        setWeeks(chooseWeekOption.concat(temp));
     }
 
     const [weeks, setWeeks] = useState([
@@ -206,8 +207,8 @@ function Schedule(props) {
             setLoading(true)
             callApiPost(apiFunc, {
                 DateSpan: {
-                    BeginDate: (weeks[filter_params.week_f - 1].weekBeginDate).toISOString(),
-                    EndDate: (weeks[filter_params.week_f - 1].weekEndDate).toISOString()
+                    BeginDate: (weeks[filter_params.week_f].weekBeginDate).toISOString(),
+                    EndDate: (weeks[filter_params.week_f].weekEndDate).toISOString()
                 },
                 GroupId: apiArg,
                 ProfessorId: apiArg
@@ -267,12 +268,14 @@ function Schedule(props) {
 
 
 
-
+    console.log(scheduleObject);
+    console.log(weeks);
+    console.log(filter.week_f);
     return (
 
         <div className="App">
             <Study_Week disabled={filterLoading} weeks={weeks} key={weeks.id} parentCallback={(handleCallback)} />
-            
+
             {
                 loading ?
                     <div>
@@ -280,17 +283,15 @@ function Schedule(props) {
                     </div>
                     :
                     <div>
-
                         <div>
                             {
-
-                                (scheduleObject.length == 0)
+                                (scheduleObject.length === 0)
                                     ? (
                                         <div>
                                             <div className="info"> На {filter.week_f}-й неделе (
-                                                 {(weeks[filter.week_f-1].weekBeginDate).toLocaleDateString()}
-                                                 - {(weeks[filter.week_f-1].weekEndDate).toLocaleDateString()})
-                                                  пар нет </div>
+                                                {(weeks[filter.week_f].weekBeginDate).toLocaleDateString()}
+                                                - {(weeks[filter.week_f].weekEndDate).toLocaleDateString()})
+                                                пар нет </div>
                                         </div>)
                                     :
                                     (
@@ -298,7 +299,6 @@ function Schedule(props) {
                                             <ScheduleCard propsdate={date} scheduleObject={schObj} key={index} />
                                         )
                                     )
-
                             }
                         </div>
                     </div>
