@@ -14,7 +14,7 @@ function Type (props) {
             <form>
                 <select className = "type" value={type} onChange={handleChange}>
                     {props.pair_types.map(pair_types =>
-                        <option key = {pair_types.id} value = {pair_types.pair_type}>{pair_types.pair_type}</option>)}
+                        <option disabled = {props.disabled? true: false} key = {pair_types.id} value = {pair_types.name}>{pair_types.name}</option>)}
                 </select>
             </form>
         </div>

@@ -15,7 +15,7 @@ function Subject (props) {
             <form>
                 <select className = "lesson" value={lesson} onChange={handleChange}>
                     {props.subjects.map(subjects =>
-                        <option key = {subjects.id} value = {subjects.subject_name}>{subjects.subject_name}</option>)}
+                        <option disabled = {props.disabled? true: false} key = {subjects.id} value = {subjects.name}>{subjects.name}</option>)}
                 </select>
 
             </form>

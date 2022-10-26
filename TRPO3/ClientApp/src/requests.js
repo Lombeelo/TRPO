@@ -56,6 +56,8 @@ Schedule API
     "GetScheduleByDateIntervalAndGroupId",
     "GetAllGroups",
     "GetAllProfessors"
+    "GetAllSubjects"
+    "GetAllSubjectTypes"
 */
 
 function callApi(callType, apiFuncName, formObj, callback) {

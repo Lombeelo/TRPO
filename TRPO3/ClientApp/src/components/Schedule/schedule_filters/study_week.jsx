@@ -16,7 +16,9 @@ function Study_Week (props) {
             <form>
                 <select className = "week" value={week} onChange={handleChange}>
                     {props.weeks.map(weeks =>
-                        <option key = {weeks.id} value = {weeks.weekday}>{weeks.week}</option>)}
+                        <option key = {weeks.id} 
+                        value = {weeks.id}>
+                        {(new Date(weeks.weekBeginDate)).toLocaleDateString()} - {(new Date(weeks.weekEndDate)).toLocaleDateString()}  </option>)}
                 </select>
 
             </form>

@@ -68,10 +68,16 @@ function Schedule(props) {
     //Передаём состояния, откуда прибыли + группу и ФИО преподавателя
     const location = useLocation();
     const [locationState, setLocationState] = React.useState({ from: '', group: '', fio: '' })
+    const [weekdays, setWeekDays]= useState (startAndEndOfWeek);
+
+
+    function sorting(a,b) {
+        return (a > b ? 1 : -1)
+    }
 
     React.useEffect(() => {
 
-        const [begin_of_week, end_of_week] = startAndEndOfWeek();
+        
         let apiFunc, apiArg;
 
         if (location.state) {
@@ -90,17 +96,16 @@ function Schedule(props) {
         setLoading(true)
         callApiPost(apiFunc, {
             DateSpan: {
-                BeginDate: (begin_of_week).toISOString(),
-                EndDate: (end_of_week).toISOString()
+                BeginDate: (weekdays[0]).toISOString(),
+                EndDate: (weekdays[1]).toISOString()
             },
             GroupId: apiArg,
             ProfessorId: apiArg
         }, (resp) => {
             setLoading(false)
-            setScheduleObject(resp.data)
+            setScheduleObject(resp.data.sort(sorting))
             console.log(resp.data)
         })
-
     }, [])
 
 
@@ -132,50 +137,116 @@ function Schedule(props) {
                 break;
             default:
                 break;
+
         };
     }
 
 
 
 
+    const [filterLoading, setFilterLoading] = useState(false);
+   
+
     const [days, setDays] = useState([
         {
             id: 1, day_date: (new Date(scheduleObject[0].date)).toLocaleDateString(), weekday: (new Date(scheduleObject[0].date)).toLocaleString(
                 'default', { weekday: 'long' })
         },
-        { id: 2, day_date: "11.10", weekday: "Вторник" }
     ])
+
+
+
+
+    const[firstDate, setFirstDate] = useState (new Date("2022-09-01T00:00:00"))
+    const maxDate = new Date ("2023-01-01T00:00:00")
+
+
+    
+
+    function FindWeeks () {
+        let id = 0;
+        for (let i = new Date (firstDate); i < maxDate; i.setDate(i.getDate() + 7)){
+            let wd = startAndEndOfWeek(i);
+            let temp = weeks;
+            temp.push({ id: id+1, weekBeginDate: wd[0], weekEndDate: wd[1]});
+            setWeeks(temp);
+            id++;
+        }
+    }
 
     const [weeks, setWeeks] = useState([
-        { id: 0, week: "Учебная неделя" },
-        { id: 1, week: "1-я (01.09 - 07.09)" },
-        { id: 2, week: 2 }
     ])
 
-    const [weekdays, setWeekdays] = useState([
-        { id: 0, weekday: "День недели" },
-        { id: 1, weekday: "Понедельник" },
-        { id: 2, weekday: "Вторник" },
-        { id: 3, weekday: "Среда" },
-        { id: 4, weekday: "Четверг" },
-        { id: 5, weekday: "Пятница" },
-        { id: 6, weekday: "Суббота" },
-        { id: 7, weekday: "Воскресенье" }
-    ])
+    const filteringData = scheduleObject;
+    
+    function Filtering() {
+        if (filter.week_f != null) {
+              
+        let apiFunc, apiArg;
+
+        if (location.state.from === "StudentPage") {
+            apiFunc = "GetScheduleByDateIntervalAndGroupId"
+            apiArg = location.state.group
+        }
+        else if (location.state.from === "TeacherPage") {
+            apiFunc = "GetScheduleByDateIntervalAndProfessorId"
+            apiArg = location.state.fio
+        }
+
+        setLoading(true)
+        callApiPost(apiFunc, {
+            DateSpan: {
+                BeginDate: (weeks[filter.week_f].weekBeginDate).toISOString(),
+                EndDate: (weeks[filter.week_f].weekEndDate).toISOString()
+            },
+            GroupId: apiArg,
+            ProfessorId: apiArg
+        }, (resp) => {
+            setLoading(false)
+            setScheduleObject(resp.data.sort(sorting))
+            console.log(resp.data)
+        })
+    }
+
+    if (filter.subject_f != null) {
+
+    }
+            
+
+    }
+        
+    
+
+
+
+
+
 
     const [subjects, setSubjects] = useState([
-        { id: 0, subject_name: "Предмет" },
-        { id: 1, subject_name: "ТАУ" },
-        { id: 2 }
+        { id: 0, name: "Предмет" }
     ])
+    const chooseOptionSubj = [{id: 0, name: "Предмет"}]
+
+    const chooseOptionSubjType = [{id: 0, name: "Тип занятия"}]
 
     const [pair_types, setPair_types] = useState([
-        { id: 0, pair_type: "Тип занятия" },
-        { id: 1, pair_type: "Лекция" },
-        { id: 2, pair_type: "ПЗ" },
-        { id: 3, pair_type: "ЛР" }
+        { id: 0, name: "Тип занятия" }])
 
-    ])
+
+    React.useEffect(() => {
+        setFilterLoading(true)
+        callApiGet("GetAllSubjectTypes",{}, (resp)=>{
+        setFilterLoading(false)
+        setPair_types(chooseOptionSubjType.concat(resp.data))
+        })
+
+        callApiGet("GetAllSubjects", {}, (resp) => {
+            setFilterLoading(false)
+            setSubjects(chooseOptionSubj.concat(resp.data))
+        })
+
+        FindWeeks();
+},[])
 
     const scheduleByDate = scheduleObject.reduce((groups, item) => {
         const group = (groups[item.date] || []);
@@ -183,6 +254,9 @@ function Schedule(props) {
         groups[item.date] = group;
         return groups;
     }, {});
+
+
+    {Filtering()}
 
     return (
 
@@ -195,14 +269,25 @@ function Schedule(props) {
                 </div>
                 :
                 <div>
-                <Study_Week weeks={weeks} key={weeks.id} parentCallback={(handleCallback)} />
-                <Week_Day weekdays={weekdays} key={weekdays.id} parentCallback={handleCallback} />
-                <Subject subjects={subjects} key={subjects.id} parentCallback={handleCallback} />
-                <Type pair_types={pair_types} key={pair_types.id} parentCallback={handleCallback} />
+                
+                <Study_Week disabled = {filterLoading} weeks={weeks} key={weeks.id} parentCallback={(handleCallback)} />
+                <Subject disabled = {filterLoading} subjects={subjects} key={subjects.id} parentCallback={handleCallback} />
+                <Type disabled = {filterLoading} pair_types={pair_types} key={pair_types.id} parentCallback={handleCallback} />
                 <div>
-                    {Object.entries(scheduleByDate).map(([date, schObj], index) =>
+                {
+                    
+                    (scheduleObject.length) == 0
+                    ?
+                    <div>
+                    <h1> На выбранной неделе пар нет </h1>
+                    </div>
+                    :
+                    
+                    Object.entries(scheduleByDate).map(([date, schObj], index) =>
                         <ScheduleCard propsdate={date} scheduleObject={schObj} key={index} />
-                    )}
+                    )
+               
+                }
                 </div>
                 </div>
             }
