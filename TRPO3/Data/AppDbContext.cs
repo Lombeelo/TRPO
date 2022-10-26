@@ -50,7 +50,15 @@ public sealed class AppDbContext : DbContext
             new Subject
             {
                 Name = "САПР"
-            }
+            },
+            new Subject
+            {
+                Name = "ТРПО"
+            },
+            new Subject
+            {
+                Name = "Математический анализ"
+            },
         };
         var ltypes = new List<LessonType>
         {
@@ -76,46 +84,61 @@ public sealed class AppDbContext : DbContext
             },
             new Group
             {
-                Name = "М3О-307Б-20"
+                Name = "М3О-307Б-20",
+                Subjects = subjects.Skip(2).ToList()
             },
             new Group
             {
-                Name = "М3О-310Б-20"
+                Name = "М3О-310Б-20",
+                Subjects = subjects.Take(2).ToList()
             }
         };
         var profs = new List<Professor>
         {
             new Professor
             {
-                FullName = "Ратников"
+                FullName = "Ратников М.О.",
+                Subjects = subjects.Skip(1).Take(2).ToList()
             },
             new Professor
             {
-                FullName = "Чугаев"
+                FullName = "Чугаев Б.Н.",
+                Subjects = subjects.Take(1).ToList()
+            },
+            new Professor
+            {
+                FullName = "Вестяк А.В.",
+                Subjects = subjects.Skip(3).ToList()
             }
+
         };
-
-
-
-        profs[0].Subjects.Add(subjects[0]);
-        profs[1].Subjects.Add(subjects[0]);
-        profs[1].Subjects.Add(subjects[1]);
 
         Groups.AddRange(groups);
         Subjects.AddRange(subjects);
         Professors.AddRange(profs);
         LessonTypes.AddRange(ltypes);
 
-        Schedule.Add(new ScheduleEntry
-        {
-            Id = 1,
-            Date = DateTime.Now,
-            Cabinet = 304,
-            Para = 2,
-            Groups = new List<Group> { groups[0] },
-            Professors = new List<Professor> { profs[0], profs[1] },
-            Subject = subjects[0],
-            Type = ltypes[0]
+        Schedule.AddRange(new List<ScheduleEntry> {
+            new ScheduleEntry {
+                Id = 1,
+                Date = DateTime.Today,
+                Cabinet = 304,
+                Para = 2,
+                Groups = new List<Group> { groups[0] },
+                Professors = new List<Professor> { profs[0], profs[1] },
+                Subject = subjects[0],
+                Type = ltypes[2]
+            },
+            new ScheduleEntry {
+                Id = 2,
+                Date = DateTime.Today.AddDays(-1),
+                Cabinet = 504,
+                Para = 3,
+                Subject = subjects.Last(),
+                Groups = groups.Take(2).ToList(),
+                Professors = profs.Skip(2).ToList(),
+                Type = ltypes[1]
+            }
         });
 
         SaveChanges();

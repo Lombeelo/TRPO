@@ -80,10 +80,18 @@ public class ScheduleController : ControllerBase
     }
 
     [HttpGet, Route("GetAllSubjectTypes")]
-    public ActionResult<IEnumerable<ScheduleSubjectReadDto>> GetAllSubjectTypes()
+    public ActionResult<IEnumerable<ScheduleLessonTypeReadDto>> GetAllSubjectTypes()
     {
         LogMethodInfo();
         var items = _table.GetAllLessonTypes();
+        return Ok(_mapper.Map<IEnumerable<ScheduleLessonTypeReadDto>>(items));
+    }
+
+    [HttpGet, Route("GetAllSubjects")]
+    public ActionResult<IEnumerable<ScheduleSubjectReadDto>> GetAllSubjects()
+    {
+        LogMethodInfo();
+        var items = _table.GetAllSubjects();
         return Ok(_mapper.Map<IEnumerable<ScheduleSubjectReadDto>>(items));
     }
 
