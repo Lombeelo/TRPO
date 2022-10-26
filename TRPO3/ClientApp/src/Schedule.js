@@ -132,9 +132,10 @@ function Schedule(props) {
                 else setFilter({ ...filter, week_day_f: null });
                 break;
             case "subject":
-                if (childData !== "Предмет")  {
-                newFilter.subject_f = childData;
-                setFilter({ ...filter, subject_f: childData })}
+                if (childData !== "Предмет") {
+                    newFilter.subject_f = childData;
+                    setFilter({ ...filter, subject_f: childData })
+                }
                 else setFilter({ ...filter, subject_f: null });
                 break;
             case "subj_type":
@@ -184,7 +185,7 @@ function Schedule(props) {
     const [weeks, setWeeks] = useState([
     ])
 
-    const [weeksOptions] = useState ([])
+    const [weeksOptions] = useState([])
 
     const filteringData = scheduleObject;
 
@@ -269,6 +270,9 @@ function Schedule(props) {
     return (
 
         <div className="App">
+            <Study_Week disabled={filterLoading} weeks={weeks} key={weeks.id} parentCallback={(handleCallback)} />
+            <Subject disabled={filterLoading} subjects={subjects} key={subjects.id} parentCallback={handleCallback} />
+            <Type disabled={filterLoading} pair_types={pair_types} key={pair_types.id} parentCallback={handleCallback} />
 
             {
                 loading ?
@@ -278,9 +282,6 @@ function Schedule(props) {
                     :
                     <div>
 
-                        <Study_Week disabled={filterLoading} weeks={weeks} key={weeks.id} parentCallback={(handleCallback)} />
-                        <Subject disabled={filterLoading} subjects={subjects} key={subjects.id} parentCallback={handleCallback} />
-                        <Type disabled={filterLoading} pair_types={pair_types} key={pair_types.id} parentCallback={handleCallback} />
                         <div>
                             {
 
