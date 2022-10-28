@@ -36,8 +36,7 @@ public interface IScheduleTable
     IEnumerable<Group> GetGroupsAvailable(ScheduleEntryCreateForm data);
     IEnumerable<DateTime> GetDatesOccupied(ScheduleEntryCreateForm data);
     IEnumerable<int> GetCabinetsOccupied(ScheduleEntryCreateForm data);
-    //ScheduleEntryCreateForm GetFormFromScheduleEntryId(int id);
-    //IEnumerable<> EditScheduleEntryFromForm(ScheduleEntryCreateForm data);
+    bool EditScheduleEntryFromFormAndId(int id, ScheduleEntryCreateForm data);
     bool PostScheduleEntryFromForm(ScheduleEntryCreateForm data);
 
 }

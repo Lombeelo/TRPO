@@ -343,4 +343,9 @@ public sealed class ScheduleTable : IScheduleTable
         }
         return false;
     }
+
+    public bool EditScheduleEntryFromFormAndId(int id, ScheduleEntryCreateForm data)
+    {
+        throw new NotImplementedException();
+    }
 }

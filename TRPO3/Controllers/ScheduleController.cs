@@ -148,9 +148,14 @@ public class ScheduleController : ControllerBase
     }
 
     [HttpPost, Route("GetFormFromScheduleEntryId")]
-    public ActionResult GetFormFromScheduleEntryId(ScheduleEntryCreateForm data)
+    public ActionResult<ScheduleEntryEditForm> GetFormFromScheduleEntryId(int id)
     {
-        throw new NotImplementedException();
+        var form = _mapper.Map<ScheduleEntryCreateForm>(_table.GetScheduleEntryById(id));
+        return Ok(new ScheduleEntryEditForm
+        {
+            Id = id,
+            Form = form
+        });
     }
 
     [HttpPost, Route("EditScheduleEntryFromForm")]
