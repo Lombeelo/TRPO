@@ -223,3 +223,27 @@
     cursor: pointer;
 
 }
+
+.Pair_Removal {
+
+    width:35px;
+    height:35px;
+    left:98.5%;
+    top: -8%;
+    position:absolute;
+
+    background-image:url(Images/cross.png);
+    background-position:right;
+    background-repeat:no-repeat;
+    background-size: contain;
+
+    border-radius:500px;
+   
+
+
+    border:2px solid rgba(0, 0, 0, 1);
+    cursor: pointer;
+
+}
+
+

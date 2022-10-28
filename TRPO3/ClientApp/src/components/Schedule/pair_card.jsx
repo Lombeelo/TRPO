@@ -97,6 +97,10 @@ function Pair_Card (props) {
         setInEdit (!inEdit);
     }
 
+    function Remove() {
+
+    }
+
     return (
         <div className = "pair_card">
 
@@ -139,6 +143,7 @@ function Pair_Card (props) {
                          singleSelect={g_flag}/>
 
                     <button className="Pair_Editing_sel" onClick={Edit}></button>
+                    <button className = "Pair_Removal"> </button>
                 </div>
             }
             
