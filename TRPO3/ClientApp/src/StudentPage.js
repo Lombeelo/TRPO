@@ -32,14 +32,11 @@ function StudentPage() {
     }
 
     const handleClick = (event) => {
-        if (true) {
-            setLoading(true);
-            callApiGet("GetAllGroups", {}, (resp) => {
-                setLoading(false)
-                setGroups(chooseOption.concat(resp.data))
-            })
-        }
-        else return;
+        setLoading(true);
+        callApiGet("GetAllGroups", {}, (resp) => {
+            setLoading(false)
+            setGroups(chooseOption.concat(resp.data))
+        })
 
     }
 
