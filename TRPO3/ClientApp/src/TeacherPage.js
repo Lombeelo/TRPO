@@ -35,15 +35,12 @@ function TeacherPage() {
     }
 
     const handleClick = (event) => {
-        if (true) {
-            setLoading(true);
-            callApiGet("GetAllProfessors", {}, (resp) => {
-                setLoading(false)
-                setTeacher_fios(chooseOption.concat(resp.data))
+        setLoading(true);
+        callApiGet("GetAllProfessors", {}, (resp) => {
+            setLoading(false)
+            setTeacher_fios(chooseOption.concat(resp.data))
 
-            })
-        }
-        else return;
+        })
 
     }
 

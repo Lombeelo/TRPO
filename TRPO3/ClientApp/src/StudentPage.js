@@ -52,7 +52,7 @@ function StudentPage() {
                 </select>
             </form>
             {
-                myGroup != "Номер группы" ?
+                show_button ?
                     <Link to="/Schedule" state={{ from: "StudentPage", group: groupId, fio: "default" }}><button className="Schedule"> Посмотреть </button></Link>
                     :
                     <Link to="/"><button className="Exit"> Главное меню </button></Link>
