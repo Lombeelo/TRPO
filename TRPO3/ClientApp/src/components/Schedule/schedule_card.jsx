@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import Pair_Card from "./pair_card";
 
@@ -10,42 +10,46 @@ import "./schedule_styles/subject_type.css";
 import "./schedule_styles/cabinet.css";
 
 
-function ScheduleCard (props) {
+function ScheduleCard(props) {
 
-    const day = 
-         {day_date:( new Date (props.propsdate)).toLocaleDateString(), 
-            weekday: ( new Date (props.propsdate)).toLocaleString('default', {weekday: 'long'})
-         }
+    const day =
+    {
+        day_date: (new Date(props.propsdate)).toLocaleDateString(),
+        weekday: (new Date(props.propsdate)).toLocaleString('default', { weekday: 'long' })
+    }
 
     const para_time = ["9:00-10:30",
-                        "10:45-12:15",
-                        "13:00-14:30",
-                        "14:45-16:15",
-                        "16:30-18:00",
-                        "18:15-19:45",
-                        "20:00-21:30"]
+        "10:45-12:15",
+        "13:00-14:30",
+        "14:45-16:15",
+        "16:30-18:00",
+        "18:15-19:45",
+        "20:00-21:30"]
 
-    const pairs = props.scheduleObject.map((schObj) =>
-        {return {id: schObj.id, 
-            time: para_time[schObj.para-1], 
-            subj_name: schObj.subject.name, 
+    const pairs = props.scheduleObject.map((schObj) => {
+        return {
+            id: schObj.id,
+            time: para_time[schObj.para - 1],
+            subj_name: schObj.subject.name,
             teach_fio: schObj.professors.map((schObjProff) => schObjProff.fullName).join(", "),
-            pair_type: schObj.type.name, 
-            cabinet: schObj.cabinet, 
-            groups:schObj.groups.map((schObjGroups) => schObjGroups.name).join(", ")}})
-    
+            pair_type: schObj.type.name,
+            cabinet: schObj.cabinet,
+            groups: schObj.groups.map((schObjGroups) => schObjGroups.name).join(", ")
+        }
+    })
+
 
     return (
 
 
-        <div className = "list_elem_card">
+        <div className="list_elem_card">
             <div>
-                <span className = "date_text"> {day.day_date}, {day.weekday}</span>
+                <span className="date_text"> {day.day_date}, {day.weekday}</span>
             </div>
 
             {pairs.map(pairs =>
-                <Pair_Card pairs = {pairs} key = {pairs.id}/>
-                )}
+                <Pair_Card pairs={pairs} key={pairs.id} />
+            )}
         </div>
 
     );

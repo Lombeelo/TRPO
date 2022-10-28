@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import MultiSelect from 'react-multiple-select-dropdown-lite';
 
 import "./schedule_styles/schedule_card.css";
@@ -14,17 +14,21 @@ import "../Buttons/button.css";
 import "react-multiple-select-dropdown-lite/dist/index.css";
 
 
-function Pair_Card (props) {
+function Pair_Card(props) {
 
 
     const [inEdit, setInEdit] = useState(false)
 
-    const [newInfo, setEditInfo] = useState ([
-        {id: 0, new_subject: props.pairs.subj_name, new_teach_fio: props.pairs.teach_fio, new_pair_type: props.pairs.pair_type,
-            new_cabinet: props.pairs.cabinet, new_group_list: props.pairs.groups},
+    const [newInfo, setEditInfo] = useState([
+        {
+            id: 0, new_subject: props.pairs.subj_name, new_teach_fio: props.pairs.teach_fio, new_pair_type: props.pairs.pair_type,
+            new_cabinet: props.pairs.cabinet, new_group_list: props.pairs.groups
+        },
 
-        {id: 1, new_subject: "Матан", new_teach_fio: "Чечиков Юрий Борисович", new_pair_type: "Лекция",
-            new_cabinet: "228", new_group_list: "М3О-307Б-20, М3О-309Б-20"}
+        {
+            id: 1, new_subject: "Матан", new_teach_fio: "Чечиков Юрий Борисович", new_pair_type: "Лекция",
+            new_cabinet: "228", new_group_list: "М3О-307Б-20, М3О-309Б-20"
+        }
     ])
 
     const [sel_subj, setSelSubj] = useState("default")
@@ -42,7 +46,7 @@ function Pair_Card (props) {
         setSelType(event.target.value)
         if (event.target.value == "Лекция") ChangeG();
         else if (event.target.value == "ЛР") ChangeMF();
-        else if (event.target.value == "ПЗ"){
+        else if (event.target.value == "ПЗ") {
             if (mf_flag == false) ChangeMF();
             if (g_flag == false) ChangeG();
         }
@@ -77,31 +81,31 @@ function Pair_Card (props) {
         if (value_fio.count <= 1) setValueFio(value_fio);
     }
     const fio_options = [
-        {label: "Вестяк А.В", value: "Вестяк Анатолий Васильевич"},
-        {label: "Вестяк А.В", value: "Вестяк Анатолий Васильевич"}
+        { label: "Вестяк А.В", value: "Вестяк Анатолий Васильевич" },
+        { label: "Вестяк А.В", value: "Вестяк Анатолий Васильевич" }
     ]
 
-    const [mf_flag, setMFflag] = useState (true);
+    const [mf_flag, setMFflag] = useState(true);
     const [g_flag, setGflag] = useState(true);
 
-    function ChangeMF () {
+    function ChangeMF() {
         setMFflag(!mf_flag);
     }
 
-    function ChangeG () {
+    function ChangeG() {
         setGflag(!g_flag);
     }
     //----------------------------------------------------------
 
     function Edit() {
-        setInEdit (!inEdit);
+        setInEdit(!inEdit);
     }
 
     return (
-        <div className = "pair_card">
+        <div className="pair_card">
 
 
-            { inEdit == false ?
+            {inEdit == false ?
                 <div>
                     <div className="time"> {props.pairs.time} </div>
                     <div className="lesson_name">{props.pairs.subj_name}  </div>
@@ -114,34 +118,34 @@ function Pair_Card (props) {
                 :
                 <div>
                     <div className="time"> {props.pairs.time} </div>
-                        <select className = "lesson_name_sel" value={sel_subj} onChange={handleChangeSubj}>
-                            {newInfo.map(newInfos =>
-                                <option key = {newInfos.id} value = {newInfos.new_subject}>{newInfos.new_subject}</option>)}
-                        </select>
+                    <select className="lesson_name_sel" value={sel_subj} onChange={handleChangeSubj}>
+                        {newInfo.map(newInfos =>
+                            <option key={newInfos.id} value={newInfos.new_subject}>{newInfos.new_subject}</option>)}
+                    </select>
 
-                        <MultiSelect
-                            className="teacher_fio_sel" onChange={handleOnchangeFio} options={fio_options}
-                            singleSelect={mf_flag}/>
+                    <MultiSelect
+                        className="teacher_fio_sel" onChange={handleOnchangeFio} options={fio_options}
+                        singleSelect={mf_flag} />
 
 
-                        <select className = "lesson_type_sel" value={sel_type} onChange={handleChangeType}>
-                            {newInfo.map(newInfos =>
-                                <option key = {newInfos.id} value = {newInfos.new_pair_type}>{newInfos.new_pair_type}</option>)}
-                        </select>
+                    <select className="lesson_type_sel" value={sel_type} onChange={handleChangeType}>
+                        {newInfo.map(newInfos =>
+                            <option key={newInfos.id} value={newInfos.new_pair_type}>{newInfos.new_pair_type}</option>)}
+                    </select>
 
-                        <select className = "cabinet_sel" value={sel_cabinet} onChange={handleChangeCabinet}>
-                            {newInfo.map(newInfos =>
-                                <option key = {newInfos.id} value = {newInfos.new_cabinet}>{newInfos.new_cabinet}</option>)}
-                        </select>
+                    <select className="cabinet_sel" value={sel_cabinet} onChange={handleChangeCabinet}>
+                        {newInfo.map(newInfos =>
+                            <option key={newInfos.id} value={newInfos.new_cabinet}>{newInfos.new_cabinet}</option>)}
+                    </select>
 
-                     <MultiSelect
-                         className="group_list_sel" onChange={handleOnchangeGroups} options={group_options}
-                         singleSelect={g_flag}/>
+                    <MultiSelect
+                        className="group_list_sel" onChange={handleOnchangeGroups} options={group_options}
+                        singleSelect={g_flag} />
 
                     <button className="Pair_Editing_sel" onClick={Edit}></button>
                 </div>
             }
-            
+
         </div>
     )
 }

@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./filters.css";
 
-function Week_Day (props) {
+function Week_Day(props) {
 
 
     const weekdays = props.weekdays;
@@ -18,12 +18,12 @@ function Week_Day (props) {
 
             <form>
 
-                    <select className = "weekday" value={weekday} onChange={handleChange}>
-                        {weekdays.map(weekdays =>
-                            <option key = {weekdays.id} value = {weekdays.weekday}>{weekdays.weekday}</option>)}
-                    </select>
+                <select className="weekday" value={weekday} onChange={handleChange}>
+                    {weekdays.map(weekdays =>
+                        <option key={weekdays.id} value={weekdays.weekday}>{weekdays.weekday}</option>)}
+                </select>
             </form>
         </div>
-);
+    );
 }
 export default Week_Day;

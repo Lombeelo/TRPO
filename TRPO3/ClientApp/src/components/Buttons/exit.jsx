@@ -1,6 +1,5 @@
 import React from 'react';
 import "./button.css";
-import {BackHandler} from 'react';
 
 
 const Exit = function () {
@@ -13,7 +12,7 @@ const Exit = function () {
 
     return (
 
-        <button className = "Exit" onClick = {Close}> Выйти </button>
+        <button className="Exit" onClick={Close}> Выйти </button>
     );
 
 }

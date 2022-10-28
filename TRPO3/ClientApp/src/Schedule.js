@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import "./App.css";
 import "./components/Schedule/schedule_filters/filters.css";
-import { useLocation, setLocationState } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ScheduleCard from "./components/Schedule/schedule_card";
-import axios from "axios";
 
-import Lesson from "./components/Schedule/schedule_filters/subject";
-import Type from "./components/Schedule/schedule_filters/type";
-import Week_Day from "./components/Schedule/schedule_filters/week_day";
 import Study_Week from "./components/Schedule/schedule_filters/study_week";
-import Subject from "./components/Schedule/schedule_filters/subject";
-import Pair_Card from "./components/Schedule/pair_card";
 
 import startAndEndOfWeek from "./WeekDays";
 
 import { callApiGet, callApiPost } from "./requests.js";
-import { getDate } from "date-fns";
 
 function Schedule(props) {
 

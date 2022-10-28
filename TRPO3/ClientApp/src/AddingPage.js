@@ -2,23 +2,28 @@ import React, { useState } from "react";
 import "./App.css";
 import "../src/components/Editing/editing_styles.css";
 
-import { differenceInCalendarDays } from 'date-fns';
-
-import DatePicker, { CalendarContainer } from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-calendar/dist/Calendar.css';
 
 import MultiSelect from 'react-multiple-select-dropdown-lite';
 import "react-multiple-select-dropdown-lite/dist/index.css";
 
-import { BrowserRouter as Router, Route, Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function AddingPage() {
 
     //---------------------------------------------
-    const [form, setForm] = useState([
-        { form_date: null, form_para: null, form_cabinet: null, form_subj: null, form_subj_type: null, form_groups: null, form_proffs: null }
-    ]);
+    const [form, setForm] = useState({
+        form_date: null,
+        form_para: null,
+        form_cabinet: null,
+        form_subj: null,
+        form_subj_type: null,
+        form_groups: null,
+        form_proffs: null
+    }
+    );
 
     //---------------- ФЛАГИ ------------------------------
     const [approve, setApprove] = useState(false)
@@ -164,15 +169,12 @@ function AddingPage() {
 
 
     return (
-
-
         <div className="App">
-
             <h1> Это страница для добавления пар </h1>
             <label className="group_list_label"> Выбор группы </label>
             <MultiSelect
                 className="group_list_editing" onChange={handleChangeGroups} options={addGroups}
-                singleSelect={many_groups_flag ? false : true} />
+                singleSelect={!many_groups_flag} />
 
             <label className="fio_label"> Выбор преподавателя </label>
             <MultiSelect
@@ -220,7 +222,7 @@ function AddingPage() {
                 <div>
                     <Link to="/Schedule"><button disabled={true} className="Approve_button"> Подтвердить </button></Link>
                     <Link to="/" state={{ from: "AddingPage", update: true }}><button className="Exit_button"> Главное меню </button></Link>
-                    <Outlet />
+
                 </div>
             }
 
