@@ -171,7 +171,7 @@ function Schedule(props) {
 
 
 
-    const chooseWeekOption = [{ id: 0, text: "Выберите день недели", weekBeginDate: {}, weekEndDate: {} }];
+    const chooseWeekOption = [{ id: 0, text: "Выберите учебную неделю", weekBeginDate: {}, weekEndDate: {} }];
     function FindWeeks() {
         let id = 0;
         let temp = weeks;

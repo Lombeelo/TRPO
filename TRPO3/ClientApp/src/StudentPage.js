@@ -65,7 +65,7 @@ function StudentPage() {
         </form>
 
          {
-            myGroup != "Номер группы" ?
+            myGroup != "Номер группы" && myGroup != null?
             <Link to="/Schedule" state = {{from: "StudentPage", group: groupId, fio: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
             :
             <Link to="/"><button className = "Exit"> Главное меню </button></Link>

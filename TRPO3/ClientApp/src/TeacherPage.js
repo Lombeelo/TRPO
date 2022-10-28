@@ -63,7 +63,7 @@ function TeacherPage() {
 
         </form>
         {
-            myName != "ФИО" ?
+            myName != (null) && myName != "ФИО преподавателя" ?
         <Link to="/Schedule" state = {{from: "TeacherPage", fio: proffId, group: "default"}}><button className = "Schedule"> Посмотреть </button></Link>
         :
         <Link to="/"><button className = "Exit"> Главное меню </button></Link>
