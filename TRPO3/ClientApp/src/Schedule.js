@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import "./components/Schedule/schedule_filters/filters.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, } from "react-router-dom";
 import ScheduleCard from "./components/Schedule/schedule_card";
 
 import Study_Week from "./components/Schedule/schedule_filters/study_week";

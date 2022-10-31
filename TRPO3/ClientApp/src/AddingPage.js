@@ -206,29 +206,29 @@ function AddingPage() {
 
     return (
         <div className="App">
-
+            
             <h1> Это страница для добавления пар </h1>
             <label className="group_list_label"> Выбор группы </label>
-            <Select
+            <Select className = "group_list_editing"
                 isMulti={manyGroupsFlag}
                 isClearable={true}
-                className="group_list_editing"
                 options={groupOptions.map(convertToMultiselectFormat)}
                 onChange={createMultiSelectChangeHandler("groupIds", updateGroups, manyGroupsFlag)}
                 onFocus={() => updateGroups(form)}
                 isLoading={groupsLoading}
             />
-
+            
             <label className="fio_label"> Выбор преподавателя </label>
-            <Select
+            <div className="fio_editing">
+            <Select 
                 isMulti={manyFiosFlag}
                 isClearable={true}
-                className="fio_editing"
                 options={fioOptions.map(convertToMultiselectFormat)}
                 onChange={createMultiSelectChangeHandler("professorIds", updateFios, manyFiosFlag)}
                 onFocus={() => updateFios(form)}
                 isLoading={fiosLoading}
             />
+            </div>
 
             <select className="type_editing"
                 value={form.type}
@@ -239,7 +239,7 @@ function AddingPage() {
                     <option disabled={subjTypesLoading} key={subj_type.id}
                         value={subj_type.id}>{subj_type.name}</option>)}
             </select>
-
+            
             <div className="calendar">
                 <DatePicker
                     selected={dateChosen ? form.date : new Date()}
