@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DateTime from "luxon";
 import "./App.css";
 import "./components/Schedule/schedule_filters/filters.css";
 import { useLocation, } from "react-router-dom";
@@ -9,6 +10,8 @@ import Study_Week from "./components/Schedule/schedule_filters/study_week";
 import startAndEndOfWeek from "./WeekDays";
 
 import { callApiGet, callApiPost } from "./requests.js";
+
+import { weekNumber } from 'weeknumber';
 
 function Schedule(props) {
 
@@ -62,12 +65,17 @@ function Schedule(props) {
     //Передаём состояния, откуда прибыли + группу и ФИО преподавателя
     const location = useLocation();
     const [locationState, setLocationState] = React.useState({ from: '', group: '', fio: '' })
-    const [weekdays, setWeekDays] = useState(startAndEndOfWeek());
 
+    const [weekdays, setWeekDays] = useState(startAndEndOfWeek());
+    const [weeks, setWeeks] = useState([])
+    const [firstDate, setFirstDate] = useState(new Date("2022-09-01T00:00:00"))
+    const maxDate = new Date("2023-01-01T00:00:00")
 
     function sorting(a, b) {
         return (a.date > b.date ? 1 : -1)
     }
+
+
 
     React.useEffect(() => {
 
@@ -105,10 +113,19 @@ function Schedule(props) {
 
     const [week, setWeek] = useState("default")
 
-    const [filter, setFilter] = useState(
-        { week_f: null, week_day_f: null, subject_f: null, type_f: null });
+    function get_current_week() {
+        return (
+            weekNumber(new Date()) - weekNumber(firstDate)  + 1  
+        )
 
-    const [filter_type, setFilterType] = useState("null");
+    }
+
+    console.log(weekNumber(new Date()) - weekNumber(firstDate) )
+
+    const [filter, setFilter] = useState(
+        { week_f: get_current_week() , week_day_f: null, subject_f: null, type_f: null });
+
+    const [filter_type, setFilterType] = useState(null);
 
     const handleCallback = (childData, filter_t) => {
         setFilterType(filter_t);
@@ -144,23 +161,11 @@ function Schedule(props) {
     }
 
 
-
-
     const [filterLoading, setFilterLoading] = useState(false);
 
 
-    // const [days, setDays] = useState([
-    //     {
-    //         id: 1, day_date: (new Date(scheduleObject[0].date)).toLocaleDateString(), weekday: (new Date(scheduleObject[0].date)).toLocaleString(
-    //             'default', { weekday: 'long' })
-    //     },
-    // ])
 
 
-
-
-    const [firstDate, setFirstDate] = useState(new Date("2022-09-01T00:00:00"))
-    const maxDate = new Date("2023-01-01T00:00:00")
 
 
 
@@ -170,15 +175,16 @@ function Schedule(props) {
         let temp = weeks;
         for (let i = new Date(firstDate); i < maxDate; i.setDate(i.getDate() + 7)) {
             let wd = startAndEndOfWeek(i);
-            temp.push({ id: id + 1, weekBeginDate: wd[0], weekEndDate: wd[1] });
+            temp.push({ id: id + 1, weekBeginDate: new Date (wd[0]), weekEndDate: new Date (wd[1]) });
             id++;
         }
 
         setWeeks(chooseWeekOption.concat(temp));
     }
 
-    const [weeks, setWeeks] = useState([
-    ])
+    React.useState(() => {        
+        FindWeeks();})
+
 
     const [weeksOptions] = useState([])
 
@@ -186,7 +192,7 @@ function Schedule(props) {
 
     function Filtering(filter_params) {
         if (filter_params.week_f != null) {
-
+            
             let apiFunc, apiArg;
 
             if (location.state.from === "StudentPage") {
@@ -220,12 +226,6 @@ function Schedule(props) {
     }
 
 
-
-
-
-
-
-
     const [subjects, setSubjects] = useState([
         { id: 0, name: "Предмет" }
     ])
@@ -236,29 +236,12 @@ function Schedule(props) {
     const [pair_types, setPair_types] = useState([
         { id: 0, name: "Тип занятия" }])
 
-
-    React.useEffect(() => {
-        setFilterLoading(true)
-        callApiGet("GetAllSubjectTypes", {}, (resp) => {
-            setFilterLoading(false)
-            setPair_types(chooseOptionSubjType.concat(resp.data))
-        })
-
-        callApiGet("GetAllSubjects", {}, (resp) => {
-            setFilterLoading(false)
-            setSubjects(chooseOptionSubj.concat(resp.data))
-        })
-
-        FindWeeks();
-    }, [])
-
     const scheduleByDate = scheduleObject.reduce((groups, item) => {
         const group = (groups[item.date] || []);
         group.push(item);
         groups[item.date] = group;
         return groups;
     }, {});
-
 
 
     console.log(scheduleObject);
@@ -283,7 +266,7 @@ function Schedule(props) {
                                         <div>
                                             <div className="info"> На {filter.week_f}-й неделе (
                                                 {(weeks[filter.week_f].weekBeginDate).toLocaleDateString()}
-                                                - {(weeks[filter.week_f].weekEndDate).toLocaleDateString()})
+                                                - {(new Date(weeks[filter.week_f].weekEndDate)).toLocaleDateString()})
                                                 пар нет </div>
                                         </div>)
                                     :
