@@ -120,7 +120,7 @@ function Schedule(props) {
 
     }
 
-    console.log(weekNumber(new Date()) - weekNumber(firstDate) )
+    //console.log(weekNumber(new Date()) - weekNumber(firstDate) )
 
     const [filter, setFilter] = useState(
         { week_f: get_current_week() , week_day_f: null, subject_f: null, type_f: null });
