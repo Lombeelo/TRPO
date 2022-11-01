@@ -173,7 +173,7 @@ public class ScheduleController : ControllerBase
         {
             return Ok(created);
         }
-        return BadRequest(data);
+        return UnprocessableEntity(new { created = created, data = data });
     }
 
 }

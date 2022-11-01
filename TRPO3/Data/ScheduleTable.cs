@@ -222,17 +222,20 @@ public sealed class ScheduleTable : IScheduleTable
         if (data.ProfessorIds.Any())
         {
             var selectedProfessors = GetProfessorsFromIdsLazy(data.ProfessorIds);
-
             var professorSubjects = GetProfessorSubjectsIntersectionsLazy(selectedProfessors);
+            items = items.Where(g => !data.ProfessorIds.Contains(g.Id));
+
             // Professors whose Subjects intersection is not empty
-            items = items.Where(p => p.Subjects.Intersect(professorSubjects).Any());
+            items = items.ToList().Where(p => p.Subjects.Intersect(professorSubjects).Any());
         }
 
         if (data.GroupIds.Any())
         {
             var selectedGroups = GetGroupsFromIdsLazy(data.GroupIds);
+            var groupSubjects = GetGroupSubjectsIntersectionsLazy(selectedGroups);
+
             //choose professors who has at least one subject same as chosen groups
-            items = items.Where(p => p.Subjects.Any(s => s.Groups.Any(g => data.GroupIds.Contains(g.Id))));
+            items = items.ToList().Where(p => p.Subjects.Intersect(groupSubjects).Any());
 
             if (data.SubjectId is int subjId)
             {
@@ -246,27 +249,23 @@ public sealed class ScheduleTable : IScheduleTable
 
     public IEnumerable<Group> GetGroupsAvailable(ScheduleEntryCreateForm data)
     {
-
-        var items = _context.Groups
-            .Include(p => p.Subjects).AsQueryable();
-
+        var items = GetAllGroupsLazy().AsEnumerable();
         if (data.GroupIds.Any())
         {
-            var groups = items.Where(
-                        g => data.GroupIds.Contains(g.Id)
-                    ).ToList();
+            var selectedGroups = GetGroupsFromIdsLazy(data.GroupIds);
+            var groupSubjects = GetGroupSubjectsIntersectionsLazy(selectedGroups);
+            items = items.Where(g => !data.GroupIds.Contains(g.Id));
+
             // Groups whose Subjects intersection is not empty
-            items = items.Where(
-                g => g.Subjects.Any(
-                    s => groups.Any(g2 => g2.Subjects.Contains(s))
-                )
-            );
+            items = items.ToList().Where(g => g.Subjects.Intersect(groupSubjects).Any());
         }
 
         if (data.ProfessorIds.Any())
         {
+            var selectedProfessors = GetProfessorsFromIdsLazy(data.ProfessorIds);
+            var professorSubjects = GetProfessorSubjectsIntersectionsLazy(selectedProfessors);
             //choose Groups who has at least one subject same as chosen professors
-            items = items.Where(g => g.Subjects.Any(s => s.Professors.Any(p => data.ProfessorIds.Contains(p.Id))));
+            items = items.ToList().Where(g => g.Subjects.Intersect(professorSubjects).Any());
 
             if (data.SubjectId is int subjId)
             {
@@ -292,9 +291,9 @@ public sealed class ScheduleTable : IScheduleTable
         (date, objs) => new
         {
             Key = date,
-            Groups = objs.Select(o => o.groups).Aggregate((initial, step) => initial.Concat(step).ToList())
+            Groups = objs.SelectMany(o => o.groups)
                         .GroupBy(p => p.Id, (id, Groups) => Groups.Count()).Any(c => c >= 4),
-            Professors = objs.Select(o => o.profs).Aggregate((initial, step) => initial.Concat(step).ToList())
+            Professors = objs.SelectMany(o => o.profs)
                         .GroupBy(p => p.Id, (id, Professors) => Professors.Count()).Any(c => c >= 4)
         })
         .Where(d => d.Groups || d.Professors).Select(o => o.Key).ToList();
@@ -302,6 +301,7 @@ public sealed class ScheduleTable : IScheduleTable
 
     public IEnumerable<int> GetParaAvailable(ScheduleEntryCreateForm data)
     {
+        // Date and group || prof was selected => нужно отсеять занятые пары
         if (data.Date is DateTime date)
         {
             var items = GetAllEntriesLazy();
@@ -311,7 +311,6 @@ public sealed class ScheduleTable : IScheduleTable
                 || i.Professors.Any(p => data.ProfessorIds.Contains(p.Id))))
                 .Select(i => i.Para));
         }
-        // Date and group || prof was selected => нужно отсеять занятые пары
         return Array.Empty<int>();
     }
 
@@ -346,8 +345,6 @@ public sealed class ScheduleTable : IScheduleTable
                 Professors = _context.Professors.Where(p => data.ProfessorIds.Contains(p.Id)).ToList(),
                 Type = _context.LessonTypes.FirstOrDefault(l => l.Id == typeId)
             };
-            Console.WriteLine($"Tried to create schedule entry: {JsonSerializer.Serialize(data)}");
-            return false;
             _context.Schedule.Add(entry);
 
             SaveChanges();

@@ -45,18 +45,22 @@ public sealed class AppDbContext : DbContext
         {
             new Subject
             {
+                Id = 1,
                 Name = "Теория графов"
             },
             new Subject
             {
+                Id = 2,
                 Name = "САПР"
             },
             new Subject
             {
+                Id = 3,
                 Name = "ТРПО"
             },
             new Subject
             {
+                Id = 4,
                 Name = "Математический анализ"
             },
         };
@@ -64,14 +68,17 @@ public sealed class AppDbContext : DbContext
         {
             new LessonType
             {
+                Id = 1,
                 Name = "ЛК"
             },
             new LessonType
             {
+                Id = 2,
                 Name = "ПЗ"
             },
             new LessonType
             {
+                Id = 3,
                 Name = "ЛР"
             },
         };
@@ -79,16 +86,19 @@ public sealed class AppDbContext : DbContext
         var groups = new List<Group> {
             new Group
             {
+                Id = 1,
                 Name = "М3О-309Б-20",
                 Subjects = subjects
             },
             new Group
             {
+                Id = 2,
                 Name = "М3О-307Б-20",
                 Subjects = subjects.Skip(2).ToList()
             },
             new Group
             {
+                Id = 3,
                 Name = "М3О-310Б-20",
                 Subjects = subjects.Take(2).ToList()
             }
@@ -97,18 +107,21 @@ public sealed class AppDbContext : DbContext
         {
             new Professor
             {
+                Id = 1,
                 FullName = "Ратников М.О.",
-                Subjects = subjects.Skip(1).Take(2).ToList()
+                Subjects = subjects.Skip(1).Take(2).ToList() // 2,3
             },
             new Professor
             {
+                Id = 2,
                 FullName = "Чугаев Б.Н.",
-                Subjects = subjects.Take(1).ToList()
+                Subjects = subjects.Take(1).ToList() // 1
             },
             new Professor
             {
+                Id = 3,
                 FullName = "Вестяк А.В.",
-                Subjects = subjects.Skip(3).ToList()
+                Subjects = subjects.Skip(3).ToList() // 4
             }
 
         };
