@@ -304,22 +304,25 @@ public sealed class ScheduleTable : IScheduleTable
         // Date and group || prof was selected => нужно отсеять занятые пары
         if (data.Date is DateTime date)
         {
-            var items = GetAllEntriesLazy();
-            var TotalParas = new List<int> { 1, 2, 3, 4, 5, 6 };
-            return TotalParas.Except(items.Where(i => i.Date.Date == date.Date
+            var items = GetAllEntriesLazy().Where(i => i.Date.Date == date.Date
                 && (i.Groups.Any(g => data.GroupIds.Contains(g.Id))
                 || i.Professors.Any(p => data.ProfessorIds.Contains(p.Id))))
-                .Select(i => i.Para));
+                .Select(i => i.Para);
+            var TotalParas = new List<int> { 1, 2, 3, 4, 5, 6 };
+            return TotalParas.Except(items);
         }
         return Array.Empty<int>();
     }
 
     public IEnumerable<int> GetCabinetsOccupied(ScheduleEntryCreateForm data)
     {
-        if (data.Date is DateTime date)
+        if (data.Date is DateTime date && data.Para is int para)
         {
             var items = GetAllEntriesLazy();
-            return items.Where(i => i.Date.Date == date.Date).Select(i => i.Cabinet).Distinct().ToArray();
+            return items.Where(i => i.Date.Date == date.Date && i.Para == para)
+                        .Select(i => i.Cabinet)
+                        .Distinct()
+                        .ToArray();
         }
         return Array.Empty<int>();
     }
