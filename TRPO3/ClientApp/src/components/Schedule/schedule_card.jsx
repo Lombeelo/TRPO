@@ -26,6 +26,9 @@ function ScheduleCard(props) {
         "18:15-19:45",
         "20:00-21:30"]
 
+    
+    props.scheduleObject.sort((a, b) => a.para - b.para);
+
     const pairs = props.scheduleObject.map((schObj) => {
         return {
             id: schObj.id,
@@ -46,9 +49,8 @@ function ScheduleCard(props) {
             <div>
                 <span className="date_text"> {day.day_date}, {day.weekday}</span>
             </div>
-
             {pairs.map(pairs =>
-                <Pair_Card pairs={pairs} key={pairs.id} />
+                <Pair_Card pairs={pairs} key={pairs.time} />
             )}
         </div>
 
