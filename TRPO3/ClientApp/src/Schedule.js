@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import DateTime from "luxon";
 import "./App.css";
+import "./components/Buttons/button.css";
 import "./components/Schedule/schedule_filters/filters.css";
 import { useLocation, } from "react-router-dom";
 import ScheduleCard from "./components/Schedule/schedule_card";
+
 
 import Study_Week from "./components/Schedule/schedule_filters/study_week";
 
@@ -59,6 +61,11 @@ function Schedule(props) {
     const [loading, setLoading] = useState(false);
 
 
+    const [editing, setEditing] = useState(false);
+    //-----------------------------------------------
+    function OnEditing () {
+        setEditing(!editing);
+    }
 
     //------------------------------------------------
 
@@ -70,6 +77,9 @@ function Schedule(props) {
     const [weeks, setWeeks] = useState([])
     const [firstDate, setFirstDate] = useState(new Date("2022-09-01T00:00:00"))
     const maxDate = new Date("2023-01-01T00:00:00")
+
+
+
 
     function sorting(a, b) {
         return (a.date > b.date ? 1 : -1)
@@ -270,11 +280,16 @@ function Schedule(props) {
                                                 пар нет </div>
                                         </div>)
                                     :
-                                    (
-                                        Object.entries(scheduleByDate).map(([date, schObj], index) =>
-                                            <ScheduleCard propsdate={date} scheduleObject={schObj} key={index} />
-                                        )
-                                    )
+                                    <div>
+                                    {
+                                        
+                                            Object.entries(scheduleByDate).map(([date, schObj], index) =>
+                                                <ScheduleCard propsdate={date} scheduleObject={schObj} propsediting={editing} key={index} />
+                                            )
+                                    }
+                                        <button className = "Schedule_Editing" onClick = {OnEditing}/>
+                                        {console.log(editing)};
+                                    </div>
                             }
                         </div>
                     </div>

@@ -17,7 +17,7 @@ import "react-multiple-select-dropdown-lite/dist/index.css";
 function Pair_Card(props) {
 
 
-    const [inEdit, setInEdit] = useState(false)
+    const inEdit = props.editing;
 
     const [newInfo, setEditInfo] = useState([
         {
@@ -97,31 +97,28 @@ function Pair_Card(props) {
     }
     //----------------------------------------------------------
 
-    function Edit() {
-        setInEdit(!inEdit);
-    }
-
     function Remove() {
 
     }
 
     return (
         <div className="pair_card">
-
-
-            {inEdit == false ?
-                <div>
+            <div>
                     <div className="time"> {props.pairs.time} </div>
                     <div className="lesson_name">{props.pairs.subj_name}  </div>
                     <div className="teacher_fio">{props.pairs.teach_fio} </div>
                     <div className="lesson_type">{props.pairs.pair_type} </div>
                     <div className="cabinet">{props.pairs.cabinet}</div>
                     <div className="group_list">{props.pairs.groups}</div>
-                    <button className="Pair_Editing" onClick={Edit}></button>
+                </div>
+
+            {props.editing == false ?
+                <div>
+                    
                 </div>
                 :
                 <div>
-                    <div className="time"> {props.pairs.time} </div>
+                    {/* <div className="time"> {props.pairs.time} </div>
                     <select className="lesson_name_sel" value={sel_subj} onChange={handleChangeSubj}>
                         {newInfo.map(newInfos =>
                             <option key={newInfos.id} value={newInfos.new_subject}>{newInfos.new_subject}</option>)}
@@ -144,9 +141,10 @@ function Pair_Card(props) {
 
                     <MultiSelect
                         className="group_list_sel" onChange={handleOnchangeGroups} options={group_options}
-                        singleSelect={g_flag} />
+                        singleSelect={g_flag} /> */}
 
-                    <button className="Pair_Editing_sel" onClick={Edit}></button>
+                    
+                    <button className="Pair_Editing_sel" ></button>
                     <button className = "Pair_Removal"> </button>
                 </div>
             }

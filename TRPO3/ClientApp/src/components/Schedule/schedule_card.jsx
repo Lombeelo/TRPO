@@ -50,7 +50,7 @@ function ScheduleCard(props) {
                 <span className="date_text"> {day.day_date}, {day.weekday}</span>
             </div>
             {pairs.map(pairs =>
-                <Pair_Card pairs={pairs} key={pairs.time} />
+                <Pair_Card pairs={pairs} editing= {props.propsediting} key={pairs.time} />
             )}
         </div>
 
