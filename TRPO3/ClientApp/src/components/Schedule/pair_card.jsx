@@ -144,7 +144,7 @@ function Pair_Card(props) {
                         singleSelect={g_flag} /> */}
 
                     
-                    <button className="Pair_Editing_sel" ></button>
+                    <button className="Pair_Editing" ></button>
                     <button className = "Pair_Removal"> </button>
                 </div>
             }
