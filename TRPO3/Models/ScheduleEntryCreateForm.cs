@@ -1,6 +1,7 @@
 namespace TRPO3.Models;
-public sealed class ScheduleEntryCreateForm
+public sealed class ScheduleEntryForm
 {
+    public int? EditingEntryId { get; set; }
     public DateTime? Date { get; set; }
     public int? Para { get; set; }
     public int? Cabinet { get; set; }

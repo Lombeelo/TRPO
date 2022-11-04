@@ -69,7 +69,7 @@ function callApi(callType, apiFuncName, formObj, callback) {
         data: formObj
     };
 
-    axios.request(options).then(callback)
+    return axios.request(options).then(callback)
         .catch(function (error) {
             console.error(error);
         });
@@ -77,12 +77,12 @@ function callApi(callType, apiFuncName, formObj, callback) {
 
 // Makes a get request, asynchronous, result can be fetched using callback(result).
 function callApiGet(apiFuncName, obj, callback) {
-    callApi('GET', apiFuncName, obj, callback);
+    return callApi('GET', apiFuncName, obj, callback);
 }
 
 // Makes a post request, asynchronous, result can be fetched using callback(result).
 function callApiPost(apiFuncName, obj, callback) {
-    callApi('POST', apiFuncName, obj, callback);
+    return callApi('POST', apiFuncName, obj, callback);
 }
 
 

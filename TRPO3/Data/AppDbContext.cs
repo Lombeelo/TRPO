@@ -108,19 +108,19 @@ public sealed class AppDbContext : DbContext
             new Professor
             {
                 Id = 1,
-                FullName = "Ратников М.О.",
+                Name = "Ратников М.О.",
                 Subjects = subjects.Skip(1).Take(2).ToList() // 2,3
             },
             new Professor
             {
                 Id = 2,
-                FullName = "Чугаев Б.Н.",
+                Name = "Чугаев Б.Н.",
                 Subjects = subjects.Take(1).ToList() // 1
             },
             new Professor
             {
                 Id = 3,
-                FullName = "Вестяк А.В.",
+                Name = "Вестяк А.В.",
                 Subjects = subjects.Skip(3).ToList() // 4
             }
 

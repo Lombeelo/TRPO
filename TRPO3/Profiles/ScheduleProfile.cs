@@ -19,7 +19,9 @@ namespace TRPO3.Profiles
                 .ForMember(dest => dest.Subject, opt => opt.MapFrom(src => src.Subject))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.Date));
-            CreateMap<ScheduleEntry, ScheduleEntryCreateForm>()
+            CreateMap<ScheduleEntry, ScheduleEntryForm>()
+                .ForMember(dest => dest.EditingEntryId,
+                    opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.GroupIds,
                     opt => opt.MapFrom(src => src.Groups.Select(g => g.Id)))
                 .ForMember(dest => dest.ProfessorIds,

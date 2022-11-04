@@ -15,25 +15,13 @@
     width: 250px;
     height: 81px;
     margin-left: 1%;
-    margin-top: 22%;
+    margin-top: 2%;
     left: 32%;
     position: absolute;
-
-
-    background-color: rgba(0, 0, 0, 0.44999998807907104);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-
-    border: 1px solid rgba(0, 0, 0, 1);
-
-    color: rgba(255, 255, 255, 1);
-
-    top: 13px;
     font-family: Manrope;
     text-align: center;
-    font-size: 36px;
+    font-style: italic;
+    font-size: 26px;
     letter-spacing: 0;
 }
 
@@ -41,183 +29,118 @@
     width: 250px;
     height: 81px;
     margin-left: 1%;
-    margin-top: 30%;
+    margin-top: 0%;
     left: 32%;
     position: absolute;
-
-
-    background-color: rgba(0, 0, 0, 0.44999998807907104);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-
-    border: 1px solid rgba(0, 0, 0, 1);
-
-    color: rgba(255, 255, 255, 1);
-
-    top: 13px;
     font-family: Manrope;
     text-align: center;
-    font-size: 36px;
+    font-size: 26px;
+    font-style: italic;
     letter-spacing: 0;
 }
 
 .group_list_editing {
-    color:rgba(0, 0, 0, 1);
-    width:20%;
-    height:41px;
-    position:absolute;
-    left:32.5%;
+    color: rgba(0, 0, 0, 1);
+    width: 20%;
+    height: 41px;
+    position: absolute;
+    left: 32.5%;
     margin-top: 12%;
-    font-family:Manrope;
-    text-align:center;
+    font-family: Manrope;
+    text-align: center;
     vertical-align: middle;
-    font-size:26px;
+    font-size: 26px;
     font-style: italic;
-    letter-spacing:1px;
-    cursor: pointer;
-}
-
-.group_list_label {
-    color:rgba(0, 0, 0, 1);
-    width:20%;
-    height:41px;
-    position:absolute;
-    left:32.5%;
-    top: 25%;
-    font-family:Manrope;
-    text-align:center;
-    vertical-align: middle;
-    font-size:26px;
-    font-style: italic;
-    letter-spacing:1px;
-}
-
-.Exit_button {
-    width:360px;
-    height:100px;
-    position:absolute;
-    left: 17.5%;
-    top: 80%;
-
-    background-color:rgba(0, 0, 0, 0.6000000238418579);
-    border-top-left-radius:10px;
-    border-top-right-radius:10px;
-    border-bottom-left-radius:10px;
-    border-bottom-right-radius:10px;
-
-    border:2px solid rgba(101.92281246185303, 10.031780898571014, 218.87500405311584, 1);
-
-    color:rgba(255, 255, 255, 1);
-    font-family:Manrope;
-    text-align:center;
-    font-size:45px;
-    letter-spacing:0;
-    cursor: pointer;
-}
-
-.Approve_button {
-    width:360px;
-    height:100px;
-    position:absolute;
-    left: 60%;
-    top: 80%;
-
-    background-color:rgba(0, 0, 0, 0.6000000238418579);
-    border-top-left-radius:10px;
-    border-top-right-radius:10px;
-    border-bottom-left-radius:10px;
-    border-bottom-right-radius:10px;
-
-    border:2px solid rgba(101.92281246185303, 10.031780898571014, 218.87500405311584, 1);
-
-    color:rgba(255, 255, 255, 1);
-    font-family:Manrope;
-    text-align:center;
-    font-size:45px;
-    letter-spacing:0;
+    letter-spacing: 1px;
     cursor: pointer;
 }
 
 .fio_editing {
-    color:rgba(0, 0, 0, 1);
-    width:20%;
-    height:41px;
-    position:absolute  ;
-    left:55%;
+    color: rgba(0, 0, 0, 1);
+    width: 20%;
+    height: 41px;
+    position: absolute;
+    left: 55%;
     margin-top: -2.65%;
-    font-family:Manrope;
-    text-align:center;
+    font-family: Manrope;
+    text-align: center;
     vertical-align: middle;
-    font-size:26px;
+    font-size: 26px;
     font-style: italic;
-    letter-spacing:1px;
-}
-
-.fio_label {
-    color:rgba(0, 0, 0, 1);
-    width:20%;
-    height:41px;
-    position:absolute;
-    left:55%;
-    top: 25%;
-    font-family:Manrope;
-    text-align:center;
-    vertical-align: middle;
-    font-size:26px;
-    font-style: italic;
-    letter-spacing:1px;
+    letter-spacing: 1px;
 }
 
 .type_editing {
-    width: 220px;
-    height: 70px;
-    margin-left: 1%;
-    margin-top: 13%;
-    left: 80%;
+    color: rgba(0, 0, 0, 1);
+    width: 15%;
+    height: 41px;
     position: absolute;
-
-
-    background-color: rgba(0, 0, 0, 0.44999998807907104);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-
-    border: 1px solid rgba(0, 0, 0, 1);
-
-    color: rgba(255, 255, 255, 1);
-
-    top: 13px;
+    margin-top: -2.65%;
+    left: 80%;
     font-family: Manrope;
+    font-style: italic;
     text-align: center;
-    font-size: 36px;
-    letter-spacing: 0;
+    letter-spacing: 1px;
+    font-size: 26px;
+    cursor: pointer;
 }
 
 .subj_editing {
-    width: 620px;
+    width: 610px;
     height: 81px;
     margin-left: 1%;
-    margin-top: 22%;
+    margin-top: -5.25%;
     left: 54%;
     position: absolute;
+    color: rgba(0, 0, 0, 1);
+    font-family: Manrope;
+    text-align: center;
+    font-style: italic;
+    font-size: 26px;
+}
 
+.Exit_button {
+    width: 360px;
+    height: 100px;
+    position: absolute;
+    left: 17.5%;
+    top: 80%;
 
-    background-color: rgba(0, 0, 0, 0.44999998807907104);
+    background-color: rgba(0, 0, 0, 0.6000000238418579);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 
-    border: 1px solid rgba(0, 0, 0, 1);
+    border: 2px solid rgba(101.92281246185303, 10.031780898571014, 218.87500405311584, 1);
 
     color: rgba(255, 255, 255, 1);
-
-    top: 13px;
     font-family: Manrope;
     text-align: center;
-    font-size: 36px;
+    font-size: 45px;
     letter-spacing: 0;
+    cursor: pointer;
+}
+
+.Approve_button {
+    width: 360px;
+    height: 100px;
+    position: absolute;
+    left: 60%;
+    top: 80%;
+
+    background-color: rgba(0, 0, 0, 0.6000000238418579);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    border: 2px solid rgba(101.92281246185303, 10.031780898571014, 218.87500405311584, 1);
+
+    color: rgba(255, 255, 255, 1);
+    font-family: Manrope;
+    text-align: center;
+    font-size: 45px;
+    letter-spacing: 0;
+    cursor: pointer;
 }

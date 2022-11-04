@@ -20,7 +20,7 @@ public interface IScheduleTable
 
     IEnumerable<Subject> GetAllSubjects();
     IEnumerable<Subject> GetSubjectsByProfessor(Professor prof);
-    Subject GetSubjectByName(string name);
+    Subject GetSubjectById(int id);
     void CreateSubject(Subject subject);
 
     IEnumerable<Group> GetAllGroups();
@@ -28,15 +28,17 @@ public interface IScheduleTable
     void CreateGroup(Group group);
 
     IEnumerable<LessonType> GetAllLessonTypes();
+    LessonType GetLessonTypeById(int id);
 
-    IEnumerable<LessonType> GetSubjectTypeAvailable(ScheduleEntryCreateForm data);
-    IEnumerable<int> GetParaAvailable(ScheduleEntryCreateForm data);
-    IEnumerable<Subject> GetSubjectsAvailable(ScheduleEntryCreateForm data);
-    IEnumerable<Professor> GetProfessorsAvailable(ScheduleEntryCreateForm data);
-    IEnumerable<Group> GetGroupsAvailable(ScheduleEntryCreateForm data);
-    IEnumerable<DateTime> GetDatesOccupied(ScheduleEntryCreateForm data);
-    IEnumerable<int> GetCabinetsOccupied(ScheduleEntryCreateForm data);
-    bool EditScheduleEntryFromFormAndId(int id, ScheduleEntryCreateForm data);
-    bool PostScheduleEntryFromForm(ScheduleEntryCreateForm data);
+    IEnumerable<LessonType> GetSubjectTypeAvailable(ScheduleEntryForm data);
+    IEnumerable<int> GetParaAvailable(ScheduleEntryForm data);
+    IEnumerable<Subject> GetSubjectsAvailable(ScheduleEntryForm data);
+    IEnumerable<Professor> GetProfessorsAvailable(ScheduleEntryForm data);
+    IEnumerable<Group> GetGroupsAvailable(ScheduleEntryForm data);
+    IEnumerable<DateTime> GetDatesOccupied(ScheduleEntryForm data);
+    IEnumerable<int> GetCabinetsOccupied(ScheduleEntryForm data);
+    ScheduleEntryForm GetFormByEntryId(int Id);
+    bool EditScheduleEntryFromForm(ScheduleEntryForm data);
+    bool PostScheduleEntryFromForm(ScheduleEntryForm data);
 
 }

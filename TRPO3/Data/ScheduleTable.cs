@@ -126,12 +126,12 @@ public sealed class ScheduleTable : IScheduleTable
 
     public Group GetGroupById(int id)
     {
-        return _context.Groups.Where(g => g.Id == id).FirstOrDefault();
+        return _context.Groups.Where(g => g.Id == id).Single();
     }
 
     public Professor GetProfessorById(int id)
     {
-        return GetAllProfessorsLazy().Where(p => p.Id == id).FirstOrDefault();
+        return GetAllProfessorsLazy().Where(p => p.Id == id).Single();
     }
 
     public IEnumerable<Professor> GetProfessorsBySubject(Subject subject)
@@ -141,12 +141,17 @@ public sealed class ScheduleTable : IScheduleTable
 
     public ScheduleEntry GetScheduleEntryById(int id)
     {
-        return GetAllEntriesLazy().Where(e => e.Id == id).FirstOrDefault();
+        return GetAllEntriesLazy().Single(e => e.Id == id);
     }
 
-    public Subject GetSubjectByName(string name)
+    public Subject GetSubjectById(int id)
     {
-        return GetAllSubjectsLazy().Where(p => p.Name == name).FirstOrDefault();
+        return GetAllSubjectsLazy().Single(s => s.Id == id);
+    }
+
+    public LessonType GetLessonTypeById(int id)
+    {
+        return GetAllLessonTypes().Single(s => s.Id == id);
     }
 
     public IEnumerable<Subject> GetSubjectsByProfessor(Professor prof)
@@ -164,7 +169,7 @@ public sealed class ScheduleTable : IScheduleTable
         return _context.LessonTypes.OrderBy(s => s.Id).ToList();
     }
 
-    public IEnumerable<LessonType> GetSubjectTypeAvailable(ScheduleEntryCreateForm data)
+    public IEnumerable<LessonType> GetSubjectTypeAvailable(ScheduleEntryForm data)
     {
         return GetAllLessonTypes();
     }
@@ -191,7 +196,7 @@ public sealed class ScheduleTable : IScheduleTable
                 .Aggregate((prev, cur) => prev.Intersect(cur));
     }
 
-    public IEnumerable<Subject> GetSubjectsAvailable(ScheduleEntryCreateForm data)
+    public IEnumerable<Subject> GetSubjectsAvailable(ScheduleEntryForm data)
     {
         // Group or Professor were already selected
         var items = GetAllSubjectsLazy();
@@ -215,7 +220,7 @@ public sealed class ScheduleTable : IScheduleTable
         return items.ToList();
     }
 
-    public IEnumerable<Professor> GetProfessorsAvailable(ScheduleEntryCreateForm data)
+    public IEnumerable<Professor> GetProfessorsAvailable(ScheduleEntryForm data)
     {
         var items = GetAllProfessorsLazy();
 
@@ -247,9 +252,9 @@ public sealed class ScheduleTable : IScheduleTable
         return items.ToList();
     }
 
-    public IEnumerable<Group> GetGroupsAvailable(ScheduleEntryCreateForm data)
+    public IEnumerable<Group> GetGroupsAvailable(ScheduleEntryForm data)
     {
-        var items = GetAllGroupsLazy().AsEnumerable();
+        var items = GetAllGroupsLazy();
         if (data.GroupIds.Any())
         {
             var selectedGroups = GetGroupsFromIdsLazy(data.GroupIds);
@@ -277,10 +282,15 @@ public sealed class ScheduleTable : IScheduleTable
         return items.ToList();
     }
 
-    public IEnumerable<DateTime> GetDatesOccupied(ScheduleEntryCreateForm data)
+    public IEnumerable<DateTime> GetDatesOccupied(ScheduleEntryForm data)
     {
         // Group || Professor already chosen
         var items = GetAllEntriesLazy();
+        if (data.EditingEntryId is int id)
+        {
+            // exclude item which we edit
+            items = items.Where(i => i.Id != id);
+        }
         // Date are occupied when Groups or Proffessors have 4 paras in single day
         return items.GroupBy(p => p.Date.Date, p => new
         {
@@ -299,26 +309,37 @@ public sealed class ScheduleTable : IScheduleTable
         .Where(d => d.Groups || d.Professors).Select(o => o.Key).ToList();
     }
 
-    public IEnumerable<int> GetParaAvailable(ScheduleEntryCreateForm data)
+    public IEnumerable<int> GetParaAvailable(ScheduleEntryForm data)
     {
         // Date and group || prof was selected => нужно отсеять занятые пары
         if (data.Date is DateTime date)
         {
-            var items = GetAllEntriesLazy().Where(i => i.Date.Date == date.Date
+            var items = GetAllEntriesLazy();
+            if (data.EditingEntryId is int id)
+            {
+                // exclude item which we edit
+                items = items.Where(i => i.Id != id);
+            }
+            var TotalParas = new List<int> { 1, 2, 3, 4, 5, 6 };
+            return TotalParas.Except(items.Where(i => i.Date.Date == date.Date
                 && (i.Groups.Any(g => data.GroupIds.Contains(g.Id))
                 || i.Professors.Any(p => data.ProfessorIds.Contains(p.Id))))
-                .Select(i => i.Para);
-            var TotalParas = new List<int> { 1, 2, 3, 4, 5, 6 };
-            return TotalParas.Except(items);
+                .Select(i => i.Para));
         }
         return Array.Empty<int>();
     }
 
-    public IEnumerable<int> GetCabinetsOccupied(ScheduleEntryCreateForm data)
+    public IEnumerable<int> GetCabinetsOccupied(ScheduleEntryForm data)
     {
         if (data.Date is DateTime date && data.Para is int para)
         {
             var items = GetAllEntriesLazy();
+            if (data.EditingEntryId is int id)
+            {
+                // exclude item which we edit
+                items = items.Where(i => i.Id != id);
+            }
+
             return items.Where(i => i.Date.Date == date.Date && i.Para == para)
                         .Select(i => i.Cabinet)
                         .Distinct()
@@ -327,7 +348,7 @@ public sealed class ScheduleTable : IScheduleTable
         return Array.Empty<int>();
     }
 
-    public bool PostScheduleEntryFromForm(ScheduleEntryCreateForm data)
+    public bool PostScheduleEntryFromForm(ScheduleEntryForm data)
     {
 
         if (data.Date is DateTime date
@@ -343,10 +364,10 @@ public sealed class ScheduleTable : IScheduleTable
                 Date = date.Date,
                 Cabinet = cab,
                 Para = para,
-                Subject = _context.Subjects.Where(s => s.Id == subjID).FirstOrDefault(),
+                Subject = _context.Subjects.Where(s => s.Id == subjID).Single(),
                 Groups = _context.Groups.Where(g => data.GroupIds.Contains(g.Id)).ToList(),
                 Professors = _context.Professors.Where(p => data.ProfessorIds.Contains(p.Id)).ToList(),
-                Type = _context.LessonTypes.FirstOrDefault(l => l.Id == typeId)
+                Type = _context.LessonTypes.Single(l => l.Id == typeId)
             };
             _context.Schedule.Add(entry);
 
@@ -356,8 +377,49 @@ public sealed class ScheduleTable : IScheduleTable
         return false;
     }
 
-    public bool EditScheduleEntryFromFormAndId(int id, ScheduleEntryCreateForm data)
+    public bool EditScheduleEntryFromForm(ScheduleEntryForm data)
     {
-        throw new NotImplementedException();
+        if (data.EditingEntryId is int id)
+        {
+            var editedEntry = _context.Schedule.Where(e => e.Id == id).Single();
+
+            if (data.Date is DateTime date
+            && data.Cabinet is int cab
+            && data.Para is int para
+            && data.SubjectId is int subjID
+            && data.GroupIds.Any()
+            && data.ProfessorIds.Any()
+            && data.SubjectTypeId is int typeId)
+            {
+                editedEntry.Date = date.Date;
+                editedEntry.Cabinet = cab;
+                editedEntry.Para = para;
+                editedEntry.Subject = _context.Subjects.Where(s => s.Id == subjID).Single();
+                editedEntry.Groups = _context.Groups.Where(g => data.GroupIds.Contains(g.Id)).ToList();
+                editedEntry.Professors = _context.Professors.Where(p => data.ProfessorIds.Contains(p.Id)).ToList();
+                editedEntry.Type = _context.LessonTypes.Single(l => l.Id == typeId);
+                return SaveChanges();
+            }
+        }
+
+        return false;
     }
+
+    public ScheduleEntryForm GetFormByEntryId(int id)
+    {
+        var entry = GetScheduleEntryById(id);
+        return new ScheduleEntryForm
+        {
+            EditingEntryId = id,
+            Date = entry.Date.Date,
+            Cabinet = entry.Cabinet,
+            Para = entry.Para,
+            SubjectId = entry.Subject.Id,
+            GroupIds = entry.Groups.Select(g => g.Id).ToList(),
+            ProfessorIds = entry.Professors.Select(p => p.Id).ToList(),
+            SubjectTypeId = entry.Subject.Id
+        };
+    }
+
+
 }

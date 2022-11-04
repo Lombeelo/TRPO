@@ -99,73 +99,96 @@ public class ScheduleController : ControllerBase
 
 
     [HttpPost, Route("GetSubjectTypeAvailable")]
-    public ActionResult<IEnumerable<ScheduleLessonTypeReadDto>> GetSubjectTypeAvailable(ScheduleEntryCreateForm data)
+    public ActionResult<IEnumerable<ScheduleLessonTypeReadDto>> GetSubjectTypeAvailable(ScheduleEntryForm data)
     {
         LogMethodInfo(data);
         return Ok(_mapper.Map<IEnumerable<ScheduleLessonTypeReadDto>>(_table.GetAllLessonTypes()));
     }
 
     [HttpPost, Route("GetParaAvailable")]
-    public ActionResult<IEnumerable<int>> GetParaAvailable(ScheduleEntryCreateForm data)
+    public ActionResult<IEnumerable<int>> GetParaAvailable(ScheduleEntryForm data)
     {
         LogMethodInfo(data);
         return Ok(_table.GetParaAvailable(data));
     }
 
     [HttpPost, Route("GetSubjectsAvailable")]
-    public ActionResult<IEnumerable<ScheduleSubjectReadDto>> GetSubjectsAvailable(ScheduleEntryCreateForm data)
+    public ActionResult<IEnumerable<ScheduleSubjectReadDto>> GetSubjectsAvailable(ScheduleEntryForm data)
     {
         LogMethodInfo(data);
         return Ok(_mapper.Map<IEnumerable<ScheduleSubjectReadDto>>(_table.GetSubjectsAvailable(data)));
     }
 
     [HttpPost, Route("GetProfessorsAvailable")]
-    public ActionResult<IEnumerable<ScheduleProfessorReadDto>> GetProfessorsAvailable(ScheduleEntryCreateForm data)
+    public ActionResult<IEnumerable<ScheduleProfessorReadDto>> GetProfessorsAvailable(ScheduleEntryForm data)
     {
         LogMethodInfo(data);
         return Ok(_mapper.Map<IEnumerable<ScheduleProfessorReadDto>>(_table.GetProfessorsAvailable(data)));
     }
 
     [HttpPost, Route("GetGroupsAvailable")]
-    public ActionResult<IEnumerable<ScheduleGroupReadDto>> GetGroupsAvailable(ScheduleEntryCreateForm data)
+    public ActionResult<IEnumerable<ScheduleGroupReadDto>> GetGroupsAvailable(ScheduleEntryForm data)
     {
         LogMethodInfo(data);
         return Ok(_mapper.Map<IEnumerable<ScheduleGroupReadDto>>(_table.GetGroupsAvailable(data)));
     }
 
     [HttpPost, Route("GetDatesOccupied")]
-    public ActionResult<IEnumerable<DateTime>> GetDatesOccupied(ScheduleEntryCreateForm data)
+    public ActionResult<IEnumerable<DateTime>> GetDatesOccupied(ScheduleEntryForm data)
     {
         LogMethodInfo(data);
         return Ok(_table.GetDatesOccupied(data));
     }
 
     [HttpPost, Route("GetCabinetsOccupied")]
-    public ActionResult<IEnumerable<int>> GetCabinetsOccupied(ScheduleEntryCreateForm data)
+    public ActionResult<IEnumerable<int>> GetCabinetsOccupied(ScheduleEntryForm data)
     {
         LogMethodInfo(data);
         return Ok(_table.GetCabinetsOccupied(data));
     }
 
     [HttpPost, Route("GetFormFromScheduleEntryId")]
-    public ActionResult<ScheduleEntryEditForm> GetFormFromScheduleEntryId(int id)
+    public ActionResult<ScheduleEntryForm> GetFormFromScheduleEntryId(IdDto dto)
     {
-        var form = _mapper.Map<ScheduleEntryCreateForm>(_table.GetScheduleEntryById(id));
-        return Ok(new ScheduleEntryEditForm
-        {
-            Id = id,
-            Form = form
-        });
+        var form = _table.GetFormByEntryId(dto.Id);
+        return Ok(form);
+    }
+
+    [HttpPost, Route("GetGroupById")]
+    public ActionResult<ScheduleGroupReadDto> GetGroupById(IdDto dto)
+    {
+        var item = _table.GetGroupById(dto.Id);
+        return Ok(_mapper.Map<ScheduleGroupReadDto>(item));
+    }
+
+    [HttpPost, Route("GetProfessorById")]
+    public ActionResult<ScheduleProfessorReadDto> GetProfessorById(IdDto dto)
+    {
+        var item = _table.GetProfessorById(dto.Id);
+        return Ok(_mapper.Map<ScheduleProfessorReadDto>(item));
+    }
+
+    [HttpPost, Route("GetSubjectTypeById")]
+    public ActionResult<ScheduleLessonTypeReadDto> GetSubjectTypeById(IdDto dto)
+    {
+        var item = _table.GetLessonTypeById(dto.Id);
+        return Ok(_mapper.Map<ScheduleLessonTypeReadDto>(item));
+    }
+    [HttpPost, Route("GetSubjectById")]
+    public ActionResult<ScheduleSubjectReadDto> GetSubjectById(IdDto dto)
+    {
+        var item = _table.GetSubjectById(dto.Id);
+        return Ok(_mapper.Map<ScheduleSubjectReadDto>(item));
     }
 
     [HttpPost, Route("EditScheduleEntryFromForm")]
-    public ActionResult EditScheduleEntryFromForm(ScheduleEntryCreateForm data)
+    public ActionResult EditScheduleEntryFromForm(ScheduleEntryForm data)
     {
         throw new NotImplementedException();
     }
 
     [HttpPost, Route("PostScheduleEntryFromForm")]
-    public ActionResult<bool> PostScheduleEntryFromForm(ScheduleEntryCreateForm data)
+    public ActionResult<bool> PostScheduleEntryFromForm(ScheduleEntryForm data)
     {
         LogMethodInfo(data);
         var created = _table.PostScheduleEntryFromForm(data);
