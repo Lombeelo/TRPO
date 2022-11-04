@@ -288,7 +288,7 @@ function Schedule(props) {
                                             )
                                     }
                                         <button className = "Schedule_Editing" onClick = {OnEditing}/>
-                                        {console.log(editing)};
+                                        {console.log(editing)}
                                     </div>
                             }
                         </div>
