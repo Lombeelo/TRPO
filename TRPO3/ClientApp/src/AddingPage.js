@@ -8,10 +8,21 @@ import 'react-calendar/dist/Calendar.css';
 
 import Select from 'react-select';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { callApiPost } from "./requests.js";
 
+
 function AddingPage() {
+
+    const location = useLocation();
+    const [locationState, setLocationState] = useState({ from: ''})
+
+    useEffect (() => {
+        if (location.state) {
+            setLocationState(location.state)
+        }
+    })
+
     const [form, setForm] = useState({
         date: null,
         para: null,

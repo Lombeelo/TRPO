@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+
+import { Link } from 'react-router-dom';
+
 import MultiSelect from 'react-multiple-select-dropdown-lite';
 
 import "./schedule_styles/schedule_card.css";
@@ -149,7 +152,7 @@ function Pair_Card(props) {
                         singleSelect={g_flag} /> */}
 
                     
-                    <button className="Pair_Editing" onClick = {onEdit} ></button>
+                        <Link to="/AddingPage" state = {{from: "PairCard"}}><button className="Pair_Editing" onClick = {onEdit} ></button></Link>
                     <button className = "Pair_Removal" onClick = {onRemove}> </button>
                 </div>
             }
