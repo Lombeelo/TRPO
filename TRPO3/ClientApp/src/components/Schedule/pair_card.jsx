@@ -19,85 +19,90 @@ function Pair_Card(props) {
 
     const inEdit = props.editing;
 
-    const [newInfo, setEditInfo] = useState([
-        {
-            id: 0, new_subject: props.pairs.subj_name, new_teach_fio: props.pairs.teach_fio, new_pair_type: props.pairs.pair_type,
-            new_cabinet: props.pairs.cabinet, new_group_list: props.pairs.groups
-        },
+    // const [newInfo, setEditInfo] = useState([
+    //     {
+    //         id: 0, new_subject: props.pairs.subj_name, new_teach_fio: props.pairs.teach_fio, new_pair_type: props.pairs.pair_type,
+    //         new_cabinet: props.pairs.cabinet, new_group_list: props.pairs.groups
+    //     },
 
-        {
-            id: 1, new_subject: "Матан", new_teach_fio: "Чечиков Юрий Борисович", new_pair_type: "Лекция",
-            new_cabinet: "228", new_group_list: "М3О-307Б-20, М3О-309Б-20"
-        }
-    ])
+    //     {
+    //         id: 1, new_subject: "Матан", new_teach_fio: "Чечиков Юрий Борисович", new_pair_type: "Лекция",
+    //         new_cabinet: "228", new_group_list: "М3О-307Б-20, М3О-309Б-20"
+    //     }
+    // ])
 
-    const [sel_subj, setSelSubj] = useState("default")
-    const handleChangeSubj = (event) => {
-        setSelSubj(event.target.value)
-    }
+    // const [sel_subj, setSelSubj] = useState("default")
+    // const handleChangeSubj = (event) => {
+    //     setSelSubj(event.target.value)
+    // }
 
-    const [sel_fio, setSelFio] = useState("default")
-    const handleChangeFio = (event) => {
-        setSelFio(event.target.value)
-    }
+    // const [sel_fio, setSelFio] = useState("default")
+    // const handleChangeFio = (event) => {
+    //     setSelFio(event.target.value)
+    // }
 
-    const [sel_type, setSelType] = useState("default")
-    const handleChangeType = (event) => {
-        setSelType(event.target.value)
-        if (event.target.value == "Лекция") ChangeG();
-        else if (event.target.value == "ЛР") ChangeMF();
-        else if (event.target.value == "ПЗ") {
-            if (mf_flag == false) ChangeMF();
-            if (g_flag == false) ChangeG();
-        }
+    // const [sel_type, setSelType] = useState("default")
+    // const handleChangeType = (event) => {
+    //     setSelType(event.target.value)
+    //     if (event.target.value == "Лекция") ChangeG();
+    //     else if (event.target.value == "ЛР") ChangeMF();
+    //     else if (event.target.value == "ПЗ") {
+    //         if (mf_flag == false) ChangeMF();
+    //         if (g_flag == false) ChangeG();
+    //     }
 
-    }
+    // }
 
-    const [sel_cabinet, setSelCabinet] = useState("default")
-    const handleChangeCabinet = (event) => {
-        setSelCabinet(event.target.value)
-    }
+    // const [sel_cabinet, setSelCabinet] = useState("default")
+    // const handleChangeCabinet = (event) => {
+    //     setSelCabinet(event.target.value)
+    // }
 
-    const [sel_groups, setSelGroups] = useState("default")
-    const handleChangeGroups = (event) => {
-        setSelGroups(event.target.value)
-    }
+    // const [sel_groups, setSelGroups] = useState("default")
+    // const handleChangeGroups = (event) => {
+    //     setSelGroups(event.target.value)
+    // }
 
-    //------------------------------------------------------------
+    // //------------------------------------------------------------
 
-    const [value_groups, setValueGroups] = useState("");
-    const handleOnchangeGroups = (value_groups) => {
-        if (value_groups.count <= 1) setValueGroups(value_groups);
-    }
-    const group_options = [
-        { label: "307Б", value: "М3О-307Б-20" },
-        { label: "309Б", value: "М3О-309Б-20" },
-        { label: "310Б", value: "М3О-310Б-20" }
-    ];
+    // const [value_groups, setValueGroups] = useState("");
+    // const handleOnchangeGroups = (value_groups) => {
+    //     if (value_groups.count <= 1) setValueGroups(value_groups);
+    // }
+    // const group_options = [
+    //     { label: "307Б", value: "М3О-307Б-20" },
+    //     { label: "309Б", value: "М3О-309Б-20" },
+    //     { label: "310Б", value: "М3О-310Б-20" }
+    // ];
 
 
-    const [value_fio, setValueFio] = useState("");
-    const handleOnchangeFio = (value_fio) => {
-        if (value_fio.count <= 1) setValueFio(value_fio);
-    }
-    const fio_options = [
-        { label: "Вестяк А.В", value: "Вестяк Анатолий Васильевич" },
-        { label: "Вестяк А.В", value: "Вестяк Анатолий Васильевич" }
-    ]
+    // const [value_fio, setValueFio] = useState("");
+    // const handleOnchangeFio = (value_fio) => {
+    //     if (value_fio.count <= 1) setValueFio(value_fio);
+    // }
+    // const fio_options = [
+    //     { label: "Вестяк А.В", value: "Вестяк Анатолий Васильевич" },
+    //     { label: "Вестяк А.В", value: "Вестяк Анатолий Васильевич" }
+    // ]
 
-    const [mf_flag, setMFflag] = useState(true);
-    const [g_flag, setGflag] = useState(true);
+    // const [mf_flag, setMFflag] = useState(true);
+    // const [g_flag, setGflag] = useState(true);
 
-    function ChangeMF() {
-        setMFflag(!mf_flag);
-    }
+    // function ChangeMF() {
+    //     setMFflag(!mf_flag);
+    // }
 
-    function ChangeG() {
-        setGflag(!g_flag);
-    }
+    // function ChangeG() {
+    //     setGflag(!g_flag);
+    // }
     //----------------------------------------------------------
 
-    function Remove() {
+
+    function onEdit() {
+
+    }
+
+    function onRemove() {
 
     }
 
@@ -144,8 +149,8 @@ function Pair_Card(props) {
                         singleSelect={g_flag} /> */}
 
                     
-                    <button className="Pair_Editing" ></button>
-                    <button className = "Pair_Removal"> </button>
+                    <button className="Pair_Editing" onClick = {onEdit} ></button>
+                    <button className = "Pair_Removal" onClick = {onRemove}> </button>
                 </div>
             }
 
