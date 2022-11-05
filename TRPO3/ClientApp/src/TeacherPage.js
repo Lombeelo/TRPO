@@ -15,10 +15,10 @@ function TeacherPage() {
 
     const [loading, setLoading] = useState(false);
 
-    const chooseOption = [{ id: 0, fullName: "ФИО преподавателя" }];
+    const chooseOption = [{ id: 0, name: "ФИО преподавателя" }];
 
     const [teacher_fios, setTeacher_fios] = useState([
-        { id: 0, fullName: "ФИО преподавателя" },
+        { id: 0, name: "ФИО преподавателя" },
 
 
     ])
@@ -55,7 +55,7 @@ function TeacherPage() {
                     onChange={handleChange}>
                     {
                         teacher_fios.map(fios =>
-                            <option disabled={loading} key={fios.id} value={fios.fullName}>{fios.fullName}</option>)}
+                            <option disabled={loading} key={fios.id} value={fios.name}>{fios.name}</option>)}
                 </select>
 
             </form>
