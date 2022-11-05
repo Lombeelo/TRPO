@@ -152,7 +152,7 @@ function Pair_Card(props) {
                         singleSelect={g_flag} /> */}
 
                     
-                        <Link to="/AddingPage" state = {{from: "PairCard"}}><button className="Pair_Editing" onClick = {onEdit} ></button></Link>
+                        <Link to="/AddingPage" state = {{editingId: props.pairs.id}}><button className="Pair_Editing" onClick = {onEdit} ></button></Link>
                     <button className = "Pair_Removal" onClick = {onRemove}> </button>
                 </div>
             }
