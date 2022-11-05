@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import "../src/components/Editing/editing_styles.css";
+import "./components/Schedule/schedule_filters/filters.css";
 
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -261,13 +262,18 @@ function AddingPage() {
 
     const formSubmit = () => {
         if (isEditMode) {
+            setFormLoading(true)
             callApiPost("EditScheduleEntryFromForm", mapFormToApiFormat(form), (resp) => {
                 console.log("Tried to edit the form: ", resp.data)
+                .then(setFormLoading(false))
             });
         } else {
+            setFormLoading(true)
             callApiPost("PostScheduleEntryFromForm", mapFormToApiFormat(form), (resp) => {
                 console.log("Tried to submit the form: ", resp.data)
+                .then(setFormLoading(false))
             });
+            
         }
     }
 
@@ -275,110 +281,118 @@ function AddingPage() {
         <div className="App">
 
             <h1> Это страница для добавления пар </h1>
-            <Select className="group_list_editing"
-                isMulti={manyGroupsFlag}
-                isClearable={true}
-                value={multiselectGetShownValue(form.groups, manyGroupsFlag)}
-                options={groupOptions.map(mapToMultiselectFormat)}
-                onChange={createMultiSelectChangeHandler("groups", updateGroups, manyGroupsFlag, true)}
-                onFocus={() => updateGroups(form)}
-                isLoading={groupsLoading}
-                placeholder={"Группа(ы)"}
-            />
-
-            <Select
-                className="fio_editing"
-                isMulti={manyFiosFlag}
-                isClearable={true}
-                value={multiselectGetShownValue(form.professors, manyFiosFlag)}
-                options={fioOptions.map(mapToMultiselectFormat)}
-                onChange={createMultiSelectChangeHandler("professors", updateFios, manyFiosFlag, true)}
-                onFocus={() => updateFios(form)}
-                isLoading={fiosLoading}
-                placeholder={"Преподаватель(и)"}
-            />
-
-            <Select
-                className="type_editing"
-                isClearable={true}
-                value={mapToMultiselectFormat(form.type)}
-                options={subjectTypeOptions.map(mapToMultiselectFormat)}
-                onChange={handleChangeType}
-                onFocus={() => updateSubjectTypes(form)}
-                isLoading={subjTypesLoading}
-                placeholder={"Тип занятия"}
-            />
-
-            <div className="calendar">
-                <DatePicker
-                    selected={dateChosen ? form.date : new Date()}
-                    onChange={handleClickDay}
-                    minDate={minimumDate}
-                    // Disable Datepicker
-                    maxDate={(form.groups.length === 0 && form.professors.length === 0)
-                        || calendarUpdating
-                        ? minimumDate : maximumDate}
-                    excludeDates={disabledDates}
-                    inline
-                    calendarStartDay={1}
-                />
-            </div>
-
-            <div>
-                <Select
-                    className="para"
-                    isDisabled={!dateChosen}
-                    isClearable={true}
-                    value={mapToMultiselectFormat(form.para)}
-                    options={paraOptions.map(mapToMultiselectFormat)}
-                    onChange={createMultiSelectChangeHandler("para", updatePara, false, false)}
-                    onFocus={() => updatePara(form)}
-                    isLoading={paraLoading}
-                    placeholder={"Номер пары"}
-                />
-
-                <Select
-                    className="subj_editing"
-                    isDisabled={(form.groups.length === 0 && form.professors.length === 0)}
-                    isClearable={true}
-                    value={mapToMultiselectFormat(form.subject)}
-                    options={subjectOptions.map(mapToMultiselectFormat)}
-                    onChange={createMultiSelectChangeHandler("subject", updateSubjects, false, false)}
-                    onFocus={() => updateSubjects(form)}
-                    isLoading={subjectsLoading}
-                    placeholder={"Предмет"}
-                />
-
-                <Select
-                    className="cabinet_editing"
-                    isDisabled={form.subject === null}
-                    isClearable={true}
-                    value={mapToMultiselectFormat(form.cabinet)}
-                    options={cabinetOptions.map(mapToMultiselectFormat)}
-                    onChange={createMultiSelectChangeHandler("cabinet", updateCabinet, false, false)}
-                    onFocus={() => updateCabinet(form)}
-                    isLoading={cabinetsLoading}
-                    placeholder={"Кабинет"}
-                />
-
-            </div>
             {
-                <div>
-                    <Link to="/">
-                        <button disabled={false}
-                            className="Approve_button"
-                            onClick={formSubmit}>
-                            Подтвердить
-                        </button>
-                    </Link>
+                formLoading ?
+                    <div className="info"> Загрузка данных </div>
+                    :
+                    <div>
+                    <div>
+                        <Select className="group_list_editing"
+                            isMulti={manyGroupsFlag}
+                            isClearable={true}
+                            value={multiselectGetShownValue(form.groups, manyGroupsFlag)}
+                            options={groupOptions.map(mapToMultiselectFormat)}
+                            onChange={createMultiSelectChangeHandler("groups", updateGroups, manyGroupsFlag, true)}
+                            onFocus={() => updateGroups(form)}
+                            isLoading={groupsLoading}
+                            placeholder={"Группа(ы)"}
+                        />
+                    </div>
+                        <Select
+                            className="fio_editing"
+                            isMulti={manyFiosFlag}
+                            isClearable={true}
+                            value={multiselectGetShownValue(form.professors, manyFiosFlag)}
+                            options={fioOptions.map(mapToMultiselectFormat)}
+                            onChange={createMultiSelectChangeHandler("professors", updateFios, manyFiosFlag, true)}
+                            onFocus={() => updateFios(form)}
+                            isLoading={fiosLoading}
+                            placeholder={"Преподаватель(и)"}
+                        />
 
-                    <Link to="/" state={{ from: "AddingPage", update: true }}>
-                        <button className="Exit_button">
-                            Главное меню
-                        </button>
-                    </Link>
+                        <Select
+                            className="type_editing"
+                            isClearable={true}
+                            value={mapToMultiselectFormat(form.type)}
+                            options={subjectTypeOptions.map(mapToMultiselectFormat)}
+                            onChange={handleChangeType}
+                            onFocus={() => updateSubjectTypes(form)}
+                            isLoading={subjTypesLoading}
+                            placeholder={"Тип занятия"}
+                        />
 
-                </div>
+                        <div className="calendar">
+                            <DatePicker
+                                selected={dateChosen ? form.date : new Date()}
+                                onChange={handleClickDay}
+                                minDate={minimumDate}
+                                // Disable Datepicker
+                                maxDate={(form.groups.length === 0 && form.professors.length === 0)
+                                    || calendarUpdating
+                                    ? minimumDate : maximumDate}
+                                excludeDates={disabledDates}
+                                inline
+                                calendarStartDay={1}
+                            />
+                        </div>
+
+                        <div>
+                            <Select
+                                className="para"
+                                isDisabled={!dateChosen}
+                                isClearable={true}
+                                value={mapToMultiselectFormat(form.para)}
+                                options={paraOptions.map(mapToMultiselectFormat)}
+                                onChange={createMultiSelectChangeHandler("para", updatePara, false, false)}
+                                onFocus={() => updatePara(form)}
+                                isLoading={paraLoading}
+                                placeholder={"Номер пары"}
+                            />
+
+                            <Select
+                                className="subj_editing"
+                                isDisabled={(form.groups.length === 0 && form.professors.length === 0)}
+                                isClearable={true}
+                                value={mapToMultiselectFormat(form.subject)}
+                                options={subjectOptions.map(mapToMultiselectFormat)}
+                                onChange={createMultiSelectChangeHandler("subject", updateSubjects, false, false)}
+                                onFocus={() => updateSubjects(form)}
+                                isLoading={subjectsLoading}
+                                placeholder={"Предмет"}
+                            />
+
+                            <Select
+                                className="cabinet_editing"
+                                isDisabled={form.subject === null}
+                                isClearable={true}
+                                value={mapToMultiselectFormat(form.cabinet)}
+                                options={cabinetOptions.map(mapToMultiselectFormat)}
+                                onChange={createMultiSelectChangeHandler("cabinet", updateCabinet, false, false)}
+                                onFocus={() => updateCabinet(form)}
+                                isLoading={cabinetsLoading}
+                                placeholder={"Кабинет"}
+                            />
+
+                        </div>
+                        {
+                            <div>
+                                <Link to="/">
+                                    <button disabled={false}
+                                        className="Approve_button"
+                                        onClick={formSubmit}>
+                                        Подтвердить
+                                    </button>
+                                </Link>
+
+                                <Link to="/" state={{ from: "AddingPage", update: true }}>
+                                    <button className="Exit_button">
+                                        Главное меню
+                                    </button>
+                                </Link>
+
+                            </div>
+                        }
+                    </div>
             }
         </div>
     );
