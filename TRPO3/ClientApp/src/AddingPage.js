@@ -153,8 +153,7 @@ function AddingPage() {
     const [groupsLoading, setGroupsLoading] = useState(false)
     const [manyGroupsFlag, setManyGroupsFlag] = useState(false)
     const [groupOptions, setGroupOptions] = useState([
-        { name: "309Б", id: 1 },
-        { name: "310Б", id: 2 }
+       
     ])
     const updateGroups = createApiLoadCall(
         "GetGroupsAvailable",
@@ -167,8 +166,7 @@ function AddingPage() {
     const [manyFiosFlag, setManyFiosFlag] = useState(false)
     const [fiosLoading, setFiosLoading] = useState(false)
     const [fioOptions, setFioOptions] = useState([
-        { name: "Вестяк А.В.", id: 1 },
-        { name: "Чечиков Ю.Б.", id: 2 }
+       
     ])
     const updateFios = createApiLoadCall(
         "GetProfessorsAvailable",
@@ -180,9 +178,7 @@ function AddingPage() {
     const [subjTypesLoading, setSubjTypesLoading] = useState(false)
     const [subjectTypeOptions, setSubjectTypeOptions] = useState(
         [
-            { id: 1, name: "Лекция" },
-            { id: 2, name: "Семинар" },
-            { id: 3, name: "Лаба" }
+            
         ])
     const updateSubjectTypes = createApiLoadCall(
         "GetSubjectTypeAvailable",
@@ -214,8 +210,7 @@ function AddingPage() {
     const [paraLoading, setParaLoading] = useState(false)
     const [paraOptions, setParaOptions] = useState(
         [
-            { id: 1, name: "Первая" },
-            { id: 2, name: "Вторая" }
+            
         ])
     const updatePara = createApiLoadCall(
         "GetParaAvailable",
@@ -229,8 +224,7 @@ function AddingPage() {
     const [subjectsLoading, setSubjectsLoading] = useState(false)
     const [subjectOptions, setSubjectOptions] = useState(
         [
-            { id: 1, name: "Матан" },
-            { id: 2, name: "ООП" }
+            
         ])
 
     const updateSubjects = createApiLoadCall(
@@ -244,8 +238,7 @@ function AddingPage() {
     const [cabinetsLoading, setCabinetsLoading] = useState(false)
     const [cabinetOptions, setCabinetOptions] = useState(
         [
-            { id: 1, name: 330 },
-            { id: 2, name: 222 }
+            
         ])
     const updateCabinet = createApiLoadCall(
         "GetCabinetsOccupied",
