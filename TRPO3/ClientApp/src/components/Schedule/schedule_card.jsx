@@ -26,7 +26,7 @@ function ScheduleCard(props) {
         "18:15-19:45",
         "20:00-21:30"]
 
-    
+
     props.scheduleObject.sort((a, b) => a.para - b.para);
 
     const pairs = props.scheduleObject.map((schObj) => {
@@ -34,7 +34,7 @@ function ScheduleCard(props) {
             id: schObj.id,
             time: para_time[schObj.para - 1],
             subj_name: schObj.subject.name,
-            teach_fio: schObj.professors.map((schObjProff) => schObjProff.fullName).join(", "),
+            teach_fio: schObj.professors.map((schObjProff) => schObjProff.name).join(", "),
             pair_type: schObj.type.name,
             cabinet: schObj.cabinet,
             groups: schObj.groups.map((schObjGroups) => schObjGroups.name).join(", ")
@@ -50,7 +50,7 @@ function ScheduleCard(props) {
                 <span className="date_text"> {day.day_date}, {day.weekday}</span>
             </div>
             {pairs.map(pairs =>
-                <Pair_Card pairs={pairs} editing= {props.propsediting} key={pairs.time} />
+                <Pair_Card pairs={pairs} editing={props.propsediting} key={pairs.time} />
             )}
         </div>
 

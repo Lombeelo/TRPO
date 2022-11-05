@@ -36,6 +36,7 @@ public sealed class AppDbContext : DbContext
             .Entity<ScheduleEntry>()
             .HasMany(p => p.Professors)
             .WithMany(p => p.ScheduleEntries);
+
     }
 
     void SeedData()

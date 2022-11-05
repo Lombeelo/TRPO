@@ -1,6 +1,5 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TRPO3.Data;
 using TRPO3.Models;
 using TRPO3.Dtos;
@@ -148,10 +147,10 @@ public class ScheduleController : ControllerBase
     }
 
     [HttpPost, Route("GetFormFromScheduleEntryId")]
-    public ActionResult<ScheduleEntryForm> GetFormFromScheduleEntryId(IdDto dto)
+    public ActionResult<ScheduleEntryReadDto> GetFormFromScheduleEntryId(IdDto dto)
     {
-        var form = _table.GetFormByEntryId(dto.Id);
-        return Ok(form);
+        var form = _table.GetScheduleEntryById(dto.Id);
+        return Ok(_mapper.Map<ScheduleEntryReadDto>(form));
     }
 
     [HttpPost, Route("GetGroupById")]
@@ -181,10 +180,26 @@ public class ScheduleController : ControllerBase
         return Ok(_mapper.Map<ScheduleSubjectReadDto>(item));
     }
 
+    [HttpPost, Route("DeleteEntryById")]
+    public ActionResult<bool> DeleteEntryById(IdDto dto)
+    {
+        var result = _table.DeleteEntryById(dto.Id);
+        if (result)
+        {
+            return Ok(result);
+        }
+        return UnprocessableEntity(new { result, dto.Id });
+    }
+
     [HttpPost, Route("EditScheduleEntryFromForm")]
     public ActionResult EditScheduleEntryFromForm(ScheduleEntryForm data)
     {
-        throw new NotImplementedException();
+        var result = _table.EditScheduleEntryFromForm(data);
+        if (result)
+        {
+            return Ok(result);
+        }
+        return UnprocessableEntity(new { result, data });
     }
 
     [HttpPost, Route("PostScheduleEntryFromForm")]
@@ -196,7 +211,7 @@ public class ScheduleController : ControllerBase
         {
             return Ok(created);
         }
-        return UnprocessableEntity(new { created = created, data = data });
+        return UnprocessableEntity(new { created, data });
     }
 
 }

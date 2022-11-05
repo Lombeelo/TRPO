@@ -40,5 +40,6 @@ public interface IScheduleTable
     ScheduleEntryForm GetFormByEntryId(int Id);
     bool EditScheduleEntryFromForm(ScheduleEntryForm data);
     bool PostScheduleEntryFromForm(ScheduleEntryForm data);
+    bool DeleteEntryById(int id);
 
 }

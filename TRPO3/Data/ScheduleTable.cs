@@ -381,8 +381,7 @@ public sealed class ScheduleTable : IScheduleTable
     {
         if (data.EditingEntryId is int id)
         {
-            var editedEntry = _context.Schedule.Where(e => e.Id == id).Single();
-
+            var editedEntry = GetAllEntriesLazy().Single(e => e.Id == id);
             if (data.Date is DateTime date
             && data.Cabinet is int cab
             && data.Para is int para
@@ -391,13 +390,30 @@ public sealed class ScheduleTable : IScheduleTable
             && data.ProfessorIds.Any()
             && data.SubjectTypeId is int typeId)
             {
-                editedEntry.Date = date.Date;
-                editedEntry.Cabinet = cab;
-                editedEntry.Para = para;
-                editedEntry.Subject = _context.Subjects.Where(s => s.Id == subjID).Single();
-                editedEntry.Groups = _context.Groups.Where(g => data.GroupIds.Contains(g.Id)).ToList();
-                editedEntry.Professors = _context.Professors.Where(p => data.ProfessorIds.Contains(p.Id)).ToList();
-                editedEntry.Type = _context.LessonTypes.Single(l => l.Id == typeId);
+                foreach (var group in editedEntry.Groups)
+                {
+                    group.ScheduleEntries.Remove(editedEntry);
+                }
+                foreach (var professor in editedEntry.Professors)
+                {
+                    professor.ScheduleEntries.Remove(editedEntry);
+                }
+                editedEntry.Groups.Clear();
+                editedEntry.Professors.Clear();
+                _context.Remove(editedEntry);
+
+                var newEntry = new ScheduleEntry()
+                {
+                    Id = 0,
+                    Date = date.Date,
+                    Cabinet = cab,
+                    Para = para,
+                    Subject = _context.Subjects.Where(s => s.Id == subjID).Single(),
+                    Groups = _context.Groups.Where(g => data.GroupIds.Contains(g.Id)).ToList(),
+                    Professors = _context.Professors.Where(p => data.ProfessorIds.Contains(p.Id)).ToList(),
+                    Type = _context.LessonTypes.Single(l => l.Id == typeId),
+                };
+                _context.Add(newEntry);
                 return SaveChanges();
             }
         }
@@ -421,5 +437,9 @@ public sealed class ScheduleTable : IScheduleTable
         };
     }
 
-
+    public bool DeleteEntryById(int id)
+    {
+        _context.Schedule.Remove(_context.Schedule.Single(e => e.Id == id));
+        return SaveChanges();
+    }
 }

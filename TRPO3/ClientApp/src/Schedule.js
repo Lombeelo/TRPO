@@ -17,6 +17,10 @@ import { weekNumber } from 'weeknumber';
 
 function Schedule(props) {
 
+    // REMINDER
+    // USE "DeleteEntryById" API CALL TO REMOVE ENTRY
+    // INPUT "{ id: int }"
+    // RETURNS "true or UnprocessableEntity exception"
 
     const [scheduleObject, setScheduleObject] = useState(
         [
@@ -46,11 +50,11 @@ function Schedule(props) {
                 professors: [
                     {
                         id: 1,
-                        fullName: "Ратников"
+                        name: "Ратников"
                     },
                     {
                         id: 2,
-                        fullName: "Чугаев"
+                        name: "Чугаев"
                     }
                 ]
             }
@@ -63,7 +67,7 @@ function Schedule(props) {
 
     const [editing, setEditing] = useState(false);
     //-----------------------------------------------
-    function OnEditing () {
+    function OnEditing() {
         setEditing(!editing);
     }
 
@@ -125,7 +129,7 @@ function Schedule(props) {
 
     function get_current_week() {
         return (
-            weekNumber(new Date()) - weekNumber(firstDate)  + 1  
+            weekNumber(new Date()) - weekNumber(firstDate) + 1
         )
 
     }
@@ -133,7 +137,7 @@ function Schedule(props) {
     //console.log(weekNumber(new Date()) - weekNumber(firstDate) )
 
     const [filter, setFilter] = useState(
-        { week_f: get_current_week() , week_day_f: null, subject_f: null, type_f: null });
+        { week_f: get_current_week(), week_day_f: null, subject_f: null, type_f: null });
 
     const [filter_type, setFilterType] = useState(null);
 
@@ -185,15 +189,16 @@ function Schedule(props) {
         let temp = weeks;
         for (let i = new Date(firstDate); i < maxDate; i.setDate(i.getDate() + 7)) {
             let wd = startAndEndOfWeek(i);
-            temp.push({ id: id + 1, weekBeginDate: new Date (wd[0]), weekEndDate: new Date (wd[1]) });
+            temp.push({ id: id + 1, weekBeginDate: new Date(wd[0]), weekEndDate: new Date(wd[1]) });
             id++;
         }
 
         setWeeks(chooseWeekOption.concat(temp));
     }
 
-    React.useState(() => {        
-        FindWeeks();})
+    React.useState(() => {
+        FindWeeks();
+    })
 
 
     const [weeksOptions] = useState([])
@@ -202,7 +207,7 @@ function Schedule(props) {
 
     function Filtering(filter_params) {
         if (filter_params.week_f != null) {
-            
+
             let apiFunc, apiArg;
 
             if (location.state.from === "StudentPage") {
@@ -281,13 +286,13 @@ function Schedule(props) {
                                         </div>)
                                     :
                                     <div>
-                                    {
-                                        
+                                        {
+
                                             Object.entries(scheduleByDate).map(([date, schObj], index) =>
                                                 <ScheduleCard propsdate={date} scheduleObject={schObj} propsediting={editing} key={index} />
                                             )
-                                    }
-                                        <button className = "Schedule_Editing" onClick = {OnEditing}/>
+                                        }
+                                        <button className="Schedule_Editing" onClick={OnEditing} />
                                         {console.log(editing)}
                                     </div>
                             }

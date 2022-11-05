@@ -10,20 +10,21 @@ import Select from 'react-select';
 
 import { Link, useLocation } from 'react-router-dom';
 import { callApiPost } from "./requests.js";
+import startAndEndOfWeek from "./WeekDays";
 
 
 function AddingPage() {
 
-    const locationState = { editingId: 1 } // useLocation().state;
-    const isEditMode = true // !(locationState?.editingId === undefined)
+    const locationState = useLocation().state;
+    const isEditMode = !(locationState?.editingId === undefined)
 
     const [form, setForm] = useState({
-        editingEntryId: null,
+        id: null,
         date: null,
         para: null,
         cabinet: null,
         subject: null,
-        subjectType: null,
+        type: null,
         groups: [],
         professors: []
     });
@@ -34,15 +35,15 @@ function AddingPage() {
 
         setFormLoading(true)
         callApiPost("GetFormFromScheduleEntryId", { id: locationState.editingId }, (resp) => {
-            let form = mapFormToPageFormat(resp.data)
+            let form = resp.data
+            form.para = { id: form.para, name: form.para }
+            form.cabinet = { id: form.cabinet, name: form.cabinet }
             console.log("loaded Form ", form)
             setForm(form)
-        }).then(updateSubjectTypes(form))
-            .then(updateFios(form))
-            .then(updateGroups(form))
-            .then(updateCabinet(form))
-            .then(updatePara(form))
-            .then(updateSubjects(form))
+            return form
+        })
+            .then((form) => updateFiosGroupsFlag(form.type.id))
+            .then(updateDisabledDates(form))
             .then(setFormLoading(false));
     }, [])
 
@@ -50,27 +51,14 @@ function AddingPage() {
 
     function mapFormToApiFormat(form) {
         return {
-            editingEntryId: form.editingEntryId,
+            editingEntryId: form.id,
             date: form.date,
             para: form.para?.id,
             cabinet: form.cabinet?.id,
             subjectId: form.subject?.id,
-            subjectTypeId: form.subjectType?.id,
+            subjectTypeId: form.type?.id,
             groupIds: form.groups.map(g => g.id),
             professorIds: form.professors.map(g => g.id)
-        }
-    }
-
-    function mapFormToPageFormat(form) {
-        return {
-            editingEntryId: form.editingEntryId,
-            date: form.date,
-            para: { id: form.para, name: form.para },
-            cabinet: { id: form.cabinet, name: form.cabinet },
-            subject: { id: form.subjectId, name: '' },
-            subjectType: { id: form.subjectId, name: '' },
-            groups: form.groupIds.map(g => { return { id: g, name: '' } }),
-            professors: form.professorIds.map(g => { return { id: g, name: '' } })
         }
     }
 
@@ -98,8 +86,10 @@ function AddingPage() {
             console.log("calling with form ", form)
             return callApiPost(apiFuncName, mapFormToApiFormat(form), (resp) => {
                 console.log(apiFuncName + " ", resp.data)
-                fieldSetterFunc(changeDataCallback(resp.data))
+                let newData = changeDataCallback(resp.data)
+                fieldSetterFunc(newData)
                 loadingSetterFunc(false)
+                return newData
             })
         }
     }
@@ -131,14 +121,31 @@ function AddingPage() {
         setForm({ ...form, date: value })
         setDateChosen(true)
     }
-
-    useEffect(() => {
+    const firstDate = new Date("2022-09-01T00:00:00")
+    const lastDate = new Date("2023-01-01T00:00:00")
+    function FindWeekEnds(firstDate, lastDate) {
+        let temp = [];
+        for (let i = firstDate; i < lastDate; i.setDate(i.getDate() + 7)) {
+            let sunday = startAndEndOfWeek(i)[1];
+            // Doing explicit copies here
+            temp.push(new Date(sunday));
+            sunday.setDate(sunday.getDate() - 1);
+            temp.push(new Date(sunday));
+        }
+        return temp;
+    }
+    const updateDisabledDates = (form) => {
         createApiLoadCall(
             "GetDatesOccupied",
             setCalendarUpdating,
             setDisabledDates,
             (data) => data.map(dateString => new Date(dateString))
-        )(form)
+        )(form).then((disabledDates) => {
+            setDisabledDates(disabledDates.concat(FindWeekEnds(firstDate, lastDate)))
+        })
+    }
+    useEffect(() => {
+        updateDisabledDates(form)
     }, [form.groups, form.professors])
 
     // Group multiselect state
@@ -183,18 +190,22 @@ function AddingPage() {
         (data) => data
     )
 
-    const handleChangeType = (value) => {
-        let nextForm = { ...form, subjectType: mapFromMultiselectFormat(value) }
-        setForm(nextForm)
+    const updateFiosGroupsFlag = (subjTypeId) => {
         let typeToGroupsAndFiosMapping = {
             1: { manyGroups: true, manyFios: false },
             2: { manyGroups: false, manyFios: false },
             3: { manyGroups: false, manyFios: true }
         }
 
-        let curMapping = typeToGroupsAndFiosMapping[value.value];
+        let curMapping = typeToGroupsAndFiosMapping[subjTypeId];
         setManyFiosFlag(curMapping.manyFios);
         setManyGroupsFlag(curMapping.manyGroups);
+    }
+
+    const handleChangeType = (value) => {
+        let nextForm = { ...form, type: mapFromMultiselectFormat(value) }
+        setForm(nextForm)
+        updateFiosGroupsFlag(value.value)
         updateSubjectTypes(nextForm)
     }
 
@@ -249,65 +260,16 @@ function AddingPage() {
     )
 
     const formSubmit = () => {
-        callApiPost("PostScheduleEntryFromForm", mapFormToApiFormat(form), (resp) => {
-            console.log("Tried to submit the form: ", resp.data)
-        }
-        );
-    }
-    const createGetFieldApiCall = (apiFuncName, loadingSetterFunc) => {
-        return (id) => {
-            loadingSetterFunc(true);
-            console.log("calling with form ", form)
-            return callApiPost(apiFuncName, { id: id }, (resp) => {
-                console.log(apiFuncName + " ", resp.data)
-                loadingSetterFunc(false)
-                return resp.data;
-            })
-        }
-    }
-
-    const getGroupElem = createGetFieldApiCall("GetGroupById", setGroupsLoading)
-    const getProfElem = createGetFieldApiCall("GetProfessorById", setFiosLoading)
-    const getTypeElem = createGetFieldApiCall("GetSubjectTypeById", setSubjTypesLoading)
-    const getSubjectElem = createGetFieldApiCall("GetSubjectById", setSubjectsLoading)
-    const fillFormEmptyStrigns = (form) => {
-        if (form.groups && form.groups.length > 0) {
-            let newGroups = [];
-            let promises = []
-            form.groups.forEach((element) => {
-                promises.push(
-                    getGroupElem(element.id)
-                        .then((elem) => newGroups.push(elem))
-                        .catch((error) => {
-                            console.log('Error: ', error);
-                        })
-                );
+        if (isEditMode) {
+            callApiPost("EditScheduleEntryFromForm", mapFormToApiFormat(form), (resp) => {
+                console.log("Tried to edit the form: ", resp.data)
             });
-            Promise.all(promises).then(() => {
-                console.log("newGroups are", newGroups)
-            }
-
-            );
+        } else {
+            callApiPost("PostScheduleEntryFromForm", mapFormToApiFormat(form), (resp) => {
+                console.log("Tried to submit the form: ", resp.data)
+            });
         }
-        if (form.professors && form.professors.length > 0) {
-            form?.professors.forEach((p) => {
-                if (p.name === "") {
-                    getProfElem(p.id)
-                }
-            })
-        }
-        if (form.subject && form.subject.name === "") {
-            getSubjectElem(form.subject.id);
-        }
-        if (form.subjectType && form.subjectType.name === "") {
-            getTypeElem(form.subjectType.id);
-        }
-        setForm(form)
     }
-
-    useEffect(() => {
-        fillFormEmptyStrigns(form);
-    }, [subjectOptions])
 
     return (
         <div className="App">
@@ -339,7 +301,7 @@ function AddingPage() {
             <Select
                 className="type_editing"
                 isClearable={true}
-                value={mapToMultiselectFormat(form.subjectType)}
+                value={mapToMultiselectFormat(form.type)}
                 options={subjectTypeOptions.map(mapToMultiselectFormat)}
                 onChange={handleChangeType}
                 onFocus={() => updateSubjectTypes(form)}
@@ -358,6 +320,7 @@ function AddingPage() {
                         ? minimumDate : maximumDate}
                     excludeDates={disabledDates}
                     inline
+                    calendarStartDay={1}
                 />
             </div>
 
