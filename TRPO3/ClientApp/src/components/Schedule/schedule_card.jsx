@@ -29,6 +29,10 @@ function ScheduleCard(props) {
 
     props.scheduleObject.sort((a, b) => a.para - b.para);
 
+    // function ForceRender() {
+    //     props.parentCallback();
+    // }
+
     const pairs = props.scheduleObject.map((schObj) => {
         return {
             id: schObj.id,
@@ -50,7 +54,9 @@ function ScheduleCard(props) {
                 <span className="date_text"> {day.day_date}, {day.weekday}</span>
             </div>
             {pairs.map(pairs =>
-                <Pair_Card pairs={pairs} editing={props.propsediting} key={pairs.time} />
+                <Pair_Card pairs={pairs} editing={props.propsediting} key={pairs.time} 
+                parentCallback = {(props.parentCallback)}
+                />
             )}
         </div>
 

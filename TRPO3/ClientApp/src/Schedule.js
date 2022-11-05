@@ -3,9 +3,8 @@ import DateTime from "luxon";
 import "./App.css";
 import "./components/Buttons/button.css";
 import "./components/Schedule/schedule_filters/filters.css";
-import { useLocation, } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ScheduleCard from "./components/Schedule/schedule_card";
-
 
 import Study_Week from "./components/Schedule/schedule_filters/study_week";
 
@@ -64,6 +63,10 @@ function Schedule(props) {
     //-----------------------------------
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
+    const refreshPage = () => {
+        navigate(0);
+    }
 
     const [editing, setEditing] = useState(false);
     //-----------------------------------------------
@@ -84,11 +87,9 @@ function Schedule(props) {
 
 
 
-
     function sorting(a, b) {
         return (a.date > b.date ? 1 : -1)
     }
-
 
 
     React.useEffect(() => {
@@ -176,11 +177,6 @@ function Schedule(props) {
 
 
     const [filterLoading, setFilterLoading] = useState(false);
-
-
-
-
-
 
 
     const chooseWeekOption = [{ id: 0, text: "Выберите учебную неделю", weekBeginDate: {}, weekEndDate: {} }];
@@ -289,7 +285,10 @@ function Schedule(props) {
                                         {
 
                                             Object.entries(scheduleByDate).map(([date, schObj], index) =>
-                                                <ScheduleCard propsdate={date} scheduleObject={schObj} propsediting={editing} key={index} />
+                                                <ScheduleCard propsdate={date} scheduleObject={schObj} propsediting={editing} key={index}
+                                            
+                                                parentCallback = {(refreshPage)}
+                                                />
                                             )
                                         }
                                         <button className="Schedule_Editing" onClick={OnEditing} />

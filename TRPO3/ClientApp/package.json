@@ -32,6 +32,7 @@
     "reactstrap": "^9.0.2",
     "redux": "^4.2.0",
     "rimraf": "^3.0.2",
+    "use-force-update": "^1.0.10",
     "web-vitals": "^2.1.4",
     "weeknumber": "^1.2.1",
     "workbox-background-sync": "^6.5.3",

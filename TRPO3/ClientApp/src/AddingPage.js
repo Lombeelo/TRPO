@@ -286,7 +286,7 @@ function AddingPage() {
                     <div className="info"> Загрузка данных </div>
                     :
                     <div>
-                    <div>
+                   
                         <Select className="group_list_editing"
                             isMulti={manyGroupsFlag}
                             isClearable={true}
@@ -297,7 +297,7 @@ function AddingPage() {
                             isLoading={groupsLoading}
                             placeholder={"Группа(ы)"}
                         />
-                    </div>
+                  
                         <Select
                             className="fio_editing"
                             isMulti={manyFiosFlag}
