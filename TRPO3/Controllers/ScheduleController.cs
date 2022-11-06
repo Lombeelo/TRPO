@@ -36,14 +36,6 @@ public class ScheduleController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<ScheduleEntryReadDto>>(items));
     }
 
-    [HttpPost, Route("GetScheduleBetweenDates")]
-    public ActionResult<IEnumerable<ScheduleEntryReadDto>> GetScheduleBetweenDates(DateSpanDto data)
-    {
-        LogMethodInfo(data);
-        var items = _table.GetEntriesInDates(data.BeginDate, data.EndDate);
-        return Ok(_mapper.Map<IEnumerable<ScheduleEntryReadDto>>(items));
-    }
-
     [HttpPost, Route("GetScheduleByDateIntervalAndProfessorId")]
     public ActionResult<IEnumerable<ScheduleEntryReadDto>> GetScheduleByDateIntervalAndProfessorId(DateSpanAndProfessorScheduleReadDto data)
     {
@@ -76,22 +68,6 @@ public class ScheduleController : ControllerBase
         LogMethodInfo();
         var items = _table.GetAllGroups();
         return Ok(_mapper.Map<IEnumerable<ScheduleGroupReadDto>>(items));
-    }
-
-    [HttpGet, Route("GetAllSubjectTypes")]
-    public ActionResult<IEnumerable<ScheduleLessonTypeReadDto>> GetAllSubjectTypes()
-    {
-        LogMethodInfo();
-        var items = _table.GetAllLessonTypes();
-        return Ok(_mapper.Map<IEnumerable<ScheduleLessonTypeReadDto>>(items));
-    }
-
-    [HttpGet, Route("GetAllSubjects")]
-    public ActionResult<IEnumerable<ScheduleSubjectReadDto>> GetAllSubjects()
-    {
-        LogMethodInfo();
-        var items = _table.GetAllSubjects();
-        return Ok(_mapper.Map<IEnumerable<ScheduleSubjectReadDto>>(items));
     }
 
     // Create Form Methods
@@ -149,40 +125,15 @@ public class ScheduleController : ControllerBase
     [HttpPost, Route("GetFormFromScheduleEntryId")]
     public ActionResult<ScheduleEntryReadDto> GetFormFromScheduleEntryId(IdDto dto)
     {
+        LogMethodInfo(dto);
         var form = _table.GetScheduleEntryById(dto.Id);
         return Ok(_mapper.Map<ScheduleEntryReadDto>(form));
-    }
-
-    [HttpPost, Route("GetGroupById")]
-    public ActionResult<ScheduleGroupReadDto> GetGroupById(IdDto dto)
-    {
-        var item = _table.GetGroupById(dto.Id);
-        return Ok(_mapper.Map<ScheduleGroupReadDto>(item));
-    }
-
-    [HttpPost, Route("GetProfessorById")]
-    public ActionResult<ScheduleProfessorReadDto> GetProfessorById(IdDto dto)
-    {
-        var item = _table.GetProfessorById(dto.Id);
-        return Ok(_mapper.Map<ScheduleProfessorReadDto>(item));
-    }
-
-    [HttpPost, Route("GetSubjectTypeById")]
-    public ActionResult<ScheduleLessonTypeReadDto> GetSubjectTypeById(IdDto dto)
-    {
-        var item = _table.GetLessonTypeById(dto.Id);
-        return Ok(_mapper.Map<ScheduleLessonTypeReadDto>(item));
-    }
-    [HttpPost, Route("GetSubjectById")]
-    public ActionResult<ScheduleSubjectReadDto> GetSubjectById(IdDto dto)
-    {
-        var item = _table.GetSubjectById(dto.Id);
-        return Ok(_mapper.Map<ScheduleSubjectReadDto>(item));
     }
 
     [HttpPost, Route("DeleteEntryById")]
     public ActionResult<bool> DeleteEntryById(IdDto dto)
     {
+        LogMethodInfo(dto);
         var result = _table.DeleteEntryById(dto.Id);
         if (result)
         {
@@ -194,6 +145,7 @@ public class ScheduleController : ControllerBase
     [HttpPost, Route("EditScheduleEntryFromForm")]
     public ActionResult EditScheduleEntryFromForm(ScheduleEntryForm data)
     {
+        LogMethodInfo(data);
         var result = _table.EditScheduleEntryFromForm(data);
         if (result)
         {

@@ -88,25 +88,10 @@ public sealed class ScheduleTable : IScheduleTable
             .OrderBy(s => s.Id);
     }
 
-    public IEnumerable<Subject> GetAllSubjects()
-    {
-        return GetAllSubjectsLazy().ToList();
-    }
-
-    public AppDbContext GetContext()
-    {
-        return _context;
-    }
-
     private IEnumerable<ScheduleEntry> GetEntriesInDatesLazy(DateTime startingDate, DateTime endingDate)
     {
         return GetAllEntriesLazy()
             .Where(e => e.Date.Date >= startingDate.Date && e.Date.Date <= endingDate.Date);
-    }
-
-    public IEnumerable<ScheduleEntry> GetEntriesInDates(DateTime startingDate, DateTime endingDate)
-    {
-        return GetEntriesInDatesLazy(startingDate, endingDate).ToList();
     }
 
     public IEnumerable<ScheduleEntry> GetEntriesInDatesForGroup(DateTime startingDate, DateTime endingDate, Group group)
@@ -119,11 +104,6 @@ public sealed class ScheduleTable : IScheduleTable
         return GetEntriesInDatesLazy(startingDate, endingDate).Where(e => e.Professors.Contains(professor)).ToList();
     }
 
-    public IEnumerable<ScheduleEntry> GetScheduleEntriesByDate(DateTime date)
-    {
-        return GetAllEntriesLazy().Where(e => e.Date.Date == date.Date).ToList();
-    }
-
     public Group GetGroupById(int id)
     {
         return _context.Groups.Where(g => g.Id == id).Single();
@@ -132,11 +112,6 @@ public sealed class ScheduleTable : IScheduleTable
     public Professor GetProfessorById(int id)
     {
         return GetAllProfessorsLazy().Where(p => p.Id == id).Single();
-    }
-
-    public IEnumerable<Professor> GetProfessorsBySubject(Subject subject)
-    {
-        return GetAllProfessorsLazy().Where(p => p.Subjects.Contains(subject));
     }
 
     public ScheduleEntry GetScheduleEntryById(int id)
@@ -154,11 +129,6 @@ public sealed class ScheduleTable : IScheduleTable
         return GetAllLessonTypes().Single(s => s.Id == id);
     }
 
-    public IEnumerable<Subject> GetSubjectsByProfessor(Professor prof)
-    {
-        return GetAllSubjectsLazy().Where(p => p.Professors.Contains(prof));
-    }
-
     public bool SaveChanges()
     {
         return _context.SaveChanges() >= 0;
@@ -167,11 +137,6 @@ public sealed class ScheduleTable : IScheduleTable
     public IEnumerable<LessonType> GetAllLessonTypes()
     {
         return _context.LessonTypes.OrderBy(s => s.Id).ToList();
-    }
-
-    public IEnumerable<LessonType> GetSubjectTypeAvailable(ScheduleEntryForm data)
-    {
-        return GetAllLessonTypes();
     }
 
     private IEnumerable<Professor> GetProfessorsFromIdsLazy(IEnumerable<int> ids)
@@ -419,22 +384,6 @@ public sealed class ScheduleTable : IScheduleTable
         }
 
         return false;
-    }
-
-    public ScheduleEntryForm GetFormByEntryId(int id)
-    {
-        var entry = GetScheduleEntryById(id);
-        return new ScheduleEntryForm
-        {
-            EditingEntryId = id,
-            Date = entry.Date.Date,
-            Cabinet = entry.Cabinet,
-            Para = entry.Para,
-            SubjectId = entry.Subject.Id,
-            GroupIds = entry.Groups.Select(g => g.Id).ToList(),
-            ProfessorIds = entry.Professors.Select(p => p.Id).ToList(),
-            SubjectTypeId = entry.Subject.Id
-        };
     }
 
     public bool DeleteEntryById(int id)
