@@ -38,7 +38,7 @@ function ScheduleCard(props) {
             id: schObj.id,
             time: para_time[schObj.para - 1],
             subj_name: schObj.subject.name,
-            teach_fio: schObj.professors.map((schObjProff) => schObjProff.name).join(", "),
+            teach_fio: schObj.professors.map((schObjProff) => schObjProff.name).join(", \n"),
             pair_type: schObj.type.name,
             cabinet: schObj.cabinet,
             groups: schObj.groups.map((schObjGroups) => schObjGroups.name).join(", ")

@@ -183,6 +183,7 @@ public sealed class AppDbContext : DbContext
                     subjects[5],
                     subjects[6],
                     subjects[7],
+                    subjects[10],
                     subjects[12],
                     subjects[13],
             } },
@@ -207,7 +208,7 @@ public sealed class AppDbContext : DbContext
                 Subjects = new Subject[] {
                     subjects[11],
                     subjects[5],
-                    subjects[7],
+                    subjects[6],
             } },
             new Professor {
                 Id = 4,
