@@ -42,7 +42,7 @@ public sealed class AppDbContext : DbContext
     void SeedData()
     {
         // Seeding data
-        var subjects = new List<Subject>
+        var subjects = new Subject[]
         {
             new Subject
             {
@@ -120,7 +120,7 @@ public sealed class AppDbContext : DbContext
                 Name = "Планирование эксперимента"
             },
         };
-        var ltypes = new List<LessonType>
+        var ltypes = new LessonType[]
         {
             new LessonType
             {
@@ -139,12 +139,12 @@ public sealed class AppDbContext : DbContext
             },
         };
 
-        var groups = new List<Group>
+        var groups = new Group[]
         {
             new Group {
                 Id = 1,
                 Name = "М3О-307Б-20",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[0],
                     subjects[1],
                     subjects[3],
@@ -156,10 +156,10 @@ public sealed class AppDbContext : DbContext
                     subjects[10],
                     subjects[14],
             } },
-            new Group {
+            new Group  {
                 Id = 2,
                 Name = "М3О-309Б-20",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[0],
                     subjects[1],
                     subjects[2],
@@ -175,7 +175,7 @@ public sealed class AppDbContext : DbContext
             new Group {
                 Id = 3,
                 Name = "М3О-310Б-20",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[0],
                     subjects[1],
                     subjects[3],
@@ -187,24 +187,24 @@ public sealed class AppDbContext : DbContext
                     subjects[13],
             } },
         };
-        var profs = new List<Professor>
+        var profs = new Professor[]
         {
             new Professor {
                 Id = 1,
                 Name = "Татарникова Елена Михайловна",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[0],
             } },
             new Professor {
                 Id = 2,
                 Name = "Прокимнова Татьяна Геннадьевна",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[0],
             } },
             new Professor {
                 Id = 3,
                 Name = "Мурсенков Павел Александрович",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[11],
                     subjects[5],
                     subjects[7],
@@ -212,98 +212,98 @@ public sealed class AppDbContext : DbContext
             new Professor {
                 Id = 4,
                 Name = "Ткачёв Олег Алексеевич",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[10],
             } },
             new Professor {
                 Id = 5,
                 Name = "Брехов Олег Михайлович",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[5],
                     subjects[6],
             } },
             new Professor {
                 Id = 6,
                 Name = "Звонарёва Галина Александровна",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[6],
             } },
             new Professor {
                 Id = 7,
                 Name = "Макаренкова Надежда Алексеевна",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[1],
             } },
             new Professor {
                 Id = 8,
                 Name = "Романов Олег Тимофеевич",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[2],
             } },
             new Professor {
                 Id = 9,
                 Name = "Чечиков Юрий Борисович",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[9],
             } },
             new Professor {
                 Id = 10,
                 Name = "Сергеева Ирина Анатольевна",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[4],
             } },
             new Professor {
                 Id = 11,
                 Name = "Титов Юрий Павлович",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[14],
             } },
             new Professor {
                 Id = 12,
                 Name = "Давыдкина Елена Александровна",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[14],
             } },
             new Professor {
                 Id = 13,
                 Name = "Сотникова Елена Васильевна",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[3],
             } },
             new Professor {
                 Id = 14,
                 Name = "Гусилетов Александр Андреевич",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[3],
             } },
             new Professor {
                 Id = 15,
                 Name = "Ратников Максим Олегович",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[8],
             } },
             new Professor {
                 Id = 16,
                 Name = "Григоревский Николай Владимирович",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[12],
             } },
             new Professor {
                 Id = 17,
                 Name = "Кудрявцев Павел Сергеевич",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[13],
             } },
             new Professor {
                 Id = 18,
                 Name = "Костыгова Людмила Александровна",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[7],
             } },
             new Professor {
                 Id = 19,
                 Name = "Латыпов Эдгар Рашитович",
-                Subjects = new List<Subject> {
+                Subjects = new Subject[] {
                     subjects[7],
             } },
         };
