@@ -152,7 +152,7 @@ public sealed class AppDbContext : DbContext
                     subjects[5],
                     subjects[6],
                     subjects[7],
-                    subjects[8],
+                    subjects[9],
                     subjects[10],
                     subjects[14],
             } },
@@ -162,14 +162,14 @@ public sealed class AppDbContext : DbContext
                 Subjects = new List<Subject> {
                     subjects[0],
                     subjects[1],
+                    subjects[2],
                     subjects[3],
                     subjects[4],
                     subjects[5],
                     subjects[6],
                     subjects[7],
                     subjects[8],
-                    subjects[2],
-                    subjects[9],
+                    subjects[10],
                     subjects[11],
             } },
             new Group {
@@ -183,7 +183,6 @@ public sealed class AppDbContext : DbContext
                     subjects[5],
                     subjects[6],
                     subjects[7],
-                    subjects[8],
                     subjects[12],
                     subjects[13],
             } },
@@ -208,13 +207,13 @@ public sealed class AppDbContext : DbContext
                 Subjects = new List<Subject> {
                     subjects[11],
                     subjects[5],
-                    subjects[8],
+                    subjects[7],
             } },
             new Professor {
                 Id = 4,
                 Name = "Ткачёв Олег Алексеевич",
                 Subjects = new List<Subject> {
-                    subjects[8],
+                    subjects[10],
             } },
             new Professor {
                 Id = 5,
@@ -245,7 +244,7 @@ public sealed class AppDbContext : DbContext
                 Id = 9,
                 Name = "Чечиков Юрий Борисович",
                 Subjects = new List<Subject> {
-                    subjects[10],
+                    subjects[9],
             } },
             new Professor {
                 Id = 10,
@@ -281,7 +280,7 @@ public sealed class AppDbContext : DbContext
                 Id = 15,
                 Name = "Ратников Максим Олегович",
                 Subjects = new List<Subject> {
-                    subjects[9],
+                    subjects[8],
             } },
             new Professor {
                 Id = 16,
