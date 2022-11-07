@@ -9,7 +9,7 @@ import 'react-calendar/dist/Calendar.css';
 
 import Select from 'react-select';
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { callApiPost } from "./requests.js";
 import startAndEndOfWeek from "./WeekDays";
 
@@ -18,6 +18,11 @@ function AddingPage() {
 
     const locationState = useLocation().state;
     const isEditMode = !(locationState?.editingId === undefined)
+
+    const navigate = useNavigate();
+    const refreshPage = () => {
+        navigate(0);
+    }
 
     const [form, setForm] = useState({
         id: null,
@@ -266,14 +271,14 @@ function AddingPage() {
                 console.log("Tried to submit the form: ", resp.data)
                 .then(setFormLoading(false))
             });
-            
+            refreshPage();
         }
     }
 
     return (
         <div className="App">
 
-            <h1> Это страница для добавления пар </h1>
+            <h1> Это страница для добавления и редактирования пар </h1>
             {
                 formLoading ?
                     <div className="info"> Загрузка данных </div>
@@ -369,20 +374,28 @@ function AddingPage() {
                         </div>
                         {
                             <div>
-                                <Link to="/">
-                                    <button disabled={false}
+                            {
+                                isEditMode?
+                                <Link to="/" >
+                                    <button disabled={form.cabinet === null}
                                         className="Approve_button"
                                         onClick={formSubmit}>
                                         Подтвердить
                                     </button>
                                 </Link>
+                                :
+                                <button disabled={form.cabinet === null}
+                                        className="Approve_button"
+                                        onClick={formSubmit}>
+                                        Подтвердить
+                                    </button>
 
+                            }
                                 <Link to="/" state={{ from: "AddingPage", update: true }}>
                                     <button className="Exit_button">
                                         Главное меню
                                     </button>
                                 </Link>
-
                             </div>
                         }
                     </div>
