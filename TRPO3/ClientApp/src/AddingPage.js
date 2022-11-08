@@ -377,14 +377,14 @@ function AddingPage() {
                             {
                                 isEditMode?
                                 <Link to="/" >
-                                    <button disabled={form.cabinet === null}
+                                    <button disabled={(form.cabinet === null)  || (form.para === null)}
                                         className="Approve_button"
                                         onClick={formSubmit}>
                                         Подтвердить
                                     </button>
                                 </Link>
                                 :
-                                <button disabled={form.cabinet === null}
+                                <button disabled={((form.cabinet === null) || (form.para === null))}
                                         className="Approve_button"
                                         onClick={formSubmit}>
                                         Подтвердить
