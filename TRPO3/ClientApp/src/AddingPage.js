@@ -34,7 +34,6 @@ function AddingPage() {
         groups: [],
         professors: []
     });
-
     const [formLoading, setFormLoading] = useState(false);
     useEffect(() => {
         if (!isEditMode) return;
@@ -47,8 +46,7 @@ function AddingPage() {
             console.log("loaded Form ", form)
             setForm(form)
             return form
-        })
-            .then((form) => updateFiosGroupsFlag(form.type.id))
+        }).then((form) => updateFiosGroupsFlag(form.type.id))
             .then(updateDisabledDates(form))
             .then(setFormLoading(false));
     }, [])
@@ -127,6 +125,7 @@ function AddingPage() {
         setForm({ ...form, date: value })
         setDateChosen(true)
     }
+
     const firstDate = new Date("2022-09-01T00:00:00")
     const lastDate = new Date("2023-01-01T00:00:00")
     function FindWeekEnds(firstDate, lastDate) {
@@ -157,9 +156,7 @@ function AddingPage() {
     // Group multiselect state
     const [groupsLoading, setGroupsLoading] = useState(false)
     const [manyGroupsFlag, setManyGroupsFlag] = useState(false)
-    const [groupOptions, setGroupOptions] = useState([
-       
-    ])
+    const [groupOptions, setGroupOptions] = useState([])
     const updateGroups = createApiLoadCall(
         "GetGroupsAvailable",
         setGroupsLoading,
@@ -170,9 +167,7 @@ function AddingPage() {
     // Fios multiselect state
     const [manyFiosFlag, setManyFiosFlag] = useState(false)
     const [fiosLoading, setFiosLoading] = useState(false)
-    const [fioOptions, setFioOptions] = useState([
-       
-    ])
+    const [fioOptions, setFioOptions] = useState([])
     const updateFios = createApiLoadCall(
         "GetProfessorsAvailable",
         setFiosLoading,
@@ -181,10 +176,7 @@ function AddingPage() {
 
     // SubjectType select state
     const [subjTypesLoading, setSubjTypesLoading] = useState(false)
-    const [subjectTypeOptions, setSubjectTypeOptions] = useState(
-        [
-            
-        ])
+    const [subjectTypeOptions, setSubjectTypeOptions] = useState([])
     const updateSubjectTypes = createApiLoadCall(
         "GetSubjectTypeAvailable",
         setSubjTypesLoading,
@@ -213,10 +205,7 @@ function AddingPage() {
 
     // Para select state
     const [paraLoading, setParaLoading] = useState(false)
-    const [paraOptions, setParaOptions] = useState(
-        [
-            
-        ])
+    const [paraOptions, setParaOptions] = useState([])
     const updatePara = createApiLoadCall(
         "GetParaAvailable",
         setParaLoading,
@@ -227,10 +216,7 @@ function AddingPage() {
 
     // Subject select state
     const [subjectsLoading, setSubjectsLoading] = useState(false)
-    const [subjectOptions, setSubjectOptions] = useState(
-        [
-            
-        ])
+    const [subjectOptions, setSubjectOptions] = useState([])
 
     const updateSubjects = createApiLoadCall(
         "GetSubjectsAvailable",
@@ -241,10 +227,7 @@ function AddingPage() {
 
     // Cabinet select state
     const [cabinetsLoading, setCabinetsLoading] = useState(false)
-    const [cabinetOptions, setCabinetOptions] = useState(
-        [
-            
-        ])
+    const [cabinetOptions, setCabinetOptions] = useState([])
     const updateCabinet = createApiLoadCall(
         "GetCabinetsOccupied",
         setCabinetsLoading,
@@ -259,32 +242,26 @@ function AddingPage() {
     )
 
     const formSubmit = () => {
-        if (isEditMode) {
-            setFormLoading(true)
-            callApiPost("EditScheduleEntryFromForm", mapFormToApiFormat(form), (resp) => {
-                console.log("Tried to edit the form: ", resp.data)
-                .then(setFormLoading(false))
-            });
-        } else {
-            setFormLoading(true)
-            callApiPost("PostScheduleEntryFromForm", mapFormToApiFormat(form), (resp) => {
-                console.log("Tried to submit the form: ", resp.data)
-                .then(setFormLoading(false))
-            });
-            refreshPage();
-        }
+        let method = isEditMode ? "EditScheduleEntryFromForm"
+            : "PostScheduleEntryFromForm"
+
+        setFormLoading(true)
+        callApiPost(method, mapFormToApiFormat(form), (resp) => {
+            console.log("Tried to" + method + " the form: ", resp.data)
+        }).then(setFormLoading(false));
+
+        refreshPage();
     }
 
     return (
         <div className="App">
-
             <h1> Это страница для добавления и редактирования пар </h1>
             {
                 formLoading ?
                     <div className="info"> Загрузка данных </div>
                     :
                     <div>
-                   
+
                         <Select className="group_list_editing"
                             isMulti={manyGroupsFlag}
                             isClearable={true}
@@ -295,7 +272,7 @@ function AddingPage() {
                             isLoading={groupsLoading}
                             placeholder={"Группа(ы)"}
                         />
-                  
+
                         <Select
                             className="fio_editing"
                             isMulti={manyFiosFlag}
@@ -372,32 +349,31 @@ function AddingPage() {
                             />
 
                         </div>
-                        {
-                            <div>
+
+                        <div>
                             {
-                                isEditMode?
-                                <Link to="/" >
-                                    <button disabled={(form.cabinet === null)  || (form.para === null)}
-                                        className="Approve_button"
-                                        onClick={formSubmit}>
-                                        Подтвердить
-                                    </button>
-                                </Link>
-                                :
-                                <button disabled={((form.cabinet === null) || (form.para === null))}
+                                isEditMode ?
+                                    <Link to="/" >
+                                        <button disabled={(form.cabinet === null) || (form.para === null)}
+                                            className="Approve_button"
+                                            onClick={formSubmit}>
+                                            Подтвердить
+                                        </button>
+                                    </Link>
+                                    :
+                                    <button disabled={((form.cabinet === null) || (form.para === null))}
                                         className="Approve_button"
                                         onClick={formSubmit}>
                                         Подтвердить
                                     </button>
 
                             }
-                                <Link to="/" state={{ from: "AddingPage", update: true }}>
-                                    <button className="Exit_button">
-                                        Главное меню
-                                    </button>
-                                </Link>
-                            </div>
-                        }
+                            <Link to="/" state={{ from: "AddingPage", update: true }}>
+                                <button className="Exit_button">
+                                    Главное меню
+                                </button>
+                            </Link>
+                        </div>
                     </div>
             }
         </div>
